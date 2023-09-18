@@ -116,7 +116,7 @@ class ActivityPub::Activity::Create < ActivityPub::Activity
       account: @account,
       text: converted_object_type? ? converted_text : (@status_parser.text || ''),
       language: @status_parser.language,
-      spoiler_text: converted_object_type? ? '' : (@status_parser.spoiler_text || ''),
+      spoiler_text: converted_object_type? ? '' : (@status_parser.spoiler_text || (@object['type'] == 'Page' && @object['name']) || (@object['type'] == 'Article' && @object['name']) || (@object['type'] == 'Document' && @object['name']) || ''),
       created_at: @status_parser.created_at,
       edited_at: @status_parser.edited_at && @status_parser.edited_at != @status_parser.created_at ? @status_parser.edited_at : nil,
       override_timestamps: @options[:override_timestamps],
