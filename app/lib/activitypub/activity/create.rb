@@ -114,7 +114,7 @@ class ActivityPub::Activity::Create < ActivityPub::Activity
       uri: @status_parser.uri,
       url: @status_parser.url || @status_parser.uri,
       account: @account,
-      text: converted_object_type? ? converted_text : (@status_parser.text || ''),
+      text: converted_object_type? ? converted_text : (@status_parser.text || linkify(@status_parser.url || @status_parser.uri) || ''),
       language: @status_parser.language,
       spoiler_text: converted_object_type? ? '' : (@status_parser.spoiler_text || (@object['type'] == 'Page' && @object['name']) || (@object['type'] == 'Article' && @object['name']) || (@object['type'] == 'Document' && @object['name']) || ''),
       created_at: @status_parser.created_at,
