@@ -15,6 +15,7 @@
   "column_subheading.navigation": "Navigation",
   "community.column_settings.allow_local_only": "Show local-only toots",
   "compose.attach.doodle": "Draw something",
+  "compose.attach.gif": "Upload GIF",
   "compose.change_federation": "Change federation settings",
   "compose.content-type.change": "Change advanced formatting options",
   "compose.content-type.html": "HTML",
@@ -154,5 +155,9 @@
   "status.is_poll": "This toot is a poll",
   "status.local_only": "Only visible from your instance",
   "status.uncollapse": "Uncollapse",
-  "suggestions.dismiss": "Dismiss suggestion"
+  "suggestions.dismiss": "Dismiss suggestion",
+  "tenor.error": "Oops! Something went wrong. Please, try again.",
+  "tenor.loading": "Loading...",
+  "tenor.nomatches": "No matches found.",
+  "tenor.search": "Search for GIFs"
 }

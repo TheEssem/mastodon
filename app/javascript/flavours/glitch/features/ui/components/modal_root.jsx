@@ -32,6 +32,7 @@ import DeprecatedSettingsModal from './deprecated_settings_modal';
 import DoodleModal from './doodle_modal';
 import FavouriteModal from './favourite_modal';
 import FocalPointModal from './focal_point_modal';
+import GIFModal from './gif_modal';
 import ImageModal from './image_modal';
 import MediaModal from './media_modal';
 import ModalLoading from './modal_loading';
@@ -45,6 +46,7 @@ export const MODAL_COMPONENTS = {
   'BOOST': () => Promise.resolve({ default: BoostModal }),
   'FAVOURITE': () => Promise.resolve({ default: FavouriteModal }),
   'DOODLE': () => Promise.resolve({ default: DoodleModal }),
+  'TENOR': () => Promise.resolve({ default: GIFModal }),
   'CONFIRM': () => Promise.resolve({ default: ConfirmationModal }),
   'MUTE': MuteModal,
   'BLOCK': BlockModal,
@@ -92,7 +94,7 @@ export default class ModalRoot extends PureComponent {
   };
 
   renderLoading = modalId => () => {
-    return ['MEDIA', 'VIDEO', 'BOOST', 'FAVOURITE', 'DOODLE', 'CONFIRM', 'ACTIONS'].indexOf(modalId) === -1 ? <ModalLoading /> : null;
+    return ['MEDIA', 'VIDEO', 'BOOST', 'FAVOURITE', 'DOODLE', 'TENOR', 'CONFIRM', 'ACTIONS'].indexOf(modalId) === -1 ? <ModalLoading /> : null;
   };
 
   renderError = (props) => {

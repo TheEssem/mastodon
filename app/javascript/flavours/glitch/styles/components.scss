@@ -6192,6 +6192,7 @@ a.status-card {
 }
 
 .doodle-modal,
+.tenor-modal,
 .boost-modal,
 .confirmation-modal,
 .report-modal,
@@ -10211,5 +10212,126 @@ noscript {
         }
       }
     }
+  }
+}
+
+.tenor-modal__container {
+  text-align: center;
+  padding: 20px;
+}
+
+.tenor-modal__container .icon-button {
+  margin: 10px;
+}
+
+.react-tenor-active {
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 20%);
+}
+
+.react-tenor--search {
+  box-sizing: border-box;
+  color: #555;
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  line-height: 1.3;
+  overflow: visible;
+  padding: 10px;
+  width: 100%;
+  -webkit-appearance: none;
+}
+
+.react-tenor--search[type='search']::-webkit-search-cancel-button,
+.react-tenor--search[type='search']::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.react-tenor--search:focus {
+  box-shadow: 0 0 2px 2px #6a89af;
+  outline: none;
+}
+
+.react-tenor--autocomplete {
+  display: none;
+}
+
+.react-tenor--autocomplete span {
+  visibility: hidden;
+}
+
+.react-tenor--spinner {
+  display: none;
+}
+
+.react-tenor--suggestions {
+  display: none;
+}
+
+.react-tenor--results {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.react-tenor--result {
+  background: rgba(87, 87, 131, 15%);
+  border: 0;
+  cursor: pointer;
+  display: inline-block;
+  flex-basis: 25%;
+  height: 120px;
+  opacity: 1;
+  padding: 0;
+  transition: opacity 0.3s;
+  width: 120px;
+}
+
+.react-tenor--result span {
+  animation: react-tenor-fade-in 0.2s;
+  background-size: cover;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.react-tenor--result:focus {
+  box-shadow: 0 0 2px 2px #6a89af;
+  border: 1px solid #f7f7f7;
+  outline: none;
+  z-index: 1;
+}
+
+.react-tenor--result:hover {
+  opacity: 0.5;
+}
+
+@media screen and (width <= 480px) {
+  .react-tenor--result {
+    flex-basis: 33%;
+  }
+}
+
+.react-tenor--page-left,
+.react-tenor--page-right {
+  display: none;
+}
+
+@keyframes react-tenor-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes react-tenor-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
   }
 }

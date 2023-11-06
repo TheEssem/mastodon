@@ -10,7 +10,7 @@ class ContentSecurityPolicy
   end
 
   def media_hosts
-    [assets_host, cdn_host_value, paperclip_root_url].concat(extra_data_hosts).compact
+    [assets_host, cdn_host_value, paperclip_root_url, 'https://media.tenor.com'].concat(extra_data_hosts).compact
   end
 
   private

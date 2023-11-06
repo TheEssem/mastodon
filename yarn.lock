@@ -2446,6 +2446,7 @@ __metadata:
     react-select: "npm:^5.7.3"
     react-sparklines: "npm:^1.7.0"
     react-swipeable-views: "npm:^0.14.0"
+    react-tenor: "npm:^2.2.0"
     react-test-renderer: "npm:^18.2.0"
     react-textarea-autosize: "npm:^8.4.1"
     react-toggle: "npm:^4.1.3"
@@ -13804,6 +13805,16 @@ __metadata:
   peerDependencies:
     react: ^15.3.0 || ^16.0.0 || ^17.0.0
   checksum: 10c0/032e7a1ff49e6e57eb755e133968eb207a4acc67c68ed8d0b09b4fe0826b290344454da5d420f17d8f4c049d900f3c12594ba5b97a79f20ef3b30bc62e866aa1
+  languageName: node
+  linkType: hard
+
+"react-tenor@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "react-tenor@npm:2.2.0"
+  peerDependencies:
+    react: ^16
+    react-dom: ^16
+  checksum: d6c46a7b4666916b4d22bc46ffe7667384d2958620cb843a820c8c24243e775b4a0e4b5146a19ec676a43f24236fddbea5fbe92ca14559794d1d1cd752a13587
   languageName: node
   linkType: hard
 
