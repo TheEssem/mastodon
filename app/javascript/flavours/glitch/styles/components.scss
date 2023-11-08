@@ -1543,6 +1543,7 @@ body > [data-popper-placement] {
 
     & > .status__content,
     & > .status__action-bar,
+    & > .reactions-bar,
     & > .media-gallery,
     & > .video-player,
     & > .audio-player,
@@ -1787,6 +1788,10 @@ body > [data-popper-placement] {
 
   &-spacer {
     flex-grow: 1;
+  }
+
+  & > .emoji-picker-dropdown > .emoji-button {
+    padding: 0;
   }
 }
 
@@ -5091,6 +5096,10 @@ a.status-card {
 .detailed-status__button {
   flex: 1 1 auto;
   text-align: center;
+}
+
+.detailed-status__button .emoji-button {
+  padding: 0;
 }
 
 .column-settings {
