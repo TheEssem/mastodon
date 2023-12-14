@@ -3,8 +3,6 @@
 class EmojiFormatter
   include RoutingHelper
 
-  DISALLOWED_BOUNDING_REGEX = /[[:alnum:]:]/
-
   attr_reader :html, :custom_emojis, :options
 
   # @param [ActiveSupport::SafeBuffer] html
@@ -39,15 +37,14 @@ class EmojiFormatter
         if inside_shortname && text[i] == ':'
           inside_shortname = false
           shortcode = text[shortname_start_index + 1..i - 1]
-          char_after = text[i + 1]
 
-          next unless (char_after.nil? || !DISALLOWED_BOUNDING_REGEX.match?(char_after)) && (emoji = emoji_map[shortcode])
+          next unless (emoji = emoji_map[shortcode])
 
           result << Nokogiri::XML::Text.new(text[last_index..shortname_start_index - 1], tree.document) if shortname_start_index.positive?
           result << Nokogiri::HTML.fragment(tag_for_emoji(shortcode, emoji))
 
           last_index = i + 1
-        elsif text[i] == ':' && (i.zero? || !DISALLOWED_BOUNDING_REGEX.match?(text[i - 1]))
+        elsif text[i] == ':'
           inside_shortname = true
           shortname_start_index = i
         end
