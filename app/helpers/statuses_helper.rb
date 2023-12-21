@@ -18,11 +18,11 @@ module StatusesHelper
     end
   end
 
-  def media_summary(status)
+  def attachment_types(status)
     attachments = { image: 0, video: 0, audio: 0 }
 
     status.ordered_media_attachments.each do |media|
-      if media.video?
+      if media.video? || media.gifv?
         attachments[:video] += 1
       elsif media.audio?
         attachments[:audio] += 1
@@ -30,6 +30,12 @@ module StatusesHelper
         attachments[:image] += 1
       end
     end
+
+    attachments
+  end
+
+  def media_summary(status)
+    attachments = attachment_types(status)
 
     text = attachments.to_a.reject { |_, value| value.zero? }.map { |key, value| I18n.t("statuses.attached.#{key}", count: value) }.join(' · ')
 

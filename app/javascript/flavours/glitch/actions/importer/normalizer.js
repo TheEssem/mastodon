@@ -1,8 +1,7 @@
 import escapeTextContentForBrowser from 'escape-html';
 
-import emojify from 'flavours/glitch/features/emoji/emoji';
-import { autoHideCW } from 'flavours/glitch/utils/content_warning';
-import { unescapeHTML } from 'flavours/glitch/utils/html';
+import emojify from '../../features/emoji/emoji';
+import { autoHideCW } from '../../utils/content_warning';
 
 const domParser = new DOMParser();
 
@@ -15,32 +14,6 @@ export function searchTextFromRawStatus (status) {
   const spoilerText   = status.spoiler_text || '';
   const searchContent = ([spoilerText, status.content].concat((status.poll && status.poll.options) ? status.poll.options.map(option => option.title) : [])).concat(status.media_attachments.map(att => att.description)).join('\n\n').replace(/<br\s*\/?>/g, '\n').replace(/<\/p><p>/g, '\n\n');
   return domParser.parseFromString(searchContent, 'text/html').documentElement.textContent;
-}
-
-export function normalizeAccount(account) {
-  account = { ...account };
-
-  const emojiMap = makeEmojiMap(account.emojis);
-  const displayName = account.display_name.trim().length === 0 ? account.username : account.display_name;
-
-  account.display_name_html = emojify(escapeTextContentForBrowser(displayName), emojiMap);
-  account.note_emojified = emojify(account.note, emojiMap);
-  account.note_plain = unescapeHTML(account.note);
-
-  if (account.fields) {
-    account.fields = account.fields.map(pair => ({
-      ...pair,
-      name_emojified: emojify(escapeTextContentForBrowser(pair.name), emojiMap),
-      value_emojified: emojify(pair.value, emojiMap),
-      value_plain: unescapeHTML(pair.value),
-    }));
-  }
-
-  if (account.moved) {
-    account.moved = account.moved.id;
-  }
-
-  return account;
 }
 
 export function normalizeFilterResult(result) {
@@ -96,7 +69,7 @@ export function normalizeStatus(status, normalOldStatus, settings) {
       normalStatus.media_attachments.forEach(item => {
         const oldItem = list.find(i => i.get('id') === item.id);
         if (oldItem && oldItem.get('description') === item.description) {
-          item.translation = oldItem.get('translation')
+          item.translation = oldItem.get('translation');
         }
       });
     }
@@ -129,13 +102,13 @@ export function normalizePoll(poll, normalOldPoll) {
       ...option,
       voted: poll.own_votes && poll.own_votes.includes(index),
       titleHtml: emojify(escapeTextContentForBrowser(option.title), emojiMap),
-    }
+    };
 
     if (normalOldPoll && normalOldPoll.getIn(['options', index, 'title']) === option.title) {
       normalOption.translation = normalOldPoll.getIn(['options', index, 'translation']);
     }
 
-    return normalOption
+    return normalOption;
   });
 
   return normalPoll;

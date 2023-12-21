@@ -37,10 +37,19 @@ const getHomeFeedSpeed = createSelector([
   state => state.getIn(['timelines', 'home', 'pendingItems'], ImmutableList()),
   state => state.get('statuses'),
 ], (statusIds, pendingStatusIds, statusMap) => {
-  const recentStatusIds = pendingStatusIds.size > 0 ? pendingStatusIds : statusIds;
+  const recentStatusIds = pendingStatusIds.concat(statusIds);
   const statuses = recentStatusIds.filter(id => id !== null).map(id => statusMap.get(id)).filter(status => status?.get('account') !== me).take(20);
-  const oldest = new Date(statuses.getIn([statuses.size - 1, 'created_at'], 0));
-  const newest = new Date(statuses.getIn([0, 'created_at'], 0));
+
+  if (statuses.isEmpty()) {
+    return {
+      gap: 0,
+      newest: new Date(0),
+    };
+  }
+
+  const datetimes = statuses.map(status => status.get('created_at', 0));
+  const oldest = new Date(datetimes.min());
+  const newest = new Date(datetimes.max());
   const averageGap = (newest - oldest) / (1000 * (statuses.size + 1)); // Average gap between posts on first page in seconds
 
   return {
@@ -55,8 +64,10 @@ const homeTooSlow = createSelector([
   getHomeFeedSpeed,
 ], (isLoading, isPartial, speed) =>
   !isLoading && !isPartial // Only if the home feed has finished loading
-  && (speed.gap > (30 * 60) // If the average gap between posts is more than 20 minutes
-  || (Date.now() - speed.newest) > (1000 * 3600)) // If the most recent post is from over an hour ago
+  && (
+    (speed.gap > (30 * 60) // If the average gap between posts is more than 30 minutes
+    || (Date.now() - speed.newest) > (1000 * 3600)) // If the most recent post is from over an hour ago
+  )
 );
 
 const mapStateToProps = state => ({
@@ -185,7 +196,7 @@ class HomeTimeline extends PureComponent {
     }
 
     return (
-      <Column bindToDocument={!multiColumn} ref={this.setRef} name='home' label={intl.formatMessage(messages.title)}>
+      <Column bindToDocument={!multiColumn} ref={this.setRef} label={intl.formatMessage(messages.title)}>
         <ColumnHeader
           icon='home'
           active={hasUnread}

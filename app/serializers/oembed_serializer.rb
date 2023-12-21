@@ -2,6 +2,7 @@
 
 class OEmbedSerializer < ActiveModel::Serializer
   include RoutingHelper
+  include StatusesHelper
   include ActionView::Helpers::TagHelper
 
   attributes :type, :version, :author_name,
@@ -17,7 +18,7 @@ class OEmbedSerializer < ActiveModel::Serializer
   end
 
   def author_name
-    object.account.display_name.presence || object.account.username
+    (attachment_types(object)[:video]).positive? ? status_description(object) : (object.account.display_name.presence || object.account.username)
   end
 
   def author_url

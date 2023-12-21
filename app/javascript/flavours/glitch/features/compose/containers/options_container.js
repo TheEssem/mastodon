@@ -18,8 +18,7 @@ function mapStateToProps (state) {
     acceptContentTypes: state.getIn(['media_attachments', 'accept_content_types']).toArray().join(','),
     resetFileKey: state.getIn(['compose', 'resetFileKey']),
     hasPoll: !!poll,
-    allowMedia: !poll && (media ? media.size + pending_media < 4 && !media.some(item => ['video', 'audio'].includes(item.get('type'))) : pending_media < 4),
-    allowPoll: !(media && !!media.size),
+    allowMedia: media ? media.size + pending_media < 4 && !media.some(item => ['video', 'audio'].includes(item.get('type'))) : pending_media < 4,
     showContentTypeChoice: state.getIn(['local_settings', 'show_content_type_choice']),
     contentType: state.getIn(['compose', 'content_type']),
   };

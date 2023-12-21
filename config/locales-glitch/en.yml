@@ -45,8 +45,3 @@ en:
       title: New reaction
   settings:
     flavours: Flavours
-  notification_mailer:
-    reaction:
-      body: "%{name} reacted to your post:"
-      subject: "%{name} reacted to your post"
-      title: New reaction

@@ -5,23 +5,7 @@ import { toServerSideType } from 'mastodon/utils/filters';
 
 import { me } from '../initial_state';
 
-const getAccountBase         = (state, id) => state.getIn(['accounts', id], null);
-const getAccountCounters     = (state, id) => state.getIn(['accounts_counters', id], null);
-const getAccountRelationship = (state, id) => state.getIn(['relationships', id], null);
-const getAccountMoved        = (state, id) => state.getIn(['accounts', state.getIn(['accounts', id, 'moved'])]);
-
-export const makeGetAccount = () => {
-  return createSelector([getAccountBase, getAccountCounters, getAccountRelationship, getAccountMoved], (base, counters, relationship, moved) => {
-    if (base === null) {
-      return null;
-    }
-
-    return base.merge(counters).withMutations(map => {
-      map.set('relationship', relationship);
-      map.set('moved', moved);
-    });
-  });
-};
+export { makeGetAccount } from "./accounts";
 
 const getFilters = (state, { contextType }) => {
   if (!contextType) return null;
@@ -127,14 +111,6 @@ export const getAccountHidden = createSelector([
 ], (hidden, followingOrRequested, isSelf) => {
   return hidden && !(isSelf || followingOrRequested);
 });
-
-export const makeCustomEmojiMap = createSelector(
-  [state => state.get('custom_emojis')],
-  items => items.reduce(
-    (map, emoji) => map.set(emoji.get('shortcode'), emoji),
-    ImmutableMap(),
-  ),
-);
 
 export const getStatusList = createSelector([
   (state, type) => state.getIn(['status_lists', type, 'items']),

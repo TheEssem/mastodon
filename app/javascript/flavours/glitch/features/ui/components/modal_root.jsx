@@ -5,7 +5,6 @@ import { Helmet } from 'react-helmet';
 
 import Base from 'flavours/glitch/components/modal_root';
 import {
-  OnboardingModal,
   MuteModal,
   BlockModal,
   ReportModal,
@@ -41,7 +40,6 @@ import VideoModal from './video_modal';
 
 export const MODAL_COMPONENTS = {
   'MEDIA': () => Promise.resolve({ default: MediaModal }),
-  'ONBOARDING': OnboardingModal,
   'VIDEO': () => Promise.resolve({ default: VideoModal }),
   'AUDIO': () => Promise.resolve({ default: AudioModal }),
   'IMAGE': () => Promise.resolve({ default: ImageModal }),
@@ -130,7 +128,7 @@ export default class ModalRoot extends PureComponent {
             <BundleContainer fetchComponent={MODAL_COMPONENTS[type]} loading={this.renderLoading(type)} error={this.renderError} renderDelay={200}>
               {(SpecificComponent) => {
                 const ref = typeof SpecificComponent !== 'function' ? this.setModalRef : undefined;
-                return <SpecificComponent {...props} onChangeBackgroundColor={this.setBackgroundColor} onClose={this.handleClose} ref={ref} />
+                return <SpecificComponent {...props} onChangeBackgroundColor={this.setBackgroundColor} onClose={this.handleClose} ref={ref} />;
               }}
             </BundleContainer>
 

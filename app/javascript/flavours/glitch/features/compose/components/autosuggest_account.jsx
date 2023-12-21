@@ -1,21 +1,21 @@
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import ImmutablePureComponent from 'react-immutable-pure-component';
 
-import { Avatar } from 'flavours/glitch/components/avatar';
-import { DisplayName } from 'flavours/glitch/components/display_name';
+import { Avatar } from '../../../components/avatar';
+import { DisplayName } from '../../../components/display_name';
 
 export default class AutosuggestAccount extends ImmutablePureComponent {
 
   static propTypes = {
-    account: ImmutablePropTypes.map.isRequired,
+    account: ImmutablePropTypes.record.isRequired,
   };
 
   render () {
     const { account } = this.props;
 
     return (
-      <div className='account small' title={account.get('acct')}>
-        <div className='account__avatar-wrapper'><Avatar account={account} size={24} /></div>
+      <div className='autosuggest-account' title={account.get('acct')}>
+        <div className='autosuggest-account-icon'><Avatar account={account} size={24} /></div>
         <DisplayName account={account} inline />
       </div>
     );

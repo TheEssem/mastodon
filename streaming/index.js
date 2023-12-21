@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const http = require('http');
+const path = require('path');
 const url = require('url');
 
 const dotenv = require('dotenv');
@@ -17,8 +18,11 @@ const WebSocket = require('ws');
 
 const environment = process.env.NODE_ENV || 'development';
 
+// Correctly detect and load .env or .env.production file based on environment:
+const dotenvFile = environment === 'production' ? '.env.production' : '.env';
+
 dotenv.config({
-  path: environment === 'production' ? '.env.production' : '.env',
+  path: path.resolve(__dirname, path.join('..', dotenvFile))
 });
 
 log.level = process.env.LOG_LEVEL || 'verbose';
@@ -152,6 +156,28 @@ const redisConfigFromEnv = (env) => {
   };
 };
 
+const PUBLIC_CHANNELS = [
+  'public',
+  'public:media',
+  'public:local',
+  'public:local:media',
+  'public:remote',
+  'public:remote:media',
+  'hashtag',
+  'hashtag:local',
+];
+
+// Used for priming the counters/gauges for the various metrics that are
+// per-channel
+const CHANNEL_NAMES = [
+  'system',
+  'user',
+  'user:notification',
+  'list',
+  'direct',
+  ...PUBLIC_CHANNELS
+];
+
 const startServer = async () => {
   const app = express();
 
@@ -203,9 +229,6 @@ const startServer = async () => {
     labelNames: ['type'],
   });
 
-  connectedClients.set({ type: 'websocket' }, 0);
-  connectedClients.set({ type: 'eventsource' }, 0);
-
   const connectedChannels = new metrics.Gauge({
     name: 'connected_channels',
     help: 'The number of channels the streaming server is streaming to',
@@ -216,6 +239,35 @@ const startServer = async () => {
     name: 'redis_subscriptions',
     help: 'The number of Redis channels the streaming server is subscribed to',
   });
+
+  const redisMessagesReceived = new metrics.Counter({
+    name: 'redis_messages_received_total',
+    help: 'The total number of messages the streaming server has received from redis subscriptions'
+  });
+
+  const messagesSent = new metrics.Counter({
+    name: 'messages_sent_total',
+    help: 'The total number of messages the streaming server sent to clients per connection type',
+    labelNames: [ 'type' ]
+  });
+
+  // Prime the gauges so we don't loose metrics between restarts:
+  redisSubscriptions.set(0);
+  connectedClients.set({ type: 'websocket' }, 0);
+  connectedClients.set({ type: 'eventsource' }, 0);
+
+  // For each channel, initialize the gauges at zero; There's only a finite set of channels available
+  CHANNEL_NAMES.forEach(( channel ) => {
+    connectedChannels.set({ type: 'websocket', channel }, 0);
+    connectedChannels.set({ type: 'eventsource', channel }, 0);
+  });
+
+  // Prime the counters so that we don't loose metrics between restarts.
+  // Unfortunately counters don't support the set() API, so instead I'm using
+  // inc(0) to achieve the same result.
+  redisMessagesReceived.inc(0);
+  messagesSent.inc({ type: 'websocket' }, 0);
+  messagesSent.inc({ type: 'eventsource' }, 0);
 
   // When checking metrics in the browser, the favicon is requested this
   // prevents the request from falling through to the API Router, which would
@@ -262,6 +314,8 @@ const startServer = async () => {
    * @param {string} message
    */
   const onRedisMessage = (channel, message) => {
+    redisMessagesReceived.inc();
+
     const callbacks = subs[channel];
 
     log.silly(`New message on channel ${redisPrefix}${channel}`);
@@ -490,17 +544,6 @@ const startServer = async () => {
     }
   };
 
-  const PUBLIC_CHANNELS = [
-    'public',
-    'public:media',
-    'public:local',
-    'public:local:media',
-    'public:remote',
-    'public:remote:media',
-    'hashtag',
-    'hashtag:local',
-  ];
-
   /**
    * @param {any} req
    * @param {string|undefined} channelName
@@ -705,11 +748,12 @@ const startServer = async () => {
    * @param {any} req
    * @param {function(string, string): void} output
    * @param {undefined | function(string[], SubscriptionListener): void} attachCloseHandler
+   * @param {'websocket' | 'eventsource'} destinationType
    * @param {boolean=} needsFiltering
    * @param {boolean=} allowLocalOnly
    * @returns {SubscriptionListener}
    */
-  const streamFrom = (ids, req, output, attachCloseHandler, needsFiltering = false, allowLocalOnly = false) => {
+  const streamFrom = (ids, req, output, attachCloseHandler, destinationType, needsFiltering = false, allowLocalOnly = false) => {
     const accountId = req.accountId || req.remoteAddress;
 
     log.verbose(req.requestId, `Starting stream from ${ids.join(', ')} for ${accountId}`);
@@ -717,6 +761,8 @@ const startServer = async () => {
     const transmit = (event, payload) => {
       // TODO: Replace "string"-based delete payloads with object payloads:
       const encodedPayload = typeof payload === 'object' ? JSON.stringify(payload) : payload;
+
+      messagesSent.labels({ type: destinationType }).inc(1);
 
       log.silly(req.requestId, `Transmitting for ${accountId}: ${event} ${encodedPayload}`);
       output(event, encodedPayload);
@@ -1038,7 +1084,7 @@ const startServer = async () => {
       const onSend = streamToHttp(req, res);
       const onEnd = streamHttpEnd(req, subscriptionHeartbeat(channelIds));
 
-      streamFrom(channelIds, req, onSend, onEnd, options.needsFiltering, options.allowLocalOnly);
+      streamFrom(channelIds, req, onSend, onEnd, 'eventsource', options.needsFiltering, options.allowLocalOnly);
     }).catch(err => {
       log.verbose(req.requestId, 'Subscription error:', err.toString());
       httpNotFound(res);
@@ -1262,7 +1308,7 @@ const startServer = async () => {
 
       const onSend = streamToWs(request, socket, streamNameFromChannelName(channelName, params));
       const stopHeartbeat = subscriptionHeartbeat(channelIds);
-      const listener = streamFrom(channelIds, request, onSend, undefined, options.needsFiltering, options.allowLocalOnly);
+      const listener = streamFrom(channelIds, request, onSend, undefined, 'websocket', options.needsFiltering, options.allowLocalOnly);
 
       connectedChannels.labels({ type: 'websocket', channel: channelName }).inc();
 
@@ -1275,7 +1321,7 @@ const startServer = async () => {
       log.verbose(request.requestId, 'Subscription error:', err.toString());
       socket.send(JSON.stringify({ error: err.toString() }));
     });
-  }
+  };
 
 
   const removeSubscription = (subscriptions, channelIds, request) => {
@@ -1295,7 +1341,7 @@ const startServer = async () => {
     subscription.stopHeartbeat();
 
     delete subscriptions[channelIds.join(';')];
-  }
+  };
 
   /**
    * @param {WebSocketSession} session
@@ -1315,7 +1361,7 @@ const startServer = async () => {
         socket.send(JSON.stringify({ error: "Error unsubscribing from channel" }));
       }
     });
-  }
+  };
 
   /**
    * @param {WebSocketSession} session
@@ -1365,18 +1411,20 @@ const startServer = async () => {
   };
 
   wss.on('connection', (ws, req) => {
-    const location = url.parse(req.url, true);
+    // Note: url.parse could throw, which would terminate the connection, so we
+    // increment the connected clients metric straight away when we establish
+    // the connection, without waiting:
+    connectedClients.labels({ type: 'websocket' }).inc();
 
+    // Setup request properties:
     req.requestId = uuid.v4();
     req.remoteAddress = ws._socket.remoteAddress;
 
+    // Setup connection keep-alive state:
     ws.isAlive = true;
-
     ws.on('pong', () => {
       ws.isAlive = true;
     });
-
-    connectedClients.labels({ type: 'websocket' }).inc();
 
     /**
      * @type {WebSocketSession}
@@ -1387,27 +1435,31 @@ const startServer = async () => {
       subscriptions: {},
     };
 
-    const onEnd = () => {
+    ws.on('close', function onWebsocketClose() {
       const subscriptions = Object.keys(session.subscriptions);
 
       subscriptions.forEach(channelIds => {
-        removeSubscription(session.subscriptions, channelIds.split(';'), req)
+        removeSubscription(session.subscriptions, channelIds.split(';'), req);
       });
+
+      // Decrement the metrics for connected clients:
+      connectedClients.labels({ type: 'websocket' }).dec();
 
       // ensure garbage collection:
       session.socket = null;
       session.request = null;
       session.subscriptions = {};
+    });
 
-      connectedClients.labels({ type: 'websocket' }).dec();
-    };
-
-    ws.on('close', onEnd);
-    ws.on('error', onEnd);
+    // Note: immediately after the `error` event is emitted, the `close` event
+    // is emitted. As such, all we need to do is log the error here.
+    ws.on('error', (err) => {
+      log.error('websocket', err.toString());
+    });
 
     ws.on('message', (data, isBinary) => {
       if (isBinary) {
-        log.warn('socket', 'Received binary data, closing connection');
+        log.warn('websocket', 'Received binary data, closing connection');
         ws.close(1003, 'The mastodon streaming server does not support binary messages');
         return;
       }
@@ -1430,7 +1482,10 @@ const startServer = async () => {
 
     subscribeWebsocketToSystemChannel(session);
 
-    if (location.query.stream) {
+    // Parse the URL for the connection arguments (if supplied), url.parse can throw:
+    const location = req.url && url.parse(req.url, true);
+
+    if (location && location.query.stream) {
       subscribeWebsocketToChannel(session, firstParam(location.query.stream), location.query);
     }
   });

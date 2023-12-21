@@ -37,13 +37,13 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   /**
    * Set options in the redux store
-   * @param opts
+   * @param {Object} opts
    */
   setOpt: (opts) => dispatch(tenorSet(opts)),
   /**
    * Submit GIF for upload
-   * @param file
-   * @param alt
+   * @param {File} file
+   * @param {string} alt
    */
   submit: (file, alt) => dispatch(uploadCompose([file], alt)),
 });

@@ -8,7 +8,6 @@ import { Avatar } from '../../../components/avatar';
 import { DisplayName } from '../../../components/display_name';
 import { makeGetAccount } from '../../../selectors';
 
-
 const makeMapStateToProps = () => {
   const getAccount = makeGetAccount();
 
@@ -19,11 +18,10 @@ const makeMapStateToProps = () => {
   return mapStateToProps;
 };
 
-
 class Account extends ImmutablePureComponent {
 
   static propTypes = {
-    account: ImmutablePropTypes.map.isRequired,
+    account: ImmutablePropTypes.record.isRequired,
   };
 
   render () {

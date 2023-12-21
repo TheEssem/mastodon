@@ -1,8 +1,3 @@
-.tenor-modal {
-  @extend .boost-modal;
-  width: 500px;
-}
-
 .tenor-modal__container {
   text-align: center;
   padding: 20px;
@@ -13,24 +8,23 @@
 }
 
 .react-tenor-active {
-  box-shadow: 0 0 5px 1px rgba(0, 0, 0, .2);
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 20%);
 }
 
 .react-tenor--search {
   box-sizing: border-box;
   color: #555;
-  font-family: Arial;
   font-size: 1.5em;
   margin-bottom: 10px;
   line-height: 1.3;
   overflow: visible;
   padding: 10px;
   width: 100%;
-  -webkit-appearance:none;
+  -webkit-appearance: none;
 }
 
-.react-tenor--search[type="search"]::-webkit-search-cancel-button,
-.react-tenor--search[type="search"]::-webkit-search-decoration {
+.react-tenor--search[type='search']::-webkit-search-cancel-button,
+.react-tenor--search[type='search']::-webkit-search-decoration {
   -webkit-appearance: none;
   appearance: none;
 }
@@ -63,7 +57,7 @@
 }
 
 .react-tenor--result {
-  background: rgba(87, 87, 131, 0.15);
+  background: rgba(87, 87, 131, 15%);
   border: 0;
   cursor: pointer;
   display: inline-block;
@@ -71,12 +65,12 @@
   height: 120px;
   opacity: 1;
   padding: 0;
-  transition: opacity .3s;
+  transition: opacity 0.3s;
   width: 120px;
 }
 
 .react-tenor--result span {
-  animation: react-tenor-fade-in .2s;
+  animation: react-tenor-fade-in 0.2s;
   background-size: cover;
   display: block;
   height: 100%;
@@ -91,10 +85,10 @@
 }
 
 .react-tenor--result:hover {
-  opacity: .5;
+  opacity: 0.5;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (width <= 480px) {
   .react-tenor--result {
     flex-basis: 33%;
   }
@@ -106,11 +100,21 @@
 }
 
 @keyframes react-tenor-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes react-tenor-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }

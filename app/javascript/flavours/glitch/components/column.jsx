@@ -12,7 +12,6 @@ export default class Column extends PureComponent {
   static propTypes = {
     children: PropTypes.node,
     extraClasses: PropTypes.string,
-    name: PropTypes.string,
     label: PropTypes.string,
     bindToDocument: PropTypes.bool,
   };
@@ -24,13 +23,7 @@ export default class Column extends PureComponent {
       scrollable = document.scrollingElement;
     } else {
       scrollable = this.node.querySelector('.scrollable');
-
-      // Some columns have nested `.scrollable` containers, with the outer one
-      // being a wrapper while the actual scrollable content is deeper.
-      if (scrollable.classList.contains('scrollable--flex')) {
-        scrollable = scrollable?.querySelector('.scrollable') || scrollable;
-      }
-   }
+    }
 
     if (!scrollable) {
       return;
@@ -68,10 +61,10 @@ export default class Column extends PureComponent {
   }
 
   render () {
-    const { children, extraClasses, name, label } = this.props;
+    const { label, children, extraClasses } = this.props;
 
     return (
-      <div role='region' aria-label={label} data-column={name} className={`column ${extraClasses || ''}`} ref={this.setRef}>
+      <div role='region' aria-label={label} className={`column ${extraClasses || ''}`} ref={this.setRef}>
         {children}
       </div>
     );

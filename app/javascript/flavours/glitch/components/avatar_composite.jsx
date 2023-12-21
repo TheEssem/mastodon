@@ -3,7 +3,9 @@ import { PureComponent } from 'react';
 
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import { autoPlayGif } from 'flavours/glitch/initial_state';
+import { autoPlayGif } from '../initial_state';
+
+import { Avatar } from './avatar';
 
 export default class AvatarComposite extends PureComponent {
 
@@ -76,12 +78,12 @@ export default class AvatarComposite extends PureComponent {
       bottom: bottom,
       width: `${width}%`,
       height: `${height}%`,
-      backgroundSize: 'cover',
-      backgroundImage: `url(${account.get(animate ? 'avatar' : 'avatar_static')})`,
     };
 
     return (
-      <div key={account.get('id')} style={style} data-avatar-of={`@${account.get('acct')}`} />
+      <div key={account.get('id')} style={style}>
+        <Avatar account={account} animate={animate} />
+      </div>
     );
   }
 

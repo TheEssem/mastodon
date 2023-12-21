@@ -38,14 +38,6 @@ RSpec.describe EmojiFormatter do
       end
     end
 
-    context 'when given text with concatenated emoji shortcodes' do
-      let(:text) { preformat_text(':coolcat::coolcat:') }
-
-      it 'does not touch the shortcodes' do
-        expect(subject).to match(/:coolcat::coolcat:/)
-      end
-    end
-
     context 'when given text with an emoji shortcode at the end' do
       let(:text) { preformat_text('Beep boop :coolcat:') }
 

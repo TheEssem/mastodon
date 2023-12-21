@@ -1,6 +1,20 @@
 import { Map as ImmutableMap, List as ImmutableList, fromJS } from 'immutable';
 
 import {
+  DIRECTORY_FETCH_REQUEST,
+  DIRECTORY_FETCH_SUCCESS,
+  DIRECTORY_FETCH_FAIL,
+  DIRECTORY_EXPAND_REQUEST,
+  DIRECTORY_EXPAND_SUCCESS,
+  DIRECTORY_EXPAND_FAIL,
+} from 'flavours/glitch/actions/directory';
+import {
+  FEATURED_TAGS_FETCH_REQUEST,
+  FEATURED_TAGS_FETCH_SUCCESS,
+  FEATURED_TAGS_FETCH_FAIL,
+} from 'flavours/glitch/actions/featured_tags';
+
+import {
   FOLLOWERS_FETCH_REQUEST,
   FOLLOWERS_FETCH_SUCCESS,
   FOLLOWERS_FETCH_FAIL,
@@ -19,9 +33,9 @@ import {
   FOLLOW_REQUESTS_EXPAND_REQUEST,
   FOLLOW_REQUESTS_EXPAND_SUCCESS,
   FOLLOW_REQUESTS_EXPAND_FAIL,
-  FOLLOW_REQUEST_AUTHORIZE_SUCCESS,
-  FOLLOW_REQUEST_REJECT_SUCCESS,
-} from 'flavours/glitch/actions/accounts';
+  authorizeFollowRequestSuccess,
+  rejectFollowRequestSuccess,
+} from '../actions/accounts';
 import {
   BLOCKS_FETCH_REQUEST,
   BLOCKS_FETCH_SUCCESS,
@@ -29,20 +43,7 @@ import {
   BLOCKS_EXPAND_REQUEST,
   BLOCKS_EXPAND_SUCCESS,
   BLOCKS_EXPAND_FAIL,
-} from 'flavours/glitch/actions/blocks';
-import {
-  DIRECTORY_FETCH_REQUEST,
-  DIRECTORY_FETCH_SUCCESS,
-  DIRECTORY_FETCH_FAIL,
-  DIRECTORY_EXPAND_REQUEST,
-  DIRECTORY_EXPAND_SUCCESS,
-  DIRECTORY_EXPAND_FAIL,
-} from 'flavours/glitch/actions/directory';
-import {
-  FEATURED_TAGS_FETCH_REQUEST,
-  FEATURED_TAGS_FETCH_SUCCESS,
-  FEATURED_TAGS_FETCH_FAIL,
-} from 'flavours/glitch/actions/featured_tags';
+} from '../actions/blocks';
 import {
   REBLOGS_FETCH_REQUEST,
   REBLOGS_FETCH_SUCCESS,
@@ -56,7 +57,7 @@ import {
   FAVOURITES_EXPAND_REQUEST,
   FAVOURITES_EXPAND_SUCCESS,
   FAVOURITES_EXPAND_FAIL,
-} from 'flavours/glitch/actions/interactions';
+} from '../actions/interactions';
 import {
   MUTES_FETCH_REQUEST,
   MUTES_FETCH_SUCCESS,
@@ -64,12 +65,8 @@ import {
   MUTES_EXPAND_REQUEST,
   MUTES_EXPAND_SUCCESS,
   MUTES_EXPAND_FAIL,
-} from 'flavours/glitch/actions/mutes';
-
-import {
-  NOTIFICATIONS_UPDATE,
-} from '../actions/notifications';
-
+} from '../actions/mutes';
+import { notificationsUpdate } from '../actions/notifications';
 
 const initialListState = ImmutableMap({
   next: null,
@@ -162,8 +159,8 @@ export default function userLists(state = initialState, action) {
   case FAVOURITES_FETCH_FAIL:
   case FAVOURITES_EXPAND_FAIL:
     return state.setIn(['favourited_by', action.id, 'isLoading'], false);
-  case NOTIFICATIONS_UPDATE:
-    return action.notification.type === 'follow_request' ? normalizeFollowRequest(state, action.notification) : state;
+  case notificationsUpdate.type:
+    return action.payload.notification.type === 'follow_request' ? normalizeFollowRequest(state, action.payload.notification) : state;
   case FOLLOW_REQUESTS_FETCH_SUCCESS:
     return normalizeList(state, ['follow_requests'], action.accounts, action.next);
   case FOLLOW_REQUESTS_EXPAND_SUCCESS:
@@ -174,9 +171,9 @@ export default function userLists(state = initialState, action) {
   case FOLLOW_REQUESTS_FETCH_FAIL:
   case FOLLOW_REQUESTS_EXPAND_FAIL:
     return state.setIn(['follow_requests', 'isLoading'], false);
-  case FOLLOW_REQUEST_AUTHORIZE_SUCCESS:
-  case FOLLOW_REQUEST_REJECT_SUCCESS:
-    return state.updateIn(['follow_requests', 'items'], list => list.filterNot(item => item === action.id));
+  case authorizeFollowRequestSuccess.type:
+  case rejectFollowRequestSuccess.type:
+    return state.updateIn(['follow_requests', 'items'], list => list.filterNot(item => item === action.payload.id));
   case BLOCKS_FETCH_SUCCESS:
     return normalizeList(state, ['blocks'], action.accounts, action.next);
   case BLOCKS_EXPAND_SUCCESS:

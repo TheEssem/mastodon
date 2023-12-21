@@ -642,7 +642,7 @@
 
 .status__display-name,
 .account__display-name {
-  strong {
+  .display-name strong {
     color: $primary-text-color;
   }
 }
@@ -657,12 +657,12 @@ a.status__display-name,
 .reply-indicator__display-name,
 .detailed-status__display-name,
 .account__display-name {
-  &:hover strong {
+  &:hover .display-name strong {
     text-decoration: underline;
   }
 }
 
-.account__display-name strong {
+.account__display-name .display-name strong {
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -701,8 +701,6 @@ a.status__display-name,
 .status__avatar {
   flex: none;
   margin-inline-end: 10px;
-  height: 48px;
-  width: 48px;
 }
 
 .muted {
@@ -1068,7 +1066,7 @@ a.status-card.compact:hover {
     width: 0;
     position: absolute;
     top: 0;
-    inset-inline-start: 14px + ((48px - 2px) * 0.5);
+    inset-inline-start: 14px + ((46px - 2px) * 0.5);
 
     &--full {
       top: 0;
@@ -1079,7 +1077,7 @@ a.status-card.compact:hover {
         display: block;
         position: absolute;
         top: 10px - 4px;
-        height: 48px + 4px + 4px;
+        height: 46px + 4px + 4px;
         width: 2px;
         background: $ui-base-color;
         inset-inline-start: -2px;
@@ -1087,8 +1085,8 @@ a.status-card.compact:hover {
     }
 
     &--first {
-      top: 10px + 48px + 4px;
-      height: calc(100% - (10px + 48px + 4px));
+      top: 10px + 46px + 4px;
+      height: calc(100% - (10px + 46px + 4px));
 
       &::before {
         display: none;

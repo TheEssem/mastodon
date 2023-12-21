@@ -6,6 +6,7 @@ module.exports = {
     'app/javascript/styles/win95.scss',
     'app/javascript/styles/modern/style.scss',
     'app/javascript/flavours/glitch/styles/modern/style.scss',
+    'app/javascript/flavours/glitch/styles/modern/glitch-fixes.scss',
     'coverage/**/*',
     'node_modules/**/*',
     'public/assets/**/*',

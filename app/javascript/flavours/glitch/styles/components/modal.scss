@@ -36,6 +36,7 @@
 
 .modal-root__modal {
   pointer-events: auto;
+  user-select: text;
   display: flex;
 }
 
@@ -414,6 +415,7 @@
 }
 
 .doodle-modal,
+.tenor-modal,
 .boost-modal,
 .confirmation-modal,
 .report-modal,

@@ -7,14 +7,15 @@ import { Helmet } from 'react-helmet';
 
 import { connect } from 'react-redux';
 
-import { addColumn, removeColumn, moveColumn } from 'flavours/glitch/actions/columns';
-import { connectCommunityStream } from 'flavours/glitch/actions/streaming';
-import { expandCommunityTimeline } from 'flavours/glitch/actions/timelines';
-import Column from 'flavours/glitch/components/column';
-import ColumnHeader from 'flavours/glitch/components/column_header';
 import { DismissableBanner } from 'flavours/glitch/components/dismissable_banner';
-import StatusListContainer from 'flavours/glitch/features/ui/containers/status_list_container';
 import { domain } from 'flavours/glitch/initial_state';
+
+import { addColumn, removeColumn, moveColumn } from '../../actions/columns';
+import { connectCommunityStream } from '../../actions/streaming';
+import { expandCommunityTimeline } from '../../actions/timelines';
+import Column from '../../components/column';
+import ColumnHeader from '../../components/column_header';
+import StatusListContainer from '../ui/containers/status_list_container';
 
 import ColumnSettingsContainer from './containers/column_settings_container';
 
@@ -39,13 +40,12 @@ const mapStateToProps = (state, { columnId }) => {
 
 class CommunityTimeline extends PureComponent {
 
-  static defaultProps = {
-    onlyMedia: false,
+  static contextTypes = {
+    identity: PropTypes.object,
   };
 
-  static contextTypes = {
-    router: PropTypes.object,
-    identity: PropTypes.object,
+  static defaultProps = {
+    onlyMedia: false,
   };
 
   static propTypes = {
@@ -128,7 +128,7 @@ class CommunityTimeline extends PureComponent {
     const pinned = !!columnId;
 
     return (
-      <Column ref={this.setRef} name='local' bindToDocument={!multiColumn} label={intl.formatMessage(messages.title)}>
+      <Column bindToDocument={!multiColumn} ref={this.setRef} label={intl.formatMessage(messages.title)}>
         <ColumnHeader
           icon='users'
           active={hasUnread}

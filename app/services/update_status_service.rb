@@ -70,7 +70,7 @@ class UpdateStatusService < BaseService
   def validate_media!
     return [] if @options[:media_ids].blank? || !@options[:media_ids].is_a?(Enumerable)
 
-    raise Mastodon::ValidationError, I18n.t('media_attachments.validations.too_many') if @options[:media_ids].size > 4 || @options[:poll].present?
+    raise Mastodon::ValidationError, I18n.t('media_attachments.validations.too_many') if @options[:media_ids].size > 4
 
     media_attachments = @status.account.media_attachments.where(status_id: [nil, @status.id]).where(scheduled_status_id: nil).where(id: @options[:media_ids].take(4).map(&:to_i)).to_a
 
@@ -125,7 +125,7 @@ class UpdateStatusService < BaseService
   def reset_preview_card!
     return unless @status.text_previously_changed?
 
-    @status.preview_cards.clear
+    @status.reset_preview_card!
     LinkCrawlWorker.perform_async(@status.id)
   end
 

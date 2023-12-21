@@ -4,10 +4,16 @@ This is a custom branch of Mastodon/glitch-soc intended for usage on the [wetdry
 
 Here are some of the changes compared to glitch-soc:
 
-- Emoji reactions (glitch-soc/mastodon#2221)
+- Emoji reactions (glitch-soc/mastodon#2462)
 - Tenor GIF picker (originally from [koyu.space](https://github.com/koyuspace/mastodon))
 - Mastodon Modern theme (licensed under CC-BY-SA 4.0, [original repo](https://codeberg.org/Freeplay/Mastodon-Modern))
-- Workaround for opengraph video embeds when using Jortage
+- Workaround for opengraph video embeds when using [Jortage](https://jortage.com)
+- Polls can be posted alongside media
+- Polls can have only one option
+- Restores status trend half-life to 2 hours
+- Allows dashes in custom emote names
+- Emojis can be put side-by-side
+- Unicode emojis use [`jdecked/twemoji`](https://github.com/jdecked/twemoji) v15 graphics
 - Minor media attachment tweaks
 - Custom favicon
 

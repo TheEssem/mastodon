@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import type { List } from 'immutable';
 
-import type { Account } from 'flavours/glitch/types/resources';
+import type { Account } from 'flavours/glitch/models/account';
 
 import { autoPlayGif } from '../initial_state';
 

@@ -6,10 +6,8 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import ImmutablePureComponent from 'react-immutable-pure-component';
 
 import { Blurhash } from 'flavours/glitch/components/blurhash';
-import { Icon } from 'flavours/glitch/components/icon';
+import { Icon }  from 'flavours/glitch/components/icon';
 import { autoPlayGif, displayMedia, useBlurhash } from 'flavours/glitch/initial_state';
-
-
 
 export default class MediaItem extends ImmutablePureComponent {
 
@@ -78,7 +76,7 @@ export default class MediaItem extends ImmutablePureComponent {
       if (['audio', 'video'].includes(attachment.get('type'))) {
         content = (
           <img
-            src={attachment.get('preview_url') || attachment.getIn(['account', 'avatar_static'])}
+            src={attachment.get('preview_url') || status.getIn(['account', 'avatar_static'])}
             alt={attachment.get('description')}
             lang={status.get('language')}
             onLoad={this.handleImageLoad}

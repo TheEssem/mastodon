@@ -11,6 +11,7 @@ permissions:
 jobs:
   compute-suffix:
     runs-on: ubuntu-latest
+    if: github.repository == 'TheEssem/mastodon'
     steps:
       - id: version_vars
         env:
@@ -33,7 +34,7 @@ jobs:
       labels: |
         org.opencontainers.image.description=Nightly build image used for testing purposes
       flavor: |
-        latest=auto
+        latest=true
       tags: |
         type=raw,value=edge
         type=raw,value=nightly

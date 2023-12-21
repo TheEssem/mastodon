@@ -30,8 +30,6 @@ import {
   unbookmark,
   pin,
   unpin,
-  addReaction,
-  removeReaction,
 } from '../actions/interactions';
 import { openModal } from '../actions/modal';
 import { initMuteModal } from '../actions/mutes';
@@ -50,7 +48,7 @@ import {
 } from '../actions/statuses';
 import Status from '../components/status';
 import { boostModal, deleteModal } from '../initial_state';
-import { makeGetStatus, makeGetPictureInPicture, makeCustomEmojiMap } from '../selectors';
+import { makeGetStatus, makeGetPictureInPicture } from '../selectors';
 
 const messages = defineMessages({
   deleteConfirm: { id: 'confirmations.delete.confirm', defaultMessage: 'Delete' },
@@ -72,7 +70,6 @@ const makeMapStateToProps = () => {
     status: getStatus(state, props),
     nextInReplyToId: props.nextId ? state.getIn(['statuses', props.nextId, 'in_reply_to_id']) : null,
     pictureInPicture: getPictureInPicture(state, props),
-    emojiMap: makeCustomEmojiMap(state),
   });
 
   return mapStateToProps;
@@ -136,14 +133,6 @@ const mapDispatchToProps = (dispatch, { intl, contextType }) => ({
     } else {
       dispatch(pin(status));
     }
-  },
-
-  onReactionAdd (statusId, name, url) {
-    dispatch(addReaction(statusId, name, url));
-  },
-
-  onReactionRemove (statusId, name) {
-    dispatch(removeReaction(statusId, name));
   },
 
   onEmbed (status) {

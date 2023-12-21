@@ -4,6 +4,7 @@ import { PureComponent } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 
 import classnames from 'classnames';
+import { withRouter } from 'react-router-dom';
 
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
@@ -141,6 +142,10 @@ class StatusContent extends PureComponent {
     rewriteMentions: PropTypes.string,
     languages: ImmutablePropTypes.map,
     intl: PropTypes.object,
+    // from react-router
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -483,4 +488,4 @@ class StatusContent extends PureComponent {
 
 }
 
-export default connect(mapStateToProps)(injectIntl(StatusContent));
+export default withRouter(connect(mapStateToProps)(injectIntl(StatusContent)));

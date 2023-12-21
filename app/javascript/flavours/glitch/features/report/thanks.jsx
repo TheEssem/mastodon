@@ -11,7 +11,7 @@ import {
   muteAccount,
   blockAccount,
 } from 'flavours/glitch/actions/accounts';
-import Button from 'flavours/glitch/components/button';
+import { Button } from 'flavours/glitch/components/button';
 
 const mapStateToProps = () => ({});
 
@@ -20,7 +20,7 @@ class Thanks extends PureComponent {
   static propTypes = {
     submitted: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
-    account: ImmutablePropTypes.map.isRequired,
+    account: ImmutablePropTypes.record.isRequired,
     dispatch: PropTypes.func.isRequired,
   };
 
