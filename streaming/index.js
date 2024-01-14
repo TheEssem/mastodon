@@ -164,6 +164,8 @@ const PUBLIC_CHANNELS = [
   'public:media',
   'public:local',
   'public:local:media',
+  'public:bubble',
+  'public:bubble:media',
   'public:remote',
   'public:remote:media',
   'hashtag',
@@ -438,6 +440,8 @@ const startServer = async () => {
       return onlyMedia ? 'public:media' : 'public';
     case '/api/v1/streaming/public/local':
       return onlyMedia ? 'public:local:media' : 'public:local';
+    case '/api/v1/streaming/public/bubble':
+      return onlyMedia ? 'public:bubble:media' : 'public:bubble';
     case '/api/v1/streaming/public/remote':
       return onlyMedia ? 'public:remote:media' : 'public:remote';
     case '/api/v1/streaming/hashtag':
@@ -1097,6 +1101,13 @@ const startServer = async () => {
       });
 
       break;
+    case 'public:bubble':
+      resolve({
+        channelIds: ['timeline:public:bubble'],
+        options: { needsFiltering: true, allowLocalOnly: false },
+      });
+
+      break;
     case 'public:remote':
       resolve({
         channelIds: ['timeline:public:remote'],
@@ -1122,6 +1133,13 @@ const startServer = async () => {
       resolve({
         channelIds: ['timeline:public:local:media'],
         options: { needsFiltering: true, allowLocalOnly: true },
+      });
+
+      break;
+    case 'public:bubble:media':
+      resolve({
+        channelIds: ['timeline:public:bubble:media'],
+        options: { needsFiltering: true, allowLocalOnly: false },
       });
 
       break;

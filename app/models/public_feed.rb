@@ -6,6 +6,7 @@ class PublicFeed
   # @option [Boolean] :with_replies
   # @option [Boolean] :with_reblogs
   # @option [Boolean] :local
+  # @option [Boolean] :bubble
   # @option [Boolean] :remote
   # @option [Boolean] :only_media
   # @option [Boolean] :allow_local_only
@@ -26,6 +27,7 @@ class PublicFeed
     scope.merge!(without_replies_scope) unless with_replies?
     scope.merge!(without_reblogs_scope) unless with_reblogs?
     scope.merge!(local_only_scope) if local_only?
+    scope.merge!(bubble_only_scope) if bubble_only?
     scope.merge!(remote_only_scope) if remote_only?
     scope.merge!(account_filters_scope) if account?
     scope.merge!(media_only_scope) if media_only?
@@ -51,11 +53,15 @@ class PublicFeed
   end
 
   def local_only?
-    options[:local] && !options[:remote]
+    options[:local] && !options[:remote] && !options[:bubble]
+  end
+
+  def bubble_only?
+    options[:bubble] && !options[:local] && !options[:remote]
   end
 
   def remote_only?
-    options[:remote] && !options[:local]
+    options[:remote] && !options[:local] && !options[:bubble]
   end
 
   def account?
@@ -76,6 +82,10 @@ class PublicFeed
 
   def local_only_scope
     Status.local
+  end
+
+  def bubble_only_scope
+    Status.bubble
   end
 
   def remote_only_scope

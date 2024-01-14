@@ -3,7 +3,7 @@
 class Api::V1::Timelines::PublicController < Api::V1::Timelines::BaseController
   before_action :require_user!, only: [:show], if: :require_auth?
 
-  PERMITTED_PARAMS = %i(local remote limit only_media allow_local_only).freeze
+  PERMITTED_PARAMS = %i(local remote bubble limit only_media allow_local_only).freeze
 
   def show
     cache_if_unauthenticated!
@@ -38,6 +38,7 @@ class Api::V1::Timelines::PublicController < Api::V1::Timelines::BaseController
     PublicFeed.new(
       current_account,
       local: truthy_param?(:local),
+      bubble: truthy_param?(:bubble),
       remote: truthy_param?(:remote),
       only_media: truthy_param?(:only_media),
       allow_local_only: truthy_param?(:allow_local_only),

@@ -30,6 +30,7 @@ class TagFeed < PublicFeed
     scope.merge!(tagged_with_all_scope)
     scope.merge!(tagged_with_none_scope)
     scope.merge!(local_only_scope) if local_only?
+    scope.merge!(bubble_only_scope) if bubble_only?
     scope.merge!(remote_only_scope) if remote_only?
     scope.merge!(account_filters_scope) if account?
     scope.merge!(media_only_scope) if media_only?
