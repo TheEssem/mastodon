@@ -13,6 +13,8 @@
 #  updated_at      :datetime         not null
 #
 class StatusReaction < ApplicationRecord
+  include Paginable
+
   belongs_to :account
   belongs_to :status, inverse_of: :status_reactions
   belongs_to :custom_emoji, optional: true
