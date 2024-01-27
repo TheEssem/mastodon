@@ -17,6 +17,7 @@ import DropdownMenuContainer from '../containers/dropdown_menu_container';
 import { me } from '../initial_state';
 
 import { Avatar } from './avatar';
+import { AvatarOverlay } from './avatar_overlay';
 import { Button } from './button';
 import { FollowersCounter } from './counters';
 import { DisplayName } from './display_name';
@@ -33,7 +34,7 @@ const messages = defineMessages({
   more: { id: 'status.more', defaultMessage: 'More' },
 });
 
-const Account = ({ size = 46, account, onBlock, onMute, onMuteNotifications, hidden, minimal, defaultAction, withBio }) => {
+const Account = ({ size = 46, overlayEmoji = { name: null }, account, onBlock, onMute, onMuteNotifications, hidden, minimal, defaultAction, withBio }) => {
   const intl = useIntl();
 
   const handleBlock = useCallback(() => {
@@ -123,12 +124,19 @@ const Account = ({ size = 46, account, onBlock, onMute, onMuteNotifications, hid
     verification = <VerifiedBadge link={firstVerifiedField.get('value')} />;
   }
 
+  let statusAvatar;
+  if (!overlayEmoji.name) {
+    statusAvatar = <Avatar account={account} size={size} />;
+  } else {
+    statusAvatar = <AvatarOverlay account={account} emoji={overlayEmoji} baseSize={size} />;
+  }
+
   return (
     <div className={classNames('account', { 'account--minimal': minimal })}>
       <div className='account__wrapper'>
         <Permalink key={account.get('id')} className='account__display-name' title={account.get('acct')} href={account.get('url')} to={`/@${account.get('acct')}`} data-hover-card-account={account.get('id')}>
           <div className='account__avatar-wrapper'>
-            <Avatar account={account} size={size} />
+            {statusAvatar}
           </div>
 
           <div className='account__contents'>
@@ -168,6 +176,7 @@ Account.propTypes = {
   onBlock: PropTypes.func,
   onMute: PropTypes.func,
   onMuteNotifications: PropTypes.func,
+  overlayEmoji: PropTypes.object,
   hidden: PropTypes.bool,
   minimal: PropTypes.bool,
   defaultAction: PropTypes.string,
