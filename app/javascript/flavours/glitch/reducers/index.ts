@@ -35,6 +35,7 @@ import { searchReducer } from './search';
 import server from './server';
 import settings from './settings';
 import status_lists from './status_lists';
+import status_reactions from './status_reactions';
 import statuses from './statuses';
 import { suggestionsReducer } from './suggestions';
 import timelines from './timelines';
@@ -78,6 +79,7 @@ const reducers = {
   picture_in_picture: pictureInPictureReducer,
   history,
   followed_tags,
+  status_reactions,
   notificationPolicy: notificationPolicyReducer,
   notificationRequests: notificationRequestsReducer,
 };

@@ -27,9 +27,9 @@ const messages = defineMessages({
 });
 
 const mapStateToProps = (state, props) => ({
-  accountIds: state.getIn(['user_lists', 'reactions', props.params.statusId, 'items']),
-  hasMore: !!state.getIn(['user_lists', 'reactions', props.params.statusId, 'next']),
-  isLoading: state.getIn(['user_lists', 'reactions', props.params.statusId, 'isLoading'], true),
+  reactions: state.getIn(['status_reactions', 'reactions', props.params.statusId, 'items']),
+  hasMore: !!state.getIn(['status_reactions', 'reactions', props.params.statusId, 'next']),
+  isLoading: state.getIn(['status_reactions', 'reactions', props.params.statusId, 'isLoading'], true),
 });
 
 class Reactions extends ImmutablePureComponent {
@@ -37,7 +37,7 @@ class Reactions extends ImmutablePureComponent {
   static propTypes = {
     params: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
-    accountIds: ImmutablePropTypes.list,
+    reactions: ImmutablePropTypes.orderedSet,
     hasMore: PropTypes.bool,
     isLoading: PropTypes.bool,
     multiColumn: PropTypes.bool,
@@ -67,15 +67,18 @@ class Reactions extends ImmutablePureComponent {
   }, 300, { leading: true });
 
   render () {
-    const { intl, accountIds, hasMore, isLoading, multiColumn } = this.props;
+    const { intl, reactions, hasMore, isLoading, multiColumn } = this.props;
 
-    if (!accountIds) {
+    if (!reactions) {
       return (
         <Column>
           <LoadingIndicator />
         </Column>
       );
     }
+
+    const accountIds = reactions.map(v => v.account);
+    const reactionsByAccount = new Map(reactions.map(v => [v.account, v]));
 
     const emptyMessage = <FormattedMessage id='status.reactions.empty' defaultMessage='No one has reacted to this post yet. When someone does, they will show up here.' />;
 
@@ -102,7 +105,7 @@ class Reactions extends ImmutablePureComponent {
           bindToDocument={!multiColumn}
         >
           {accountIds.map(id =>
-            <AccountContainer key={id} id={id} withNote={false} />,
+            <AccountContainer key={id} id={id} withNote={false} overlayEmoji={reactionsByAccount.get(id)} />,
           )}
         </ScrollableList>
 
