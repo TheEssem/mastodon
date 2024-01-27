@@ -22,7 +22,7 @@ import { Avatar } from '../../../components/avatar';
 import { DisplayName } from '../../../components/display_name';
 import MediaGallery from '../../../components/media_gallery';
 import StatusContent from '../../../components/status_content';
-import StatusReactions from '../../../components/status_reactions';
+import { StatusReactions } from '../../../components/status_reactions';
 import { visibleReactions } from '../../../initial_state';
 import Audio from '../../audio';
 import scheduleIdleTask from '../../ui/util/schedule_idle_task';
@@ -135,6 +135,7 @@ class DetailedStatus extends ImmutablePureComponent {
     let applicationLink = '';
     let reblogLink = '';
     let favouriteLink = '';
+    let reactionLink = '';
 
     //  Depending on user settings, some media are considered as parts of the
     //  contents (affected by CW) while other will be displayed outside of the
@@ -273,6 +274,14 @@ class DetailedStatus extends ImmutablePureComponent {
           <FormattedMessage id='status.favourites' defaultMessage='{count, plural, one {favorite} other {favorites}}' values={{ count: status.get('favourites_count') }} />
         </Link>
       );
+      reactionLink = (
+        <Link to={`/@${status.getIn(['account', 'acct'])}/${status.get('id')}/reactions`} className='detailed-status__link'>
+          <span className='detailed-status__reactions'>
+            <AnimatedNumber value={status.get('reactions').reduce((total, obj) => total + obj.get('count'), 0)} />
+          </span>
+          <FormattedMessage id='status.reactions' defaultMessage='{count, plural, one {reaction} other {reactions}}' values={{ count: status.get('reactions').reduce((total, obj) => total + obj.get('count'), 0) }} />
+        </Link>
+      );
     } else {
       favouriteLink = (
         <a href={`/interact/${status.get('id')}?type=favourite`} className='detailed-status__link' onClick={this.handleModalLink}>
@@ -280,6 +289,14 @@ class DetailedStatus extends ImmutablePureComponent {
             <AnimatedNumber value={status.get('favourites_count')} />
           </span>
           <FormattedMessage id='status.favourites' defaultMessage='{count, plural, one {favorite} other {favorites}}' values={{ count: status.get('favourites_count') }} />
+        </a>
+      );
+      reactionLink = (
+        <a href={`/interact/${status.get('id')}?type=reaction`} className='detailed-status__link' onClick={this.handleModalLink}>
+          <span className='detailed-status__reactions'>
+            <AnimatedNumber value={status.get('reactions').reduce((total, obj) => total + obj.get('count'), 0)} />
+          </span>
+          <FormattedMessage id='status.reactions' defaultMessage='{count, plural, one {reaction} other {reactions}}' values={{ count: status.get('reactions').reduce((total, obj) => total + obj.get('count'), 0) }} />
         </a>
       );
     }
@@ -337,6 +354,8 @@ class DetailedStatus extends ImmutablePureComponent {
               {reblogLink}
               {reblogLink && <>·</>}
               {favouriteLink}
+              ·
+              {reactionLink}
             </div>
           </div>
         </div>
