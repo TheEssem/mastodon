@@ -15,7 +15,7 @@ import { assetHost } from '../utils/config';
 
 import { AnimatedNumber } from './animated_number';
 
-export default class StatusReactions extends ImmutablePureComponent {
+export class StatusReactions extends ImmutablePureComponent {
 
   static propTypes = {
     statusId: PropTypes.string.isRequired,
@@ -107,6 +107,7 @@ class Reaction extends ImmutablePureComponent {
 
     return (
       <button
+        type='button'
         className={classNames('reactions-bar__item', { active: reaction.get('me') })}
         onClick={this.handleClick}
         onMouseEnter={this.handleMouseEnter}
@@ -131,7 +132,7 @@ class Reaction extends ImmutablePureComponent {
 
 }
 
-class Emoji extends React.PureComponent {
+export class Emoji extends React.PureComponent {
 
   static propTypes = {
     emoji: PropTypes.string.isRequired,
