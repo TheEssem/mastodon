@@ -219,7 +219,7 @@ export function fetchReactions(id) {
       const next = getLinks(response).refs.find(link => link.rel === 'next');
       const accounts = response.data.map(item => item.account);
       dispatch(importFetchedAccounts(accounts));
-      dispatch(fetchReactionsSuccess(id, accounts, next ? next.uri : null));
+      dispatch(fetchReactionsSuccess(id, response.data, next ? next.uri : null));
       dispatch(fetchRelationships(accounts.map(item => item.id)));
     }).catch(error => {
       dispatch(fetchReactionsFail(id, error));
@@ -234,11 +234,11 @@ export function fetchReactionsRequest(id) {
   };
 }
 
-export function fetchReactionsSuccess(id, accounts, next) {
+export function fetchReactionsSuccess(id, reactions, next) {
   return {
     type: REACTIONS_FETCH_SUCCESS,
     id,
-    accounts,
+    reactions,
     next,
   };
 }
@@ -265,7 +265,7 @@ export function expandReactions(id) {
       const accounts = response.data.map(item => item.account);
 
       dispatch(importFetchedAccounts(accounts));
-      dispatch(expandReactionsSuccess(id, accounts, next ? next.uri : null));
+      dispatch(expandReactionsSuccess(id, response.data, next ? next.uri : null));
       dispatch(fetchRelationships(accounts.map(item => item.id)));
     }).catch(error => dispatch(expandReactionsFail(id, error)));
   };
@@ -278,11 +278,11 @@ export function expandReactionsRequest(id) {
   };
 }
 
-export function expandReactionsSuccess(id, accounts, next) {
+export function expandReactionsSuccess(id, reactions, next) {
   return {
     type: REACTIONS_EXPAND_SUCCESS,
     id,
-    accounts,
+    reactions,
     next,
   };
 }
