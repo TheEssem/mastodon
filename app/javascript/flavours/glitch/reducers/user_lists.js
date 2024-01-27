@@ -53,12 +53,6 @@ import {
   FAVOURITES_EXPAND_REQUEST,
   FAVOURITES_EXPAND_SUCCESS,
   FAVOURITES_EXPAND_FAIL,
-  REACTIONS_FETCH_SUCCESS,
-  REACTIONS_EXPAND_SUCCESS,
-  REACTIONS_FETCH_REQUEST,
-  REACTIONS_EXPAND_REQUEST,
-  REACTIONS_FETCH_FAIL,
-  REACTIONS_EXPAND_FAIL,
 } from '../actions/interactions';
 import {
   MUTES_FETCH_REQUEST,
@@ -79,7 +73,6 @@ const initialListState = ImmutableMap({
 const initialState = ImmutableMap({
   followers: initialListState,
   following: initialListState,
-  reactions: initialListState,
   reblogged_by: initialListState,
   favourited_by: initialListState,
   follow_requests: initialListState,
@@ -143,16 +136,6 @@ export default function userLists(state = initialState, action) {
   case FOLLOWING_FETCH_FAIL:
   case FOLLOWING_EXPAND_FAIL:
     return state.setIn(['following', action.id, 'isLoading'], false);
-  case REACTIONS_FETCH_SUCCESS:
-    return normalizeList(state, ['reactions', action.id], action.accounts, action.next);
-  case REACTIONS_EXPAND_SUCCESS:
-    return appendToList(state, ['reactions', action.id], action.accounts, action.next);
-  case REACTIONS_FETCH_REQUEST:
-  case REACTIONS_EXPAND_REQUEST:
-    return state.setIn(['reactions', action.id, 'isLoading'], true);
-  case REACTIONS_FETCH_FAIL:
-  case REACTIONS_EXPAND_FAIL:
-    return state.setIn(['reactions', action.id, 'isLoading'], false);
   case REBLOGS_FETCH_SUCCESS:
     return normalizeList(state, ['reblogged_by', action.id], action.accounts, action.next);
   case REBLOGS_EXPAND_SUCCESS:
