@@ -5,7 +5,8 @@ class REST::StatusReactionSerializer < ActiveModel::Serializer
 
   attributes :name
 
-  attribute :me, if: :current_user?
+  attribute :id, unless: :no_id?
+  attribute :me, if: :current_user? # are this and count worth keeping?
   attribute :url, if: :custom_emoji?
   attribute :static_url, if: :custom_emoji?
   attribute :count, if: :respond_to_count?
@@ -16,6 +17,10 @@ class REST::StatusReactionSerializer < ActiveModel::Serializer
 
   def respond_to_count?
     object.respond_to?(:count)
+  end
+
+  def no_id?
+    object.id.nil?
   end
 
   def current_user?
