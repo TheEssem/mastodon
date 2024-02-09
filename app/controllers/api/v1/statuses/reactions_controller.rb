@@ -42,9 +42,7 @@ class Api::V1::Statuses::ReactionsController < Api::V1::Statuses::BaseController
 
   def ordered_reactions
     StatusReaction.where(status: @status)
-                  .group(:status_id, :id, :account_id, :name, :custom_emoji_id).order(
-                    Arel.sql('MIN(created_at)').asc
-                  )
+                  .group(:status_id, :id, :account_id, :name, :custom_emoji_id)
   end
 
   def value_for_reaction_me_column(account)
@@ -93,6 +91,6 @@ class Api::V1::Statuses::ReactionsController < Api::V1::Statuses::BaseController
   end
 
   def pagination_params(core_params)
-    params.slice(:limit).permit(:limit).merge(core_params)
+    params_slice(:limit).merge(core_params)
   end
 end
