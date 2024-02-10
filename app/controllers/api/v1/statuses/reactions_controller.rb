@@ -41,8 +41,20 @@ class Api::V1::Statuses::ReactionsController < Api::V1::Statuses::BaseController
   end
 
   def ordered_reactions
-    StatusReaction.where(status: @status)
-                  .group(:status_id, :id, :account_id, :name, :custom_emoji_id)
+    filtered_reactions.group(:status_id, :id, :account_id, :name, :custom_emoji_id)
+  end
+
+  def filtered_reactions
+    initial_reactions = StatusReaction.where(status: @status)
+    if filtered?
+      initial_reactions.where(name: params[:emoji])
+    else
+      initial_reactions
+    end
+  end
+
+  def filtered?
+    params[:emoji].present?
   end
 
   def value_for_reaction_me_column(account)
@@ -91,6 +103,6 @@ class Api::V1::Statuses::ReactionsController < Api::V1::Statuses::BaseController
   end
 
   def pagination_params(core_params)
-    params_slice(:limit).merge(core_params)
+    params_slice(:limit, :emoji).merge(core_params)
   end
 end
