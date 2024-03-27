@@ -137,6 +137,7 @@
   "status.is_poll": "This toot is a poll",
   "status.local_only": "Only visible from your instance",
   "status.react": "React",
+  "status.reactions": "{count, plural, one {reaction} other {reactions}}",
   "status.reactions.empty": "No one has reacted to this post yet. When someone does, they will show up here.",
   "status.show_filter_reason": "Show anyway",
   "tenor.error": "Oops! Something went wrong. Please, try again.",
