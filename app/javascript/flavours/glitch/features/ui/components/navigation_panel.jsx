@@ -45,7 +45,7 @@ const messages = defineMessages({
   explore: { id: 'explore.title', defaultMessage: 'Explore' },
   firehose: { id: 'column.firehose', defaultMessage: 'Live feeds' },
   direct: { id: 'navigation_bar.direct', defaultMessage: 'Private mentions' },
-  favourites: { id: 'navigation_bar.favourites', defaultMessage: 'Favorites' },
+  favourites: { id: 'navigation_bar.favourites', defaultMessage: 'Florps' },
   bookmarks: { id: 'navigation_bar.bookmarks', defaultMessage: 'Bookmarks' },
   lists: { id: 'navigation_bar.lists', defaultMessage: 'Lists' },
   preferences: { id: 'navigation_bar.preferences', defaultMessage: 'Preferences' },

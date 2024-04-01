@@ -272,7 +272,7 @@ class DetailedStatus extends ImmutablePureComponent {
           <span className='detailed-status__favorites'>
             <AnimatedNumber value={status.get('favourites_count')} />
           </span>
-          <FormattedMessage id='status.favourites' defaultMessage='{count, plural, one {favorite} other {favorites}}' values={{ count: status.get('favourites_count') }} />
+          <FormattedMessage id='status.favourites' defaultMessage='{count, plural, one {florp} other {florps}}' values={{ count: status.get('favourites_count') }} />
         </Link>
       );
     } else {
@@ -281,7 +281,7 @@ class DetailedStatus extends ImmutablePureComponent {
           <span className='detailed-status__favorites'>
             <AnimatedNumber value={status.get('favourites_count')} />
           </span>
-          <FormattedMessage id='status.favourites' defaultMessage='{count, plural, one {favorite} other {favorites}}' values={{ count: status.get('favourites_count') }} />
+          <FormattedMessage id='status.favourites' defaultMessage='{count, plural, one {florp} other {florps}}' values={{ count: status.get('favourites_count') }} />
         </a>
       );
     }

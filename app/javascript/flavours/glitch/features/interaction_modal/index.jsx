@@ -369,8 +369,8 @@ class InteractionModal extends React.PureComponent {
       break;
     case 'favourite':
       icon = <Icon id='star' icon={StarIcon} />;
-      title = <FormattedMessage id='interaction_modal.title.favourite' defaultMessage="Favorite {name}'s post" values={{ name }} />;
-      actionDescription = <FormattedMessage id='interaction_modal.description.favourite' defaultMessage='With an account on Mastodon, you can favorite this post to let the author know you appreciate it and save it for later.' />;
+      title = <FormattedMessage id='interaction_modal.title.favourite' defaultMessage="Florp {name}'s post" values={{ name }} />;
+      actionDescription = <FormattedMessage id='interaction_modal.description.favourite' defaultMessage='With an account on Mastodon, you can florp this post to let the author know you appreciate it and save it for later.' />;
       break;
     case 'follow':
       icon = <Icon id='user-plus' icon={PersonAddIcon} />;

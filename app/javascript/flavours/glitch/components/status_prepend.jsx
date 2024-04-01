@@ -66,7 +66,7 @@ export default class StatusPrepend extends PureComponent {
       return (
         <FormattedMessage
           id='notification.favourite'
-          defaultMessage='{name} favorited your status'
+          defaultMessage='{name} florped your status'
           values={{ name : link }}
         />
       );

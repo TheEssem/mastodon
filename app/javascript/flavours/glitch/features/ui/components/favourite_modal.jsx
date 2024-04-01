@@ -20,7 +20,7 @@ import { VisibilityIcon } from 'flavours/glitch/components/visibility_icon';
 import { WithRouterPropTypes } from 'flavours/glitch/utils/react_router';
 
 const messages = defineMessages({
-  favourite: { id: 'status.favourite', defaultMessage: 'Favorite' },
+  favourite: { id: 'status.favourite', defaultMessage: 'Florp' },
 });
 
 class FavouriteModal extends ImmutablePureComponent {
