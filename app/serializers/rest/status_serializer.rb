@@ -8,7 +8,7 @@ class REST::StatusSerializer < ActiveModel::Serializer
   attributes :id, :created_at, :in_reply_to_id, :in_reply_to_account_id,
              :sensitive, :spoiler_text, :visibility, :language,
              :uri, :url, :replies_count, :reblogs_count,
-             :favourites_count, :edited_at, :conversation_id
+             :favourites_count, :reactions_count, :edited_at, :conversation_id
 
   attribute :favourited, if: :current_user?
   attribute :reblogged, if: :current_user?
@@ -94,6 +94,10 @@ class REST::StatusSerializer < ActiveModel::Serializer
 
   def favourites_count
     relationships&.attributes_map&.dig(object.id, :favourites_count) || object.favourites_count
+  end
+
+  def reactions_count
+    relationships&.attributes_map&.dig(object.id, :reactions_count) || object.reactions_count
   end
 
   def favourited

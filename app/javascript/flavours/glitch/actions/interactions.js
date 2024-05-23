@@ -550,7 +550,8 @@ export const addReaction = (statusId, name, url) => (dispatch, getState) => {
 
   // encodeURIComponent is required for the Keycap Number Sign emoji, see:
   // <https://github.com/glitch-soc/mastodon/pull/1980#issuecomment-1345538932>
-  api(getState).post(`/api/v1/statuses/${statusId}/react/${encodeURIComponent(name)}`).then(() => {
+  api(getState).post(`/api/v1/statuses/${statusId}/react/${encodeURIComponent(name)}`).then((response) => {
+    dispatch(importFetchedStatus(response.data));
     dispatch(addReactionSuccess(statusId, name));
   }).catch(err => {
     if (!alreadyAdded) {
@@ -582,7 +583,8 @@ export const addReactionFail = (statusId, name, error) => ({
 export const removeReaction = (statusId, name) => (dispatch, getState) => {
   dispatch(removeReactionRequest(statusId, name));
 
-  api(getState).post(`/api/v1/statuses/${statusId}/unreact/${encodeURIComponent(name)}`).then(() => {
+  api(getState).post(`/api/v1/statuses/${statusId}/unreact/${encodeURIComponent(name)}`).then((response) => {
+    dispatch(importFetchedStatus(response.data));
     dispatch(removeReactionSuccess(statusId, name));
   }).catch(err => {
     dispatch(removeReactionFail(statusId, name, err));

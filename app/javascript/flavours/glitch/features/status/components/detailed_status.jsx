@@ -277,9 +277,9 @@ class DetailedStatus extends ImmutablePureComponent {
       reactionLink = (
         <Link to={`/@${status.getIn(['account', 'acct'])}/${status.get('id')}/reactions`} className='detailed-status__link'>
           <span className='detailed-status__reactions'>
-            <AnimatedNumber value={status.get('reactions').reduce((total, obj) => total + obj.get('count'), 0)} />
+            <AnimatedNumber value={status.get('reactions_count')} />
           </span>
-          <FormattedMessage id='status.reactions' defaultMessage='{count, plural, one {reaction} other {reactions}}' values={{ count: status.get('reactions').reduce((total, obj) => total + obj.get('count'), 0) }} />
+          <FormattedMessage id='status.reactions' defaultMessage='{count, plural, one {reaction} other {reactions}}' values={{ count: status.get('reactions_count') }} />
         </Link>
       );
     } else {
@@ -294,9 +294,9 @@ class DetailedStatus extends ImmutablePureComponent {
       reactionLink = (
         <a href={`/interact/${status.get('id')}?type=reaction`} className='detailed-status__link' onClick={this.handleModalLink}>
           <span className='detailed-status__reactions'>
-            <AnimatedNumber value={status.get('reactions').reduce((total, obj) => total + obj.get('count'), 0)} />
+            <AnimatedNumber value={status.get('reactions_count')} />
           </span>
-          <FormattedMessage id='status.reactions' defaultMessage='{count, plural, one {reaction} other {reactions}}' values={{ count: status.get('reactions').reduce((total, obj) => total + obj.get('count'), 0) }} />
+          <FormattedMessage id='status.reactions' defaultMessage='{count, plural, one {reaction} other {reactions}}' values={{ count: status.get('reactions_count') }} />
         </a>
       );
     }
