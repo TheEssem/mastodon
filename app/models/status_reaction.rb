@@ -30,7 +30,20 @@ class StatusReaction < ApplicationRecord
 
   before_validation :set_custom_emoji
 
+  after_create :increment_cache_counters
+  after_destroy :decrement_cache_counters
+
   private
+
+  def increment_cache_counters
+    status&.increment_count!(:reactions_count)
+  end
+
+  def decrement_cache_counters
+    return if association(:status).loaded? && status.marked_for_destruction?
+
+    status&.decrement_count!(:reactions_count)
+  end
 
   # Sets custom_emoji to nil when disabled
   def set_custom_emoji

@@ -63,6 +63,7 @@ module Mastodon::CLI
         status_stat.replies_count    = status.replies.not_direct_visibility.count
         status_stat.reblogs_count    = status.reblogs.count
         status_stat.favourites_count = status.favourites.count
+        status_stat.reactions_count  = status.status_reactions.count
 
         status_stat.save if status_stat.changed?
       end
