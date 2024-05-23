@@ -20,9 +20,20 @@ class Api::V1::Statuses::ReactionsController < Api::V1::Statuses::BaseController
   end
 
   def destroy
-    UnreactWorker.perform_async(current_account.id, @status.id, params[:id])
+    react = current_account.status_reactions.find_by(status_id: params[:status_id], name: params[:id])
 
-    render json: @status, serializer: REST::StatusSerializer, relationships: StatusRelationshipsPresenter.new([@status], current_account.id, reactions_map: { @status.id => false })
+    if react
+      @status = react.status
+      count = [@status.reactions_count - 1, 0].max
+      UnreactWorker.perform_async(current_account.id, @status.id, params[:id])
+    else
+      @status = Status.find(params[:status_id])
+      count = @status.reactions_count
+      authorize @status, :show?
+    end
+
+    relationships = StatusRelationshipsPresenter.new([@status], current_account.id, reactions_map: { @status.id => false }, attributes_map: { @status.id => { reactions_count: count } })
+    render json: @status, serializer: REST::StatusSerializer, relationships: relationships
   rescue Mastodon::NotPermittedError
     not_found
   end

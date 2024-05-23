@@ -330,12 +330,12 @@ export const DetailedStatus: React.FC<{
       className='detailed-status__link'
     >
       <span className='detailed-status__reactions'>
-        <AnimatedNumber value={status.get('reactions').reduce((total, obj) => total + obj.get('count'), 0)} />
+        <AnimatedNumber value={status.get('reactions_count')} />
       </span>
       <FormattedMessage
         id='status.reactions'
         defaultMessage='{count, plural, one {reaction} other {reactions}}'
-        values={{ count: status.get('reactions').reduce((total, obj) => total + obj.get('count'), 0) }}
+        values={{ count: status.get('reactions_count') }}
       />
     </Link>
   );

@@ -317,6 +317,10 @@ class Status < ApplicationRecord
     status_stat&.favourites_count || 0
   end
 
+  def reactions_count
+    status_stat&.reactions_count || 0
+  end
+
   # Reblogs count received from an external instance
   def untrusted_reblogs_count
     status_stat&.untrusted_reblogs_count unless local?
