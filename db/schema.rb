@@ -1035,6 +1035,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_04_082851) do
     t.bigint "favourites_count", default: 0, null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.bigint "reactions_count", default: 0, null: false
     t.bigint "untrusted_favourites_count"
     t.bigint "untrusted_reblogs_count"
     t.index ["status_id"], name: "index_status_stats_on_status_id", unique: true
