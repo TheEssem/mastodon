@@ -3,6 +3,10 @@ import api, { getLinks } from '../api';
 import { fetchRelationships } from './accounts';
 import { importFetchedAccounts, importFetchedStatus } from './importer';
 
+export const REACTIONS_EXPAND_REQUEST = 'REACTIONS_EXPAND_REQUEST';
+export const REACTIONS_EXPAND_SUCCESS = 'REACTIONS_EXPAND_SUCCESS';
+export const REACTIONS_EXPAND_FAIL    = 'REACTIONS_EXPAND_FAIL';
+
 export const REBLOGS_EXPAND_REQUEST = 'REBLOGS_EXPAND_REQUEST';
 export const REBLOGS_EXPAND_SUCCESS = 'REBLOGS_EXPAND_SUCCESS';
 export const REBLOGS_EXPAND_FAIL = 'REBLOGS_EXPAND_FAIL';
@@ -14,6 +18,10 @@ export const FAVOURITE_FAIL    = 'FAVOURITE_FAIL';
 export const UNFAVOURITE_REQUEST = 'UNFAVOURITE_REQUEST';
 export const UNFAVOURITE_SUCCESS = 'UNFAVOURITE_SUCCESS';
 export const UNFAVOURITE_FAIL    = 'UNFAVOURITE_FAIL';
+
+export const REACTIONS_FETCH_REQUEST = 'REACTIONS_FETCH_REQUEST';
+export const REACTIONS_FETCH_SUCCESS = 'REACTIONS_FETCH_SUCCESS';
+export const REACTIONS_FETCH_FAIL    = 'REACTIONS_FETCH_FAIL';
 
 export const REBLOGS_FETCH_REQUEST = 'REBLOGS_FETCH_REQUEST';
 export const REBLOGS_FETCH_SUCCESS = 'REBLOGS_FETCH_SUCCESS';
@@ -200,6 +208,90 @@ export function unbookmarkFail(status, error) {
     type: UNBOOKMARK_FAIL,
     status: status,
     error: error,
+  };
+}
+
+export function fetchReactions(id) {
+  return (dispatch, getState) => {
+    dispatch(fetchReactionsRequest(id));
+
+    api(getState).get(`/api/v1/statuses/${id}/reactions`).then(response => {
+      const next = getLinks(response).refs.find(link => link.rel === 'next');
+      const accounts = response.data.map(item => item.account);
+      dispatch(importFetchedAccounts(accounts));
+      dispatch(fetchReactionsSuccess(id, response.data, next ? next.uri : null));
+      dispatch(fetchRelationships(accounts.map(item => item.id)));
+    }).catch(error => {
+      dispatch(fetchReactionsFail(id, error));
+    });
+  };
+}
+
+export function fetchReactionsRequest(id) {
+  return {
+    type: REACTIONS_FETCH_REQUEST,
+    id,
+  };
+}
+
+export function fetchReactionsSuccess(id, reactions, next) {
+  return {
+    type: REACTIONS_FETCH_SUCCESS,
+    id,
+    reactions,
+    next,
+  };
+}
+
+export function fetchReactionsFail(id, error) {
+  return {
+    type: REACTIONS_FETCH_FAIL,
+    id,
+    error,
+  };
+}
+
+export function expandReactions(id) {
+  return (dispatch, getState) => {
+    const url = getState().getIn(['user_lists', 'reactions', id, 'next']);
+    if (url === null) {
+      return;
+    }
+
+    dispatch(expandReactionsRequest(id));
+
+    api(getState).get(url).then(response => {
+      const next = getLinks(response).refs.find(link => link.rel === 'next');
+      const accounts = response.data.map(item => item.account);
+
+      dispatch(importFetchedAccounts(accounts));
+      dispatch(expandReactionsSuccess(id, response.data, next ? next.uri : null));
+      dispatch(fetchRelationships(accounts.map(item => item.id)));
+    }).catch(error => dispatch(expandReactionsFail(id, error)));
+  };
+}
+
+export function expandReactionsRequest(id) {
+  return {
+    type: REACTIONS_EXPAND_REQUEST,
+    id,
+  };
+}
+
+export function expandReactionsSuccess(id, reactions, next) {
+  return {
+    type: REACTIONS_EXPAND_SUCCESS,
+    id,
+    reactions,
+    next,
+  };
+}
+
+export function expandReactionsFail(id, error) {
+  return {
+    type: REACTIONS_EXPAND_FAIL,
+    id,
+    error,
   };
 }
 
@@ -458,7 +550,8 @@ export const addReaction = (statusId, name, url) => (dispatch, getState) => {
 
   // encodeURIComponent is required for the Keycap Number Sign emoji, see:
   // <https://github.com/glitch-soc/mastodon/pull/1980#issuecomment-1345538932>
-  api(getState).post(`/api/v1/statuses/${statusId}/react/${encodeURIComponent(name)}`).then(() => {
+  api(getState).post(`/api/v1/statuses/${statusId}/react/${encodeURIComponent(name)}`).then((response) => {
+    dispatch(importFetchedStatus(response.data));
     dispatch(addReactionSuccess(statusId, name));
   }).catch(err => {
     if (!alreadyAdded) {
@@ -490,7 +583,8 @@ export const addReactionFail = (statusId, name, error) => ({
 export const removeReaction = (statusId, name) => (dispatch, getState) => {
   dispatch(removeReactionRequest(statusId, name));
 
-  api(getState).post(`/api/v1/statuses/${statusId}/unreact/${encodeURIComponent(name)}`).then(() => {
+  api(getState).post(`/api/v1/statuses/${statusId}/unreact/${encodeURIComponent(name)}`).then((response) => {
+    dispatch(importFetchedStatus(response.data));
     dispatch(removeReactionSuccess(statusId, name));
   }).catch(err => {
     dispatch(removeReactionFail(statusId, name, err));
