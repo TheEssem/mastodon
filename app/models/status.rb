@@ -321,6 +321,10 @@ class Status < ApplicationRecord
     status_stat&.favourites_count || 0
   end
 
+  def reactions_count
+    status_stat&.reactions_count || 0
+  end
+
   def increment_count!(key)
     update_status_stat!(key => public_send(key) + 1)
   end
