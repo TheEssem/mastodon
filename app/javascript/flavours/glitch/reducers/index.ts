@@ -38,6 +38,7 @@ import search from './search';
 import server from './server';
 import settings from './settings';
 import status_lists from './status_lists';
+import status_reactions from './status_reactions';
 import statuses from './statuses';
 import suggestions from './suggestions';
 import tags from './tags';
@@ -86,6 +87,7 @@ const reducers = {
   history,
   tags,
   followed_tags,
+  status_reactions,
   notificationPolicy: notificationPolicyReducer,
   notificationRequests: notificationRequestsReducer,
 };
