@@ -469,16 +469,6 @@ class Status < ApplicationRecord
     end
   end
 
-  private
-
-  def grouped_ordered_status_reactions
-    status_reactions
-      .group(:status_id, :name, :custom_emoji_id)
-      .order(
-        Arel.sql('MIN(created_at)').asc
-      )
-  end
-
   def value_for_reaction_me_column(account_id)
     if account_id.nil?
       'FALSE AS me'
@@ -498,6 +488,16 @@ class Status < ApplicationRecord
         ) AS me
       SQL
     end
+  end
+
+  private
+
+  def grouped_ordered_status_reactions
+    status_reactions
+      .group(:status_id, :name, :custom_emoji_id)
+      .order(
+        Arel.sql('MIN(created_at)').asc
+      )
   end
 
   def update_status_stat!(attrs)
