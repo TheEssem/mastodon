@@ -22,9 +22,14 @@ class Api::V1::Statuses::ReactionsController < Api::V1::Statuses::BaseController
   def destroy
     react = current_account.status_reactions.find_by(status_id: params[:status_id], name: params[:id])
 
+    reactions = StatusReaction.select(
+      [:name, :custom_emoji_id, 'COUNT(*) as count', 'FALSE AS me']
+    ).where(status_id: @status.id)
+
     if react
       @status = react.status
       count = [@status.reactions_count - 1, 0].max
+      reactions = reactions.where.not(id: react.id)
       UnreactWorker.perform_async(current_account.id, @status.id, params[:id])
     else
       @status = Status.find(params[:status_id])
@@ -32,7 +37,9 @@ class Api::V1::Statuses::ReactionsController < Api::V1::Statuses::BaseController
       authorize @status, :show?
     end
 
-    relationships = StatusRelationshipsPresenter.new([@status], current_account.id, reactions_map: { @status.id => false }, attributes_map: { @status.id => { reactions_count: count } })
+    reactions = reactions.group(:status_id, :name, :custom_emoji_id).order(Arel.sql('MIN(created_at)').asc).to_a
+
+    relationships = StatusRelationshipsPresenter.new([@status], current_account.id, reactions_map: { @status.id => reactions }, attributes_map: { @status.id => { reactions_count: count } })
     render json: @status, serializer: REST::StatusSerializer, relationships: relationships
   rescue Mastodon::NotPermittedError
     not_found
@@ -43,7 +50,7 @@ class Api::V1::Statuses::ReactionsController < Api::V1::Statuses::BaseController
   def set_reactions
     @reactions = ordered_reactions.select(
       [:id, :account_id, :name, :custom_emoji_id].tap do |values|
-        values << value_for_reaction_me_column(current_account)
+        values << Status.value_for_reaction_me_column(current_account.id)
       end
     ).to_a_paginated_by_id(
       limit_param(REACTIONS_LIMIT),
@@ -66,27 +73,6 @@ class Api::V1::Statuses::ReactionsController < Api::V1::Statuses::BaseController
 
   def filtered?
     params[:emoji].present?
-  end
-
-  def value_for_reaction_me_column(account)
-    if account.nil?
-      'FALSE AS me'
-    else
-      <<~SQL.squish
-        EXISTS(
-          SELECT 1
-          FROM status_reactions inner_reactions
-          WHERE inner_reactions.account_id = #{account.id}
-            AND inner_reactions.status_id = status_reactions.status_id
-            AND inner_reactions.name = status_reactions.name
-            AND (
-              inner_reactions.custom_emoji_id = status_reactions.custom_emoji_id
-              OR inner_reactions.custom_emoji_id IS NULL
-                AND status_reactions.custom_emoji_id IS NULL
-            )
-        ) AS me
-      SQL
-    end
   end
 
   def insert_pagination_headers
