@@ -17,6 +17,7 @@ class REST::AccountSerializer < ActiveModel::Serializer
 
   attribute :suspended, if: :suspended?
   attribute :silenced, key: :limited, if: :silenced?
+  attribute :remote_limit_reason, if: :remote_limit_reason?
   attribute :noindex, if: :local?
 
   attribute :memorial, if: :memorial?
@@ -180,6 +181,10 @@ class REST::AccountSerializer < ActiveModel::Serializer
       manual: object.feature_policy_as_keys(:manual),
       current_user: object.feature_policy_for_account(current_user&.account),
     }
+  end
+
+  def remote_limit_reason?
+    object.silenced? && object.pretty_acct != object.username
   end
 
   def email_subscriptions
