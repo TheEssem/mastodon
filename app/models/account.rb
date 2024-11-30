@@ -401,6 +401,13 @@ class Account < ApplicationRecord
     @synchronization_uri_prefix ||= "#{uri[URL_PREFIX_RE]}/"
   end
 
+  def remote_limit_reason
+    domain_block = DomainBlock.find_by(domain: domain)
+    return if domain_block.nil? || domain_block.public_comment.empty?
+
+    domain_block.public_comment
+  end
+
   class << self
     def readonly_attributes
       super - %w(statuses_count following_count followers_count)
