@@ -167,7 +167,7 @@ const Prepend: FC<{
 };
 
 const EmptyMessage: FC<{ accountId: string }> = ({ accountId }) => {
-  const { blockedBy, hidden, suspended } = useAccountVisibility(accountId);
+  const { blockedBy, hidden, suspended, limitReason } = useAccountVisibility(accountId);
   if (suspended) {
     return (
       <FormattedMessage
@@ -176,7 +176,7 @@ const EmptyMessage: FC<{ accountId: string }> = ({ accountId }) => {
       />
     );
   } else if (hidden) {
-    return <LimitedAccountHint accountId={accountId} />;
+    return <LimitedAccountHint accountId={accountId} reason={limitReason} />;
   } else if (blockedBy) {
     return (
       <FormattedMessage

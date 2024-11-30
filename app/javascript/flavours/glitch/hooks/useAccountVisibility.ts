@@ -13,10 +13,16 @@ export function useAccountVisibility(accountId?: string | null) {
   const hidden = useAppSelector((state) =>
     accountId ? Boolean(getAccountHidden(state, accountId)) : false,
   );
+  const limitReason = useAppSelector((state) =>
+    accountId
+      ? String(state.accounts.getIn([accountId, 'remote_limit_reason']))
+      : undefined,
+  );
 
   return {
     blockedBy,
     suspended,
     hidden,
+    limitReason,
   };
 }
