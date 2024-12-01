@@ -142,6 +142,8 @@ class Status < ApplicationRecord
 
   scope :not_local_only, -> { where(local_only: [false, nil]) }
 
+  scope :bubble, -> { left_outer_joins(:account).where(accounts: { domain: BubbleDomain.bubble_domains }) }
+
   after_create_commit :trigger_create_webhooks
   after_update_commit :trigger_update_webhooks
 

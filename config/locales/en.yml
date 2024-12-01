@@ -336,6 +336,16 @@ en:
       unpublish: Unpublish
       unpublished_msg: Announcement successfully unpublished!
       updated_msg: Announcement successfully updated!
+    bubble_domains:
+      add: Add to bubble
+      created_msg: Successfully added domain to bubble
+      delete: Delete
+      description_html: The <strong>bubble timeline</strong> is a public timeline consisting of posts from other servers that you select. <strong>It can help users on your server discover interesting content and new people to talk to</strong> without the noise of the full remote and public timelines.
+      domain: Domain
+      new:
+        save: Save
+        title: Add new bubble domain
+      title: Bubble
     critical_update_pending: Critical update pending
     custom_emojis:
       assign_category: Assign category

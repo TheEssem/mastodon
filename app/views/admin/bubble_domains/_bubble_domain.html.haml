@@ -1,0 +1,5 @@
+%tr
+  %td
+    %samp= bubble_domain.domain
+  %td
+    = table_link_to 'close', t('admin.bubble_domains.delete'), admin_bubble_domain_path(bubble_domain), method: :delete, data: { confirm: t('admin.accounts.are_you_sure') }
