@@ -22,6 +22,10 @@ export function CommunityTimeline () {
   return import('../../community_timeline');
 }
 
+export function BubbleTimeline () {
+  return import('../../bubble_timeline');
+}
+
 export function Firehose () {
   return import('../../firehose');
 }
