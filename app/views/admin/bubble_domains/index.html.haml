@@ -1,0 +1,18 @@
+- content_for :page_title do
+  = t('admin.bubble_domains.title')
+
+.simple_form
+  %p.hint= t('admin.bubble_domains.description_html')
+  = link_to t('admin.bubble_domains.add'), new_admin_bubble_domain_path, class: 'block-button'
+
+- unless @bubble_domains.empty?
+  %hr.spacer
+
+  .table-wrapper
+    %table.table
+      %thead
+        %tr
+          %th= t('admin.bubble_domains.domain')
+          %th
+      %tbody
+        = render @bubble_domains
