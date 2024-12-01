@@ -317,6 +317,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_19_093332) do
     t.index ["status_id"], name: "index_bookmarks_on_status_id"
   end
 
+  create_table "bubble_domains", force: :cascade do |t|
+    t.string "domain", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["domain"], name: "index_bubble_domains_on_domain", unique: true
+  end
+
   create_table "bulk_import_rows", force: :cascade do |t|
     t.bigint "bulk_import_id", null: false
     t.jsonb "data"

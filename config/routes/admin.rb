@@ -86,6 +86,8 @@ namespace :admin do
     end
   end
 
+  resources :bubble_domains, only: [:index, :new, :create, :destroy]
+
   resources :instances, only: [:index, :show, :destroy], constraints: { id: %r{[^/]+} }, format: 'html' do
     member do
       post :clear_delivery_errors
