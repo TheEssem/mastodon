@@ -89,10 +89,12 @@ class BatchedRemoveStatusService < BaseService
 
     pipeline.publish('timeline:public', payload)
     pipeline.publish(status.local? ? 'timeline:public:local' : 'timeline:public:remote', payload)
+    pipeline.publish('timeline:public:bubble', payload) if status.bubble?
 
     if status.media_attachments.any?
       pipeline.publish('timeline:public:media', payload)
       pipeline.publish(status.local? ? 'timeline:public:local:media' : 'timeline:public:remote:media', payload)
+      pipeline.publish('timeline:public:bubble:media', payload) if status.bubble?
     end
 
     status.tags.map { |tag| tag.name.downcase }.each do |hashtag|
