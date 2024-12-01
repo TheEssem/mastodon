@@ -1,0 +1,11 @@
+- content_for :page_title do
+  = t('.title')
+
+= simple_form_for @bubble_domain, url: admin_bubble_domains_path do |f|
+  = render 'shared/error_messages', object: @bubble_domain
+
+  .field-group
+    = f.input :domain, as: :string, wrapper: :with_label, label: t('admin.bubble_domains.domain')
+
+  .actions
+    = f.button :button, t('.save'), type: :submit
