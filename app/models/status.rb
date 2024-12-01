@@ -216,6 +216,10 @@ class Status < ApplicationRecord
     attributes['local'] || uri.nil?
   end
 
+  def bubble?
+    BubbleDomain.in_bubble?(account.domain)
+  end
+
   def in_reply_to_local_account?
     reply? && thread&.account&.local?
   end
