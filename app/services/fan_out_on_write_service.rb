@@ -159,10 +159,12 @@ class FanOutOnWriteService < BaseService
 
     redis.publish('timeline:public', anonymous_payload)
     redis.publish(@status.local? ? 'timeline:public:local' : 'timeline:public:remote', anonymous_payload)
+    redis.publish('timeline:public:bubble', anonymous_payload) if @status.bubble?
 
     if @status.with_media?
       redis.publish('timeline:public:media', anonymous_payload)
       redis.publish(@status.local? ? 'timeline:public:local:media' : 'timeline:public:remote:media', anonymous_payload)
+      redis.publish('timeline:public:bubble:media', anonymous_payload) if @status.bubble?
     end
   end
 
