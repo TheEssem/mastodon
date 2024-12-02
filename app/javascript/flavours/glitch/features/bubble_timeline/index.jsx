@@ -142,7 +142,7 @@ class BubbleTimeline extends PureComponent {
         </ColumnHeader>
 
         <StatusListContainer
-          prepend={<DismissableBanner id='bubble_timeline'><FormattedMessage id='dismissable_banner.bubble_timeline' defaultMessage='These are the most recent public posts from people on the social web whose accounts are on other servers selected by {domain}.' values={{ domain }} /></DismissableBanner>}
+          prepend={<DismissableBanner id='bubble_timeline'><FormattedMessage id='dismissable_banner.bubble_timeline' defaultMessage='These are the most recent public posts from people on the fediverse whose accounts are on other servers selected by {domain}.' values={{ domain }} /></DismissableBanner>}
           trackScroll={!pinned}
           scrollKey={`bubble_timeline-${columnId}`}
           timelineId={`bubble${onlyMedia ? ':media' : ''}`}
