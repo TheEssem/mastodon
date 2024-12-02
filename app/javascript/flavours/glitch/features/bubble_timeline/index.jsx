@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet';
 
 import { connect } from 'react-redux';
 
-import PeopleIcon from '@/material-icons/400-24px/group.svg?react';
+import BubbleChartIcon from '@/material-icons/400-24px/bubble_chart.svg?react';
 import { DismissableBanner } from 'flavours/glitch/components/dismissable_banner';
 import { identityContextPropShape, withIdentity } from 'flavours/glitch/identity_context';
 import { domain } from 'flavours/glitch/initial_state';
@@ -128,8 +128,8 @@ class BubbleTimeline extends PureComponent {
     return (
       <Column bindToDocument={!multiColumn} ref={this.setRef} label={intl.formatMessage(messages.title)}>
         <ColumnHeader
-          icon='users'
-          iconComponent={PeopleIcon}
+          icon='bubble'
+          iconComponent={BubbleChartIcon}
           active={hasUnread}
           title={intl.formatMessage(messages.title)}
           onPin={this.handlePin}
