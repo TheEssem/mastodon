@@ -154,7 +154,7 @@ class Account < ApplicationRecord
   scope :by_recent_activity, -> { left_joins(:user, :account_stat).order(coalesced_activity_timestamps.desc).order(id: :desc) }
   scope :by_domain_and_subdomains, ->(domain) { where(domain: Instance.by_domain_and_subdomains(domain).select(:domain)) }
   scope :not_excluded_by_account, ->(account) { where.not(id: account.excluded_from_timeline_account_ids) }
-  scope :not_domain_blocked_by_account, lambda { |account, bubble_only|
+  scope :not_domain_blocked_by_account, lambda { |account, bubble_only = false|
     exclude = arel_table[:domain].not_in(account.excluded_from_timeline_domains)
     if bubble_only
       where(arel_table[:domain].in(BubbleDomain.bubble_domains).and(exclude))
