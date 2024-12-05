@@ -3,6 +3,7 @@ import {
   apiGetExtendedDescription,
   apiGetDomainBlocks,
   apiGetTranslationLanguages,
+  apiGetBubbleDomains,
 } from 'flavours/glitch/api/instance';
 import { createDataLoadingThunk } from 'flavours/glitch/store/typed_functions';
 
@@ -44,5 +45,13 @@ export const fetchDomainBlocks = createDataLoadingThunk(
   () => apiGetDomainBlocks(),
   {
     condition: (_, { getState }) => !getState().server.domainBlocks.isLoading,
+  },
+);
+
+export const fetchBubbleDomains = createDataLoadingThunk(
+  'server/bubble_domains',
+  () => apiGetBubbleDomains(),
+  {
+    condition: (_, { getState }) => !getState().server.bubbleDomains.isLoading,
   },
 );

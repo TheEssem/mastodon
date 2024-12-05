@@ -144,6 +144,7 @@ namespace :api, format: false do
         resources :peers, only: [:index]
         resources :rules, only: [:index]
         resources :domain_blocks, only: [:index]
+        resources :bubble_domains, only: [:index]
         resources :terms_of_service, only: [:index, :show], param: :date
 
         resource :privacy_policy, only: [:show]

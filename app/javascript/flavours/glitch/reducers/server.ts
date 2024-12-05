@@ -5,6 +5,7 @@ import {
   fetchServerTranslationLanguages,
   fetchExtendedDescription,
   fetchDomainBlocks,
+  fetchBubbleDomains,
 } from 'flavours/glitch/actions/server';
 import type {
   Server,
@@ -38,6 +39,12 @@ interface State {
     isAvailable: boolean;
     items: DomainBlock[];
   };
+
+  bubbleDomains: {
+    isLoading: boolean;
+    isAvailable: boolean;
+    items: string[];
+  };
 }
 
 const initialState: State = {
@@ -57,6 +64,12 @@ const initialState: State = {
   },
 
   domainBlocks: {
+    isLoading: false,
+    isAvailable: true,
+    items: [],
+  },
+
+  bubbleDomains: {
     isLoading: false,
     isAvailable: true,
     items: [],
@@ -123,5 +136,20 @@ export const serverReducer = createReducer(initialState, (builder) => {
   builder.addCase(fetchDomainBlocks.rejected, (state) => {
     state.domainBlocks.isLoading = false;
     state.domainBlocks.isAvailable = false;
+  });
+
+  builder.addCase(fetchBubbleDomains.pending, (state) => {
+    state.bubbleDomains.isLoading = true;
+  });
+
+  builder.addCase(fetchBubbleDomains.fulfilled, (state, action) => {
+    state.bubbleDomains.items = action.payload;
+    state.bubbleDomains.isLoading = false;
+    state.bubbleDomains.isAvailable = true;
+  });
+
+  builder.addCase(fetchBubbleDomains.rejected, (state) => {
+    state.bubbleDomains.isLoading = false;
+    state.bubbleDomains.isAvailable = false;
   });
 });
