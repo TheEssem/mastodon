@@ -1,4 +1,6 @@
 {
+  "about.bubble.preamble": "This server provides a \"bubble timeline\", which displays content from these other servers in the fediverse that have been chosen by the admins of this server.",
+  "about.bubble.title": "Bubble servers",
   "about.fork_disclaimer": "Glitch-soc is free open source software forked from Mastodon.",
   "account.disclaimer_full": "Information below may reflect the user's profile incompletely.",
   "account.follows": "Follows",

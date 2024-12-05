@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { domain } from 'flavours/glitch/initial_state';
 
 import { injectIntl } from '@/flavours/glitch/components/intl';
-import { fetchServer, fetchExtendedDescription, fetchDomainBlocks  } from 'flavours/glitch/actions/server';
+import { fetchServer, fetchExtendedDescription, fetchDomainBlocks, fetchBubbleDomains  } from 'flavours/glitch/actions/server';
 import { Account } from 'flavours/glitch/components/account';
 import { Column } from '@/flavours/glitch/components/column';
 import { NavigationFocusTarget } from 'flavours/glitch/components/navigation_focus_target';
@@ -26,6 +26,7 @@ import { getColumnSkipLinkId } from '../ui/components/skip_links';
 const messages = defineMessages({
   title: { id: 'column.about', defaultMessage: 'About' },
   blocks: { id: 'about.blocks', defaultMessage: 'Moderated servers' },
+  bubble: { id: 'about.bubble.title', defaultMessage: 'Bubble servers' },
   silenced: { id: 'about.domain_blocks.silenced.title', defaultMessage: 'Limited' },
   silencedExplanation: { id: 'about.domain_blocks.silenced.explanation', defaultMessage: 'You will generally not see profiles and content from this server, unless you explicitly look it up or opt into it by following.' },
   suspended: { id: 'about.domain_blocks.suspended.title', defaultMessage: 'Suspended' },
@@ -49,6 +50,7 @@ const mapStateToProps = state => ({
   locale: state.getIn(['meta', 'locale']),
   extendedDescription: state.server.extendedDescription,
   domainBlocks: state.server.domainBlocks,
+  bubbleDomains: state.server.bubbleDomains,
 });
 
 class About extends PureComponent {
@@ -58,6 +60,11 @@ class About extends PureComponent {
     locale: ImmutablePropTypes.string,
     extendedDescription: ImmutablePropTypes.map,
     domainBlocks: ImmutablePropTypes.contains({
+      isLoading: PropTypes.bool,
+      isAvailable: PropTypes.bool,
+      items: ImmutablePropTypes.list,
+    }),
+    bubbleDomains: ImmutablePropTypes.contains({
       isLoading: PropTypes.bool,
       isAvailable: PropTypes.bool,
       items: ImmutablePropTypes.list,
@@ -78,8 +85,13 @@ class About extends PureComponent {
     dispatch(fetchDomainBlocks());
   };
 
+  handleBubbleDomainsOpen = () => {
+    const { dispatch } = this.props;
+    dispatch(fetchBubbleDomains());
+  };
+
   render () {
-    const { multiColumn, intl, server, extendedDescription, domainBlocks, locale } = this.props;
+    const { multiColumn, intl, server, extendedDescription, domainBlocks, bubbleDomains, locale } = this.props;
     const isLoading = server.isLoading;
 
     return (
@@ -138,6 +150,28 @@ class About extends PureComponent {
           </Section>
 
           <RulesSection />
+
+          <Section title={intl.formatMessage(messages.bubble)} onOpen={this.handleBubbleDomainsOpen}>
+            {bubbleDomains.isLoading ? (
+              <Skeleton width='100%' />
+            ) : (bubbleDomains.isAvailable ? (
+              <>
+                <p><FormattedMessage id='about.bubble.preamble' defaultMessage='This server provides a "bubble timeline", which displays content from these other servers in the fediverse that have been chosen by the admins of this server.' /></p>
+
+                {bubbleDomains.items.length > 0 && (
+                  <div className='about__bubble-domains'>
+                    {bubbleDomains.items.map(domain => (
+                      <div className='about__bubble-domains__domain' key={domain}>
+                        <h6 className='about__bubble-domains__domain__header'>{domain}</h6>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              <p><FormattedMessage id='about.not_available' defaultMessage='This information has not been made available on this server.' /></p>
+            ))}
+          </Section>
 
           <Section title={intl.formatMessage(messages.blocks)} onOpen={this.handleDomainBlocksOpen}>
             {domainBlocks.isLoading ? (
