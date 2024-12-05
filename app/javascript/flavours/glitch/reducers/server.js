@@ -13,6 +13,9 @@ import {
   SERVER_DOMAIN_BLOCKS_FETCH_REQUEST,
   SERVER_DOMAIN_BLOCKS_FETCH_SUCCESS,
   SERVER_DOMAIN_BLOCKS_FETCH_FAIL,
+  SERVER_BUBBLE_DOMAINS_FETCH_REQUEST,
+  SERVER_BUBBLE_DOMAINS_FETCH_SUCCESS,
+  SERVER_BUBBLE_DOMAINS_FETCH_FAIL,
 } from 'flavours/glitch/actions/server';
 
 const initialState = ImmutableMap({
@@ -25,6 +28,12 @@ const initialState = ImmutableMap({
   }),
 
   domainBlocks: ImmutableMap({
+    isLoading: false,
+    isAvailable: true,
+    items: ImmutableList(),
+  }),
+
+  bubbleDomains: ImmutableMap({
     isLoading: false,
     isAvailable: true,
     items: ImmutableList(),
@@ -57,6 +66,12 @@ export default function server(state = initialState, action) {
     return state.setIn(['domainBlocks', 'items'], fromJS(action.blocks)).setIn(['domainBlocks', 'isLoading'], false).setIn(['domainBlocks', 'isAvailable'], action.isAvailable);
   case SERVER_DOMAIN_BLOCKS_FETCH_FAIL:
     return state.setIn(['domainBlocks', 'isLoading'], false);
+  case SERVER_BUBBLE_DOMAINS_FETCH_REQUEST:
+    return state.setIn(['bubbleDomains', 'isLoading'], true);
+  case SERVER_BUBBLE_DOMAINS_FETCH_SUCCESS:
+    return state.setIn(['bubbleDomains', 'items'], fromJS(action.domains)).setIn(['bubbleDomains', 'isLoading'], false).setIn(['bubbleDomains', 'isAvailable'], action.isAvailable);
+  case SERVER_BUBBLE_DOMAINS_FETCH_FAIL:
+    return state.setIn(['bubbleDomains', 'isLoading'], false);
   default:
     return state;
   }

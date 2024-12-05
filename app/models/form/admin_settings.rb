@@ -33,6 +33,7 @@ class Form::AdminSettings
     trending_status_cw
     show_domain_blocks
     show_domain_blocks_rationale
+    show_bubble_domains
     allow_referrer_origin
     noindex
     outgoing_spoilers
@@ -100,6 +101,7 @@ class Form::AdminSettings
 
   DESCRIPTION_LIMIT = 200
   DOMAIN_BLOCK_AUDIENCES = %w(disabled users all).freeze
+  BUBBLE_DOMAIN_AUDIENCES = %w(disabled users all).freeze
   REGISTRATION_MODES = %w(open approved none).freeze
   FEED_ACCESS_MODES = %w(public authenticated disabled).freeze
   ALTERNATE_FEED_ACCESS_MODES = %w(public authenticated).freeze
@@ -113,6 +115,7 @@ class Form::AdminSettings
   validates :bootstrap_timeline_accounts, existing_username: { multiple: true }, if: -> { defined?(@bootstrap_timeline_accounts) }
   validates :show_domain_blocks, inclusion: { in: DOMAIN_BLOCK_AUDIENCES }, if: -> { defined?(@show_domain_blocks) }
   validates :show_domain_blocks_rationale, inclusion: { in: DOMAIN_BLOCK_AUDIENCES }, if: -> { defined?(@show_domain_blocks_rationale) }
+  validates :show_bubble_domains, inclusion: { in: BUBBLE_DOMAIN_AUDIENCES }, if: -> { defined?(@show_bubble_domains) }
   validates :local_live_feed_access, inclusion: { in: FEED_ACCESS_MODES }, if: -> { defined?(@local_live_feed_access) }
   validates :remote_live_feed_access, inclusion: { in: FEED_ACCESS_MODES }, if: -> { defined?(@remote_live_feed_access) }
   validates :local_topic_feed_access, inclusion: { in: ALTERNATE_FEED_ACCESS_MODES }, if: -> { defined?(@local_topic_feed_access) }

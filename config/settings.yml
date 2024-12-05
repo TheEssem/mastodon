@@ -34,6 +34,7 @@ defaults: &defaults
   default_content_type: 'text/plain'
   show_domain_blocks: 'disabled'
   show_domain_blocks_rationale: 'disabled'
+  show_bubble_domains: 'users'
   outgoing_spoilers: ''
   require_invite_text: false
   backups_retention_period: 7
