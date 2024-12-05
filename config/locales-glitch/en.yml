@@ -5,6 +5,10 @@ en:
       batch_copy_error: 'An error occurred when copying some of the selected emoji: %{message}'
       batch_error: 'An error occurred: %{message}'
     settings:
+      bubble_domains:
+        all: To everyone
+        disabled: To no one
+        users: To logged-in local users
       captcha_enabled:
         desc_html: This relies on external scripts from hCaptcha, which may be a security and privacy concern. In addition, <strong>this can make the registration process significantly less accessible to some (especially disabled) people</strong>. For these reasons, please consider alternative measures such as approval-based or invite-based registration.
         title: Require new users to solve a CAPTCHA to confirm their account

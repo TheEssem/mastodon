@@ -10625,7 +10625,8 @@ noscript {
     }
   }
 
-  &__domain-blocks {
+  &__domain-blocks,
+  &__bubble-domains {
     margin-top: 30px;
     border: 1px solid var(--background-border-color);
     border-radius: 4px;

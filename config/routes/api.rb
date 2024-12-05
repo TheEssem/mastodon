@@ -129,6 +129,7 @@ namespace :api, format: false do
         resources :peers, only: [:index]
         resources :rules, only: [:index]
         resources :domain_blocks, only: [:index]
+        resources :bubble_domains, only: [:index]
         resource :privacy_policy, only: [:show]
         resource :terms_of_service, only: [:show]
         resource :extended_description, only: [:show]

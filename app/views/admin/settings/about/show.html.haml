@@ -37,6 +37,14 @@
                 item_wrapper_tag: 'li',
                 label_method: ->(value) { t("admin.settings.domain_blocks.#{value}") },
                 wrapper: :with_label
+    .fields-row__column.fields-row__column-6.fields-group
+      = f.input :show_bubble_domains,
+                collection_wrapper_tag: 'ul',
+                collection: %i(disabled users all),
+                include_blank: false,
+                item_wrapper_tag: 'li',
+                label_method: ->(value) { t("admin.settings.bubble_domains.#{value}") },
+                wrapper: :with_label
 
   .fields-group
     = f.input :status_page_url,
