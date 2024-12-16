@@ -478,9 +478,7 @@ export const DetailedStatus: React.FC<{
           <div className='detailed-status__meta__line'>
             {reblogLink}
             {reblogLink && <>·</>}
-            {favouriteLink}
-            ·
-            {reactionLink}
+            {favouriteLink}·{reactionLink}
           </div>
         </div>
       </div>
