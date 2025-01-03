@@ -1,4 +1,7 @@
 {
+  "about.bubble.preamble": "该服务器提供一个“气泡时间轴”，它显示来自这些被该服务器管理员所选择的其他联邦宇宙服务器的内容。",
+  "about.bubble.title": "气泡服务器",
+  "about.chuckya_disclaimer": "Chuckya 是一个免费开源的 Glitch-soc 分叉。",
   "about.fork_disclaimer": "Glitch-soc是从Mastodon派生的自由开源软件。",
   "account.disclaimer_full": "以下信息可能无法完整反映该用户的个人资料。",
   "account.follows": "正在关注",
