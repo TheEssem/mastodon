@@ -1,10 +1,12 @@
-# Chuckya For Baka.Ink
+# Cirno Social
 
-In simple terms, it is a modified version for Baka.Ink.
+In simple terms, it is a Chuckya fork used on Baka.Ink.
 
 Here are some of the changes compared to this version:
 
-- The word limit has been revised to 5,000 words
+- Word limit has been revised to 5,000
+
+Original Chuckya readme is below.
 
 ---
 
