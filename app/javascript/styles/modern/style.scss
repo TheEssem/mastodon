@@ -193,7 +193,7 @@ a:focus-visible,
   .reduce-motion * {
     animation-duration: 0s !important;
   }
-@-moz-keyframes bounceIn {
+  @-moz-keyframes bounceIn {
     0% {
       transform: scale(1.1);
       opacity: 0;
@@ -210,8 +210,8 @@ a:focus-visible,
       transform: scale(1);
       opacity: 1;
     }
-}
-@-webkit-keyframes bounceIn {
+  }
+  @-webkit-keyframes bounceIn {
     0% {
       transform: scale(1.1);
       opacity: 0;
@@ -228,8 +228,8 @@ a:focus-visible,
       transform: scale(1);
       opacity: 1;
     }
-}
-@-o-keyframes bounceIn {
+  }
+  @-o-keyframes bounceIn {
     0% {
       transform: scale(1.1);
       opacity: 0;
@@ -246,8 +246,8 @@ a:focus-visible,
       transform: scale(1);
       opacity: 1;
     }
-}
-@keyframes bounceIn {
+  }
+  @keyframes bounceIn {
     0% {
       transform: scale(1.1);
       opacity: 0;
@@ -264,183 +264,183 @@ a:focus-visible,
       transform: scale(1);
       opacity: 1;
     }
-}
-@-moz-keyframes slideUp {
+  }
+  @-moz-keyframes slideUp {
     from {
       transform: translateY(20px);
     }
-}
-@-webkit-keyframes slideUp {
+  }
+  @-webkit-keyframes slideUp {
     from {
       transform: translateY(20px);
     }
-}
-@-o-keyframes slideUp {
+  }
+  @-o-keyframes slideUp {
     from {
       transform: translateY(20px);
     }
-}
-@keyframes slideUp {
+  }
+  @keyframes slideUp {
     from {
       transform: translateY(20px);
     }
-}
-@-moz-keyframes slideUpFade {
-    from {
-      transform: translateY(20px);
-      filter: opacity(0);
-    }
-}
-@-webkit-keyframes slideUpFade {
+  }
+  @-moz-keyframes slideUpFade {
     from {
       transform: translateY(20px);
       filter: opacity(0);
     }
-}
-@-o-keyframes slideUpFade {
+  }
+  @-webkit-keyframes slideUpFade {
     from {
       transform: translateY(20px);
       filter: opacity(0);
     }
-}
-@keyframes slideUpFade {
+  }
+  @-o-keyframes slideUpFade {
     from {
       transform: translateY(20px);
       filter: opacity(0);
     }
-}
-@-moz-keyframes slideDownFade {
+  }
+  @keyframes slideUpFade {
+    from {
+      transform: translateY(20px);
+      filter: opacity(0);
+    }
+  }
+  @-moz-keyframes slideDownFade {
     from {
       transform: translateY(-20px);
       filter: opacity(0);
     }
-}
-@-webkit-keyframes slideDownFade {
+  }
+  @-webkit-keyframes slideDownFade {
     from {
       transform: translateY(-20px);
       filter: opacity(0);
     }
-}
-@-o-keyframes slideDownFade {
+  }
+  @-o-keyframes slideDownFade {
     from {
       transform: translateY(-20px);
       filter: opacity(0);
     }
-}
-@keyframes slideDownFade {
+  }
+  @keyframes slideDownFade {
     from {
       transform: translateY(-20px);
       filter: opacity(0);
     }
-}
-@-moz-keyframes slideUpBig {
+  }
+  @-moz-keyframes slideUpBig {
     from {
       transform: translateY(50vh);
     }
-}
-@-webkit-keyframes slideUpBig {
+  }
+  @-webkit-keyframes slideUpBig {
     from {
       transform: translateY(50vh);
     }
-}
-@-o-keyframes slideUpBig {
+  }
+  @-o-keyframes slideUpBig {
     from {
       transform: translateY(50vh);
     }
-}
-@keyframes slideUpBig {
+  }
+  @keyframes slideUpBig {
     from {
       transform: translateY(50vh);
     }
-}
-@-moz-keyframes fadeUp {
+  }
+  @-moz-keyframes fadeUp {
     from {
       transform: translateY(10px);
       opacity: 0;
     }
-}
-@-webkit-keyframes fadeUp {
+  }
+  @-webkit-keyframes fadeUp {
     from {
       transform: translateY(10px);
       opacity: 0;
     }
-}
-@-o-keyframes fadeUp {
+  }
+  @-o-keyframes fadeUp {
     from {
       transform: translateY(10px);
       opacity: 0;
     }
-}
-@keyframes fadeUp {
+  }
+  @keyframes fadeUp {
     from {
       transform: translateY(10px);
       opacity: 0;
     }
-}
-@-moz-keyframes scaleIn {
+  }
+  @-moz-keyframes scaleIn {
     from {
       transform: scale(0.98);
       opacity: 0;
     }
-}
-@-webkit-keyframes scaleIn {
+  }
+  @-webkit-keyframes scaleIn {
     from {
       transform: scale(0.98);
       opacity: 0;
     }
-}
-@-o-keyframes scaleIn {
+  }
+  @-o-keyframes scaleIn {
     from {
       transform: scale(0.98);
       opacity: 0;
     }
-}
-@keyframes scaleIn {
+  }
+  @keyframes scaleIn {
     from {
       transform: scale(0.98);
       opacity: 0;
     }
-}
-@-moz-keyframes fadeLeft {
+  }
+  @-moz-keyframes fadeLeft {
     from {
       transform: translateX(20px) opacity(0);
     }
-}
-@-webkit-keyframes fadeLeft {
+  }
+  @-webkit-keyframes fadeLeft {
     from {
       transform: translateX(20px) opacity(0);
     }
-}
-@-o-keyframes fadeLeft {
+  }
+  @-o-keyframes fadeLeft {
     from {
       transform: translateX(20px) opacity(0);
     }
-}
-@keyframes fadeLeft {
+  }
+  @keyframes fadeLeft {
     from {
       transform: translateX(20px) opacity(0);
     }
-}
-@-moz-keyframes rainbow {
+  }
+  @-moz-keyframes rainbow {
     to {
       filter: hue-rotate(360deg);
     }
-}
-@-webkit-keyframes rainbow {
+  }
+  @-webkit-keyframes rainbow {
     to {
       filter: hue-rotate(360deg);
     }
-}
-@-o-keyframes rainbow {
+  }
+  @-o-keyframes rainbow {
     to {
       filter: hue-rotate(360deg);
     }
-}
-@keyframes rainbow {
+  }
+  @keyframes rainbow {
     to {
       filter: hue-rotate(360deg);
     }
-}
+  }
 }
 .columns-area__panels {
   --top: 5px;
@@ -760,7 +760,8 @@ a:focus-visible,
   .layout-single-column .statuses-grid__item .detailed-status,
   .layout-single-column .story,
   .layout-single-column .scrollable :not(.focusable) > .account:not(.account--minimal),
-  .layout-single-column .timeline-hint {
+  .layout-single-column .timeline-hint,
+  .layout-single-column .notification-request {
     margin-inline: 10px;
     max-width: calc(100% - 20px);
   }
@@ -851,6 +852,7 @@ a:focus-visible,
 }
 .column-header__wrapper > :not(.column-header):not(.collapsed) {
   border-top: 2px solid var(--background-color) !important;
+  border: 0;
 }
 .column-header {
   overflow: hidden;
@@ -920,6 +922,9 @@ a:focus-visible,
     flex-direction: column;
     border-radius: var(--radius);
     overflow: hidden;
+  }
+  .tabs-bar__wrapper .column-header__wrapper > div {
+    background: var(--surface-background-color);
   }
   .tabs-bar__wrapper .column-header {
     background: none !important;
@@ -1168,7 +1173,8 @@ a:focus-visible,
 .trends__item,
 .story,
 .scrollable :not(.focusable) > .account:not(.account--minimal),
-.timeline-hint {
+.timeline-hint,
+.notification-request {
   overflow: hidden;
   contain: paint inline-size;
   position: relative;
@@ -1181,7 +1187,8 @@ a:focus-visible,
 .trends__item.focusable,
 .story.focusable,
 .scrollable :not(.focusable) > .account:not(.account--minimal).focusable,
-.timeline-hint.focusable {
+.timeline-hint.focusable,
+.notification-request.focusable {
   background: none;
 }
 @media (pointer: fine) {
@@ -1191,7 +1198,8 @@ a:focus-visible,
   .trends__item::before,
   .story::before,
   .scrollable :not(.focusable) > .account:not(.account--minimal)::before,
-  .timeline-hint::before {
+  .timeline-hint::before,
+  .notification-request::before {
     content: "";
     position: absolute;
     inset: 0px !important;
@@ -1207,13 +1215,15 @@ a:focus-visible,
   .story:hover::before,
   .scrollable :not(.focusable) > .account:not(.account--minimal):hover::before,
   .timeline-hint:hover::before,
+  .notification-request:hover::before,
   .focusable:focus-within::before,
   .entry:focus-within::before,
   .statuses-grid__item .detailed-status:focus-within::before,
   .trends__item:focus-within::before,
   .story:focus-within::before,
   .scrollable :not(.focusable) > .account:not(.account--minimal):focus-within::before,
-  .timeline-hint:focus-within::before {
+  .timeline-hint:focus-within::before,
+  .notification-request:focus-within::before {
     background-color: var(--hover-color);
   }
 }
@@ -1485,10 +1495,8 @@ a:focus-visible,
   margin-bottom: -6px;
   gap: 0;
   margin-inline-start: -8px;
-  pointer-events: none;
 }
 .status__action-bar__button-wrapper {
-  pointer-events: all;
   flex-grow: 1;
   max-width: 55px;
   min-width: max-content;
@@ -1560,9 +1568,6 @@ a:focus-visible,
   pointer-events: none;
 }
 @media (min-width: 890px) {
-  .layout-single-column .item-list > article > div {
-    position: relative;
-  }
   .layout-single-column .item-list > article > div::after {
     inset-inline: calc(var(--radius) + 10px);
   }
@@ -3162,3 +3167,4 @@ a:focus-visible,
 .emoji-picker-dropdown__modifiers {
   top: 16px;
 }
+
