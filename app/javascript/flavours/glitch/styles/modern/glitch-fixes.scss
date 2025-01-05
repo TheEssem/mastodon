@@ -59,35 +59,8 @@ body.app-body.flavour-glitch > #mastodon .collapsed .status__content::after {
 body.app-body.flavour-glitch > #mastodon .collapsed.muted .status__content__text ~ * {
   display: none;
 }
-@media (pointer: coarse) {
-  body.app-body.flavour-glitch > #mastodon .status__info {
-    align-items: center;
-  }
-  body.app-body.flavour-glitch > #mastodon .status__info__icons {
-    height: auto;
-  }
-}
-body.app-body.flavour-glitch > #mastodon .status {
-  isolation: isolate;
-  overflow: hidden;
-}
-body.app-body.flavour-glitch > #mastodon .status__info {
-  pointer-events: none;
-}
-body.app-body.flavour-glitch > #mastodon .status__avatar,
-body.app-body.flavour-glitch > #mastodon .status__info__icons {
-  pointer-events: all;
-}
-body.app-body.flavour-glitch > #mastodon .status > :not(.status__content):not(.status__line) {
-  position: relative;
-  z-index: 2;
-}
-body.app-body.flavour-glitch > #mastodon .status:not(.status-direct) > .status__content {
-  margin-block: -100px !important;
-  padding-block: 100px !important;
-}
-body.app-body.flavour-glitch > #mastodon .full-width {
-  margin-inline: 0 !important;
+body.app-body.flavour-glitch > #mastodon .focusable[tabindex]:not(.notification-ungrouped) .full-width {
+  margin-inline: 0;
 }
 body.app-body.flavour-glitch > #mastodon .media-gallery__item > .media-gallery__preview {
   display: unset;

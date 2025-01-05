@@ -42,7 +42,9 @@ const messages = defineMessages({
   cannot_reblog: { id: 'status.cannot_reblog', defaultMessage: 'This post cannot be boosted' },
   favourite: { id: 'status.favourite', defaultMessage: 'Favorite' },
   react: { id: 'status.react', defaultMessage: 'React' },
+  removeFavourite: { id: 'status.remove_favourite', defaultMessage: 'Remove from favorites' },
   bookmark: { id: 'status.bookmark', defaultMessage: 'Bookmark' },
+  removeBookmark: { id: 'status.remove_bookmark', defaultMessage: 'Remove bookmark' },
   more: { id: 'status.more', defaultMessage: 'More' },
   mute: { id: 'status.mute', defaultMessage: 'Mute @{name}' },
   muteConversation: { id: 'status.mute_conversation', defaultMessage: 'Mute conversation' },
@@ -239,6 +241,9 @@ class ActionBar extends PureComponent {
 
     let reblogTitle, reblogIconComponent;
 
+    const bookmarkTitle = intl.formatMessage(status.get('bookmarked') ? messages.removeBookmark : messages.bookmark);
+    const favouriteTitle = intl.formatMessage(status.get('favourited') ? messages.removeFavourite : messages.favourite);
+
     if (status.get('reblogged')) {
       reblogTitle = intl.formatMessage(messages.cancel_reblog_private);
       reblogIconComponent = publicStatus ? RepeatActiveIcon : RepeatPrivateActiveIcon;
@@ -257,9 +262,9 @@ class ActionBar extends PureComponent {
       <div className='detailed-status__action-bar'>
         <div className='detailed-status__button'><IconButton title={intl.formatMessage(messages.reply)} icon={replyIcon} iconComponent={replyIconComponent} onClick={this.handleReplyClick} /></div>
         <div className='detailed-status__button'><IconButton className={classNames({ reblogPrivate })} disabled={!publicStatus && !reblogPrivate} active={status.get('reblogged')} title={reblogTitle} icon='retweet' iconComponent={reblogIconComponent} onClick={this.handleReblogClick} /></div>
-        <div className='detailed-status__button'><IconButton className='star-icon' animate active={status.get('favourited')} title={intl.formatMessage(messages.favourite)} icon='star' iconComponent={status.get('favourited') ? StarIcon : StarBorderIcon} onClick={this.handleFavouriteClick} /></div>
+        <div className='detailed-status__button'><IconButton className='star-icon' animate active={status.get('favourited')} title={favouriteTitle} icon='star' iconComponent={status.get('favourited') ? StarIcon : StarBorderIcon} onClick={this.handleFavouriteClick} /></div>
         <div className='detailed-status__button'><EmojiPickerDropdown onPickEmoji={this.handleEmojiPick} title={intl.formatMessage(messages.react)} icon={AddReactionIcon} disabled={!canReact} /></div>
-        <div className='detailed-status__button'><IconButton className='bookmark-icon' disabled={!signedIn} active={status.get('bookmarked')} title={intl.formatMessage(messages.bookmark)} icon='bookmark' iconComponent={status.get('bookmarked') ? BookmarkIcon : BookmarkBorderIcon} onClick={this.handleBookmarkClick} /></div>
+        <div className='detailed-status__button'><IconButton className='bookmark-icon' disabled={!signedIn} active={status.get('bookmarked')} title={bookmarkTitle} icon='bookmark' iconComponent={status.get('bookmarked') ? BookmarkIcon : BookmarkBorderIcon} onClick={this.handleBookmarkClick} /></div>
 
         <div className='detailed-status__action-bar-dropdown'>
           <DropdownMenuContainer size={18} icon='ellipsis-h' iconComponent={MoreHorizIcon} items={menu} direction='left' title={intl.formatMessage(messages.more)} />
