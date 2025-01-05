@@ -800,13 +800,13 @@ zh-CN:
           approved: 注册时需要批准
           none: 关闭注册
           open: 开放注册
+        warning_hint: 我们建议使用“注册必须经过批准”，除非你确信你的管理团队能够及时处理骚扰和恶意注册。
       reject_blurhash:
         desc_html: 设置一个模糊哈希去检查 Create Activity 媒体附件，并当找到时拒绝此 Activity。
         title: 拒绝模糊哈希
       reject_pattern:
         desc_html: 设置一个正则表达式去检查 Create Activity 媒体附件，并当找到时拒绝此 Activity。
         title: 拒绝正则表达式
-      warning_hint: 我们建议使用“注册必须经过批准”，除非你确信你的管理团队能够及时处理骚扰和恶意注册。
       security:
         authorized_fetch: 与外站联合时要求身份验证
         authorized_fetch_hint: 要求外站请求通过验证能够使用户级别与服务器级别的封锁更为严格。然而，这将带来额外的性能负担、减少回复触达范围、并可能导致与一些联邦宇宙服务的兼容性问题。此外，这并不能阻止他人针对性地获取公开嘟文与账户。
