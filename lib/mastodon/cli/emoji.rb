@@ -5,6 +5,8 @@ require_relative 'base'
 
 module Mastodon::CLI
   class Emoji < Base
+    include ActionView::Helpers::NumberHelper
+
     option :prefix
     option :suffix
     option :overwrite, type: :boolean
@@ -119,6 +121,53 @@ module Mastodon::CLI
       scope = options[:remote_only] ? CustomEmoji.remote : CustomEmoji
       scope.in_batches.destroy_all
       say('OK', :green)
+    end
+
+    option :shortcode, type: :string
+    option :domain, type: :string
+    option :concurrency, type: :numeric, default: 5, aliases: [:c]
+    option :verbose, type: :boolean, default: false, aliases: [:v]
+    option :dry_run, type: :boolean, default: false
+    option :force, type: :boolean, default: false
+    desc 'refresh', 'Fetch remote emojis'
+    long_desc <<-DESC
+      Re-downloads custom emojis from other servers.
+
+      Use the --domain option to download emojis from a specific domain.
+
+      Use the --shortcode option to download emojis with a specific shortcode,
+      using the shortcode@domain syntax.
+
+      By default, emojis that are believed to be already downloaded will
+      not be re-downloaded. To force re-download of every URL, use --force.
+    DESC
+    def refresh
+      if options[:shortcode]
+        shortcode, domain = options[:shortcode].split('@')
+        emoji = CustomEmoji.where(domain: domain).find_by(shortcode: shortcode)
+
+        fail_with_message 'No such emoji' if emoji.nil?
+
+        scope = CustomEmoji.where(id: emoji.id)
+      elsif options[:domain]
+        scope = CustomEmoji.where(domain: options[:domain])
+      else
+        scope = CustomEmoji.remote
+      end
+
+      processed, aggregate = parallelize_with_progress(scope) do |custom_emoji|
+        next if custom_emoji.image_remote_url.blank? || (!options[:force] && custom_emoji.image_file_name.present?)
+        next if DomainBlock.reject_media?(custom_emoji.domain)
+
+        unless dry_run?
+          custom_emoji.reset_image!
+          custom_emoji.save
+        end
+
+        custom_emoji.image_file_size
+      end
+
+      say("Downloaded #{processed} custom emojis (approx. #{number_to_human_size(aggregate)})#{dry_run_mode_suffix}", :green, true)
     end
 
     private
