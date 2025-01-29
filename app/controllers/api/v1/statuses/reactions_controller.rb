@@ -50,7 +50,7 @@ class Api::V1::Statuses::ReactionsController < Api::V1::Statuses::BaseController
   def set_reactions
     @reactions = ordered_reactions.select(
       [:id, :account_id, :name, :custom_emoji_id].tap do |values|
-        values << value_for_reaction_me_column(current_account.id)
+        values << value_for_reaction_me_column(current_account&.id)
       end
     ).to_a_paginated_by_id(
       limit_param(REACTIONS_LIMIT),
