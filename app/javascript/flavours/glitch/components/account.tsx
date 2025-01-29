@@ -59,7 +59,15 @@ export const Account: React.FC<{
   minimal?: boolean;
   defaultAction?: 'block' | 'mute';
   withBio?: boolean;
-}> = ({ id, size = 46, overlayEmoji = { name: null }, hidden, minimal, defaultAction, withBio }) => {
+}> = ({
+  id,
+  size = 46,
+  overlayEmoji = { name: null },
+  hidden,
+  minimal,
+  defaultAction,
+  withBio,
+}) => {
   const intl = useIntl();
   const account = useAppSelector((state) => state.accounts.get(id));
   const relationship = useAppSelector((state) => state.relationships.get(id));
@@ -182,7 +190,9 @@ export const Account: React.FC<{
   if (!overlayEmoji.name) {
     statusAvatar = <Avatar account={account} size={size} />;
   } else {
-    statusAvatar = <AvatarOverlay account={account} emoji={overlayEmoji} baseSize={size} />;
+    statusAvatar = (
+      <AvatarOverlay account={account} emoji={overlayEmoji} baseSize={size} />
+    );
   }
 
   return (
@@ -196,9 +206,7 @@ export const Account: React.FC<{
           data-hover-card-account={id}
         >
           <div className='account__avatar-wrapper'>
-            {account ? statusAvatar : (
-              <Skeleton width={size} height={size} />
-            )}
+            {account ? statusAvatar : <Skeleton width={size} height={size} />}
           </div>
 
           <div className='account__contents'>

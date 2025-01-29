@@ -52,11 +52,11 @@ class StatusRelationshipsPresenter
       [:status_id, :name, :custom_emoji_id, 'COUNT(*) as count'].tap do |values|
         values << value_for_reaction_me_column(current_account_id)
       end
-    ).where(status_id: status_ids).where(account_id: current_account_id).group(:status_id, :name, :custom_emoji_id).order(Arel.sql('MIN(created_at)').asc).to_a
+    ).where(status_id: status_ids).group(:status_id, :name, :custom_emoji_id).order(Arel.sql('MIN(created_at)').asc).to_a
 
-    reactions.each_with_object({}) do |r, h|
+    @reactions_map = reactions.each_with_object({}) do |r, h|
       h[r.status_id] = [] if h[r.status_id].nil?
-      h[r.status_id].push(r.attributes.except(:status_id))
+      h[r.status_id].push(StatusReactionPresenter.new(name: r.name, custom_emoji: r.custom_emoji, count: r.count, me: r.me))
     end
   end
 
