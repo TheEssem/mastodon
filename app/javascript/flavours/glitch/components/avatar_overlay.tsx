@@ -8,8 +8,8 @@ import { Emoji } from './status_reactions';
 
 interface Props {
   account: Account | undefined; // FIXME: remove `undefined` once we know for sure its always there
-  friend?: Account | undefined; // FIXME: remove `undefined` once we know for sure its always there
-  emoji?: StatusReaction | undefined;
+  friend?: Account;
+  emoji?: StatusReaction;
   size?: number;
   baseSize?: number;
   overlaySize?: number;
