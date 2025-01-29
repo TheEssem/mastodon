@@ -12,13 +12,13 @@ import { debounce } from 'lodash';
 
 import MoodIcon from '@/material-icons/400-24px/mood.svg?react';
 import RefreshIcon from '@/material-icons/400-24px/refresh.svg?react';
+import { Account } from 'flavours/glitch/components/account';
 import { Icon }  from 'flavours/glitch/components/icon';
 
 import { fetchReactions, expandReactions } from '../../actions/interactions';
 import ColumnHeader from '../../components/column_header';
 import { LoadingIndicator } from '../../components/loading_indicator';
 import ScrollableList from '../../components/scrollable_list';
-import AccountContainer from '../../containers/account_container';
 import Column from '../ui/components/column';
 
 const messages = defineMessages({
@@ -105,7 +105,7 @@ class Reactions extends ImmutablePureComponent {
           bindToDocument={!multiColumn}
         >
           {accountIds.map(id =>
-            <AccountContainer key={id} id={id} withNote={false} overlayEmoji={reactionsByAccount.get(id)} />,
+            <Account key={id} id={id} withNote={false} overlayEmoji={reactionsByAccount.get(id)} />,
           )}
         </ScrollableList>
 
