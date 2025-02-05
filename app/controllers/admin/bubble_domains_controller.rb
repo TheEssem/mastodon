@@ -43,7 +43,7 @@ module Admin
     end
 
     def resource_params
-      params.require(:bubble_domain).permit(:domain)
+      params.expect(bubble_domain: [:domain])
     end
   end
 end
