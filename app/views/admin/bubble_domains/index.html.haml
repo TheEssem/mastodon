@@ -3,7 +3,7 @@
 
 .simple_form
   %p.hint= t('admin.bubble_domains.description_html')
-  = link_to t('admin.bubble_domains.add'), new_admin_bubble_domain_path, class: 'block-button'
+  = link_to t('admin.bubble_domains.add'), new_admin_bubble_domain_path, class: 'button button--block'
 
 - unless @bubble_domains.empty?
   %hr.spacer
