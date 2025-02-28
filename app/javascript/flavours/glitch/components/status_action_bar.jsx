@@ -354,7 +354,7 @@ class StatusActionBar extends ImmutablePureComponent {
           <IconButton className='status__action-bar-button star-icon' animate active={status.get('favourited')} title={favouriteTitle} icon='star' iconComponent={status.get('favourited') ? StarIcon : StarBorderIcon} onClick={this.handleFavouriteClick} counter={withCounters ? status.get('favourites_count') : undefined} />
         </div>
         <div className='status__action-bar__button-wrapper'>
-          <EmojiPickerDropdown className='status__action-bar-button react-icon' onPickEmoji={this.handleEmojiPick} title={intl.formatMessage(messages.react)} icon={AddReactionIcon} disabled={!canReact} />
+          <EmojiPickerDropdown className='status__action-bar-button react-icon' onPickEmoji={this.handleEmojiPick} title={intl.formatMessage(messages.react)} icon={AddReactionIcon} disabled={!canReact} counter={withCounters ? status.get('reactions_count') : undefined} />
         </div>
         <div className='status__action-bar__button-wrapper'>
           <IconButton className='status__action-bar-button bookmark-icon' disabled={!signedIn} active={status.get('bookmarked')} title={bookmarkTitle} icon='bookmark' iconComponent={status.get('bookmarked') ? BookmarkIcon : BookmarkBorderIcon} onClick={this.handleBookmarkClick} />

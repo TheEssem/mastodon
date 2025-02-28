@@ -29,7 +29,7 @@ import { Avatar } from '../../../components/avatar';
 import { DisplayName } from '../../../components/display_name';
 import MediaGallery from '../../../components/media_gallery';
 import StatusContent from '../../../components/status_content';
-import StatusReactions from '../../../components/status_reactions';
+import { StatusReactions } from '../../../components/status_reactions';
 import { visibleReactions } from '../../../initial_state';
 import Audio from '../../audio';
 import scheduleIdleTask from '../../ui/util/schedule_idle_task';
@@ -324,6 +324,22 @@ export const DetailedStatus: React.FC<{
     </Link>
   );
 
+  const reactionLink = (
+    <Link
+      to={`/@${status.getIn(['account', 'acct'])}/${status.get('id')}/reactions`}
+      className='detailed-status__link'
+    >
+      <span className='detailed-status__reactions'>
+        <AnimatedNumber value={status.get('reactions_count')} />
+      </span>
+      <FormattedMessage
+        id='status.reactions'
+        defaultMessage='{count, plural, one {reaction} other {reactions}}'
+        values={{ count: status.get('reactions_count') }}
+      />
+    </Link>
+  );
+
   const { statusContentProps, hashtagBar } = getHashtagBarForStatus(
     status as StatusLike,
   );
@@ -435,7 +451,7 @@ export const DetailedStatus: React.FC<{
           <div className='detailed-status__meta__line'>
             {reblogLink}
             {reblogLink && <>·</>}
-            {favouriteLink}
+            {favouriteLink}·{reactionLink}
           </div>
         </div>
       </div>
