@@ -6,8 +6,11 @@ class AddReactionCountsToStatusStat < ActiveRecord::Migration[8.0]
   def up
     Status.includes(:status_stat).find_each do |status|
       status.status_stat.tap do |status_stat|
-        status_stat.reactions_count = status.status_reactions.count
-        status_stat.save if status_stat.changed?
+        reaction_count = status.status_reactions.count
+        if reaction_count.positive?
+          status_stat.reactions_count = reaction_count
+          status_stat.save
+        end
       end
     end
   end
