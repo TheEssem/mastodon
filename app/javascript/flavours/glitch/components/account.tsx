@@ -190,9 +190,7 @@ export const Account: React.FC<{
   if (!overlayEmoji.name) {
     statusAvatar = <Avatar account={account} size={size} />;
   } else {
-    statusAvatar = (
-      <AvatarOverlay account={account} emoji={overlayEmoji} baseSize={size} />
-    );
+    statusAvatar = <AvatarOverlay account={account} emoji={overlayEmoji} />;
   }
 
   return (
