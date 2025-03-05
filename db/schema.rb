@@ -1202,6 +1202,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_112324) do
     t.datetime "created_at", precision: nil, null: false
     t.bigint "favourites_count", default: 0, null: false
     t.bigint "quotes_count", default: 0, null: false
+    t.bigint "reactions_count", default: 0, null: false
     t.bigint "reblogs_count", default: 0, null: false
     t.bigint "replies_count", default: 0, null: false
     t.bigint "status_id", null: false
