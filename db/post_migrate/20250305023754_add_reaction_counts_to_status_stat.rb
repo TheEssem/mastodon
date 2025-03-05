@@ -4,7 +4,7 @@ class AddReactionCountsToStatusStat < ActiveRecord::Migration[8.0]
   disable_ddl_transaction!
 
   def up
-    Status.includes(:status_stat).find_each do |status|
+    Status.unscoped.includes(:status_stat).find_each do |status|
       status.status_stat.tap do |status_stat|
         reaction_count = status.status_reactions.count
         if reaction_count.positive?
