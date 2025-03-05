@@ -86,6 +86,10 @@ export function Favourites () {
   return import(/* webpackChunkName: "flavours/glitch/async/favourites" */'../../favourites');
 }
 
+export function Reactions () {
+  return import(/* webpackChunkName: "flavours/glitch/async/reactions" */'../../reactions');
+}
+
 export function FollowRequests () {
   return import(/* webpackChunkName: "flavours/glitch/async/follow_requests" */'../../follow_requests');
 }
