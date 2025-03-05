@@ -50,34 +50,13 @@ class StatusRelationshipsPresenter
   def build_reactions_map(status_ids, current_account_id)
     reactions = StatusReaction.select(
       [:status_id, :name, :custom_emoji_id, 'COUNT(*) as count'].tap do |values|
-        values << value_for_reaction_me_column(current_account_id)
+        values << StatusReaction.value_for_reaction_me_column(current_account_id)
       end
     ).where(status_id: status_ids).group(:status_id, :name, :custom_emoji_id).order(Arel.sql('MIN(created_at)').asc).to_a
 
     @reactions_map = reactions.each_with_object({}) do |r, h|
       h[r.status_id] = [] if h[r.status_id].nil?
       h[r.status_id].push(StatusReactionPresenter.new(name: r.name, custom_emoji: r.custom_emoji, count: r.count, me: r.me))
-    end
-  end
-
-  def value_for_reaction_me_column(account_id)
-    if account_id.nil?
-      'FALSE AS me'
-    else
-      <<~SQL.squish
-        EXISTS(
-          SELECT 1
-          FROM status_reactions inner_reactions
-          WHERE inner_reactions.account_id = #{account_id}
-            AND inner_reactions.status_id = status_reactions.status_id
-            AND inner_reactions.name = status_reactions.name
-            AND (
-              inner_reactions.custom_emoji_id = status_reactions.custom_emoji_id
-              OR inner_reactions.custom_emoji_id IS NULL
-                AND status_reactions.custom_emoji_id IS NULL
-            )
-        ) AS me
-      SQL
     end
   end
 end
