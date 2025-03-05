@@ -14,7 +14,7 @@ import { assetHost } from '../utils/config';
 
 import { AnimatedNumber } from './animated_number';
 
-const StatusReactions = ({
+export const StatusReactions = ({
   statusId,
   reactions,
   numVisible,
@@ -135,7 +135,7 @@ class Reaction extends ImmutablePureComponent {
 
 }
 
-class Emoji extends PureComponent {
+export class Emoji extends PureComponent {
 
   static propTypes = {
     emoji: PropTypes.string.isRequired,
@@ -177,5 +177,3 @@ class Emoji extends PureComponent {
   }
 
 }
-
-export default StatusReactions;
