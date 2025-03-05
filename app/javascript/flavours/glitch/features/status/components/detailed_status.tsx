@@ -440,6 +440,22 @@ export const DetailedStatus: React.FC<{
     </Link>
   );
 
+  const reactionLink = (
+    <Link
+      to={`/@${status.getIn(['account', 'acct'])}/${status.get('id')}/reactions`}
+      className='detailed-status__link'
+    >
+      <span className='detailed-status__reactions'>
+        <AnimatedNumber value={status.get('reactions_count')} />
+      </span>
+      <FormattedMessage
+        id='status.reactions'
+        defaultMessage='{count, plural, one {reaction} other {reactions}}'
+        values={{ count: status.get('reactions_count') }}
+      />
+    </Link>
+  );
+
   const { statusContentProps, hashtagBar } = getHashtagBarForStatus(
     status as StatusLike,
   );
@@ -568,7 +584,7 @@ export const DetailedStatus: React.FC<{
             {reblogLink && <>·</>}
             {quotesLink}
             {quotesLink && <>·</>}
-            {favouriteLink}
+            {favouriteLink}·{reactionLink}
           </div>
         </div>
       </div>
