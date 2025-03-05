@@ -8,7 +8,7 @@ class REST::StatusSerializer < ActiveModel::Serializer
   attributes :id, :created_at, :in_reply_to_id, :in_reply_to_account_id,
              :sensitive, :spoiler_text, :visibility, :language,
              :uri, :url, :replies_count, :reblogs_count,
-             :favourites_count, :edited_at
+             :favourites_count, :reactions_count, :edited_at
 
   attribute :favourited, if: :current_user?
   attribute :reblogged, if: :current_user?
@@ -30,7 +30,7 @@ class REST::StatusSerializer < ActiveModel::Serializer
   has_many :ordered_mentions, key: :mentions
   has_many :tags
   has_many :emojis, serializer: REST::CustomEmojiSerializer
-  has_many :reactions, serializer: REST::ReactionSerializer
+  has_many :reactions, serializer: REST::StatusReactionSerializer
 
   has_one :quote, key: :quote, serializer: REST::QuoteSerializer
   has_one :preview_card, key: :card, serializer: REST::PreviewCardSerializer
@@ -97,6 +97,10 @@ class REST::StatusSerializer < ActiveModel::Serializer
     object.untrusted_favourites_count || relationships&.attributes_map&.dig(object.id, :favourites_count) || object.favourites_count
   end
 
+  def reactions_count
+    relationships&.attributes_map&.dig(object.id, :reactions_count) || object.reactions_count
+  end
+
   def favourited
     if relationships
       relationships.favourites_map[object.id] || false
@@ -161,7 +165,11 @@ class REST::StatusSerializer < ActiveModel::Serializer
   end
 
   def reactions
-    object.reactions(current_user&.account&.id)
+    if relationships
+      relationships.reactions_map[object.id] || []
+    else
+      object.reactions(current_user&.account&.id)
+    end
   end
 
   private

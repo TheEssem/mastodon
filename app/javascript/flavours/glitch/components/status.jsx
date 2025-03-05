@@ -34,7 +34,7 @@ import StatusActionBar from './status_action_bar';
 import StatusContent from './status_content';
 import StatusIcons from './status_icons';
 import StatusPrepend from './status_prepend';
-import StatusReactions from './status_reactions';
+import { StatusReactions } from './status_reactions';
 
 const domParser = new DOMParser();
 

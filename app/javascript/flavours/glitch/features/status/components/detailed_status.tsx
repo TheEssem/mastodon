@@ -27,7 +27,7 @@ import { MentionsPlaceholder } from 'flavours/glitch/components/mentions_placeho
 import { Permalink } from 'flavours/glitch/components/permalink';
 import { PictureInPicturePlaceholder } from 'flavours/glitch/components/picture_in_picture_placeholder';
 import StatusContent from 'flavours/glitch/components/status_content';
-import StatusReactions from 'flavours/glitch/components/status_reactions';
+import { StatusReactions } from 'flavours/glitch/components/status_reactions';
 import { VisibilityIcon } from 'flavours/glitch/components/visibility_icon';
 import { Audio } from 'flavours/glitch/features/audio';
 import scheduleIdleTask from 'flavours/glitch/features/ui/util/schedule_idle_task';
@@ -346,6 +346,22 @@ export const DetailedStatus: React.FC<{
     </Link>
   );
 
+  const reactionLink = (
+    <Link
+      to={`/@${status.getIn(['account', 'acct'])}/${status.get('id')}/reactions`}
+      className='detailed-status__link'
+    >
+      <span className='detailed-status__reactions'>
+        <AnimatedNumber value={status.get('reactions_count')} />
+      </span>
+      <FormattedMessage
+        id='status.reactions'
+        defaultMessage='{count, plural, one {reaction} other {reactions}}'
+        values={{ count: status.get('reactions_count') }}
+      />
+    </Link>
+  );
+
   const { statusContentProps, hashtagBar } = getHashtagBarForStatus(
     status as StatusLike,
   );
@@ -470,7 +486,7 @@ export const DetailedStatus: React.FC<{
           <div className='detailed-status__meta__line'>
             {reblogLink}
             {reblogLink && <>·</>}
-            {favouriteLink}
+            {favouriteLink}·{reactionLink}
           </div>
         </div>
       </div>
