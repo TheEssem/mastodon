@@ -65,7 +65,8 @@ class Api::V1::Statuses::ReactionsController < Api::V1::Statuses::BaseController
   def filtered_reactions
     initial_reactions = StatusReaction.where(status: @status)
     if filtered?
-      initial_reactions.where(name: params[:emoji])
+      emoji, domain = params[:emoji].split('@')
+      initial_reactions.where(name: emoji).left_outer_joins(:custom_emoji).where(custom_emoji: { domain: domain })
     else
       initial_reactions
     end
