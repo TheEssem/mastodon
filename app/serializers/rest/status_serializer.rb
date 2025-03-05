@@ -176,7 +176,7 @@ class REST::StatusSerializer < ActiveModel::Serializer
   end
 
   def reactions
-    if relationships
+    if relationships && current_user?
       relationships.reactions_map[object.id] || []
     else
       object.reactions(current_user&.account&.id)
