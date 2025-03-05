@@ -20,6 +20,7 @@ import { openModal } from 'flavours/glitch/actions/modal';
 import { initMuteModal } from 'flavours/glitch/actions/mutes';
 import { apiFollowAccount } from 'flavours/glitch/api/accounts';
 import { Avatar } from 'flavours/glitch/components/avatar';
+import { AvatarOverlay } from 'flavours/glitch/components/avatar_overlay';
 import { Button } from 'flavours/glitch/components/button';
 import { FollowersCounter } from 'flavours/glitch/components/counters';
 import { DisplayName } from 'flavours/glitch/components/display_name';
@@ -32,6 +33,7 @@ import { VerifiedBadge } from 'flavours/glitch/components/verified_badge';
 import { useIdentity } from 'flavours/glitch/identity_context';
 import { me } from 'flavours/glitch/initial_state';
 import type { MenuItem } from 'flavours/glitch/models/dropdown_menu';
+import type { StatusReaction } from 'flavours/glitch/models/reaction';
 import { useAppSelector, useAppDispatch } from 'flavours/glitch/store';
 
 import { Permalink } from '../permalink';
@@ -68,6 +70,7 @@ const messages = defineMessages({
 
 interface AccountProps {
   size?: number;
+  overlayEmoji?: StatusReaction;
   id: string;
   hidden?: boolean;
   minimal?: boolean;
@@ -81,6 +84,7 @@ interface AccountProps {
 export const Account: React.FC<AccountProps> = ({
   id,
   size = 46,
+  overlayEmoji = { name: null },
   hidden,
   minimal,
   defaultAction,
@@ -287,6 +291,13 @@ export const Account: React.FC<AccountProps> = ({
     verification = <VerifiedBadge link={firstVerifiedField.value} />;
   }
 
+  let statusAvatar;
+  if (!overlayEmoji.name) {
+    statusAvatar = <Avatar account={account} size={size} />;
+  } else {
+    statusAvatar = <AvatarOverlay account={account} emoji={overlayEmoji} />;
+  }
+
   return (
     <div
       className={classNames('account', {
@@ -307,11 +318,7 @@ export const Account: React.FC<AccountProps> = ({
             data-hover-card-account={id}
           >
             <div className='account__avatar-wrapper'>
-              {account ? (
-                <Avatar account={account} size={size} />
-              ) : (
-                <Skeleton width={size} height={size} />
-              )}
+              {account ? statusAvatar : <Skeleton width={size} height={size} />}
             </div>
 
             <div className='account__contents'>
