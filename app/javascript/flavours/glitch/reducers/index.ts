@@ -36,6 +36,7 @@ import server from './server';
 import settings from './settings';
 import { sliceReducers } from './slices';
 import status_lists from './status_lists';
+import status_reactions from './status_reactions';
 import statuses from './statuses';
 import { suggestionsReducer } from './suggestions';
 import { followedTagsReducer } from './tags';
@@ -80,6 +81,7 @@ const reducers = {
   markers: markersReducer,
   picture_in_picture: pictureInPictureReducer,
   history,
+  status_reactions,
   notificationPolicy: notificationPolicyReducer,
   notificationRequests: notificationRequestsReducer,
   navigation: navigationReducer,

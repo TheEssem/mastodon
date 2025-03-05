@@ -103,6 +103,10 @@ export function Favourites () {
   return import('../../favourites');
 }
 
+export function Reactions () {
+  return import(/* webpackChunkName: "flavours/glitch/async/reactions" */'../../reactions');
+}
+
 export function Quotes () {
   return import('../../quotes');
 }
