@@ -582,11 +582,17 @@ body > [data-popper-placement] {
 }
 
 .autosuggest-account .account__avatar,
+.account__emoji,
 .autosuggest-emoji img {
   display: block;
   width: 24px;
   height: 24px;
   flex: 0 0 auto;
+
+  img {
+    height: 100%;
+    width: 100%;
+  }
 }
 
 .compose-form {
