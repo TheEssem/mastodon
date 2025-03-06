@@ -177,3 +177,30 @@ export class Emoji extends PureComponent {
   }
 
 }
+
+export class HoverableEmoji extends React.PureComponent {
+
+  static propTypes = {
+    emoji: PropTypes.string.isRequired,
+    url: PropTypes.string,
+    staticUrl: PropTypes.string,
+  };
+
+  state = {
+    hovered: false,
+  };
+
+  handleMouseEnter = () => this.setState({ hovered: true });
+  handleMouseLeave = () => this.setState({ hovered: false });
+
+  render() {
+    const { emoji, url, staticUrl } = this.props;
+
+    return (<Emoji
+      hovered={this.state.hovered}
+      emoji={emoji}
+      url={url}
+      staticUrl={staticUrl}
+    />);
+  }
+}

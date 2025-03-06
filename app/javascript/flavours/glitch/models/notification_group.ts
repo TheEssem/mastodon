@@ -8,6 +8,7 @@ import type {
   NotificationType,
   NotificationWithStatusType,
 } from 'flavours/glitch/api_types/notifications';
+import type { ApiStatusReactionJSON } from 'flavours/glitch/api_types/reaction';
 import type { ApiReportJSON } from 'flavours/glitch/api_types/reports';
 
 import type { ApiCollectionJSON } from '../api_types/collections';
@@ -39,7 +40,6 @@ interface BaseNotification<
 
 export type NotificationGroupFavourite =
   BaseNotificationWithStatus<'favourite'>;
-export type NotificationGroupReaction = BaseNotificationWithStatus<'reaction'>;
 export type NotificationGroupReblog = BaseNotificationWithStatus<'reblog'>;
 export type NotificationGroupStatus = BaseNotificationWithStatus<'status'>;
 export type NotificationGroupMention = BaseNotificationWithStatus<'mention'>;
@@ -99,6 +99,14 @@ export interface NotificationGroupCollectionUpdate extends BaseNotification<'col
   collection: Collection;
 }
 
+type StatusReaction = Omit<Omit<ApiStatusReactionJSON, 'account'>, 'count'>;
+
+export interface NotificationGroupReaction
+  extends BaseNotification<'reaction'> {
+  statusId: string | undefined;
+  reaction: StatusReaction | undefined;
+}
+
 export type NotificationGroup =
   | NotificationGroupFavourite
   | NotificationGroupReaction
@@ -156,7 +164,6 @@ export function createNotificationGroupFromJSON(
 
   switch (group.type) {
     case 'favourite':
-    case 'reaction':
     case 'reblog':
     case 'status':
     case 'mention':
@@ -170,6 +177,20 @@ export function createNotificationGroupFromJSON(
         sampleAccountIds,
         partial: false,
         ...groupWithoutStatus,
+      };
+    }
+    case 'reaction': {
+      const {
+        status_id: statusId,
+        reaction,
+        ...groupWithoutStatusOrReaction
+      } = group;
+      return {
+        statusId: statusId ?? undefined,
+        reaction,
+        sampleAccountIds,
+        partial: false,
+        ...groupWithoutStatusOrReaction,
       };
     }
     case 'admin.report': {
@@ -231,7 +252,6 @@ export function createNotificationGroupFromNotificationJSON(
 
   switch (notification.type) {
     case 'favourite':
-    case 'reaction':
     case 'reblog':
     case 'status':
     case 'mention':
@@ -243,6 +263,13 @@ export function createNotificationGroupFromNotificationJSON(
         ...group,
         type: notification.type,
         statusId: notification.status?.id,
+      };
+    case 'reaction':
+      return {
+        ...group,
+        type: notification.type,
+        statusId: notification.status?.id,
+        reaction: notification.reaction,
       };
     case 'admin.report':
       return {
