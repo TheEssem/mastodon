@@ -14,6 +14,7 @@ class REST::NotificationGroupSerializer < ActiveModel::Serializer
   belongs_to :account_relationship_severance_event, key: :event, if: :relationship_severance_event?, serializer: REST::AccountRelationshipSeveranceEventSerializer
   belongs_to :account_warning, key: :moderation_warning, if: :moderation_warning_event?, serializer: REST::AccountWarningSerializer
   belongs_to :generated_annual_report, key: :annual_report, if: :annual_report_event?, serializer: REST::AnnualReportEventSerializer
+  belongs_to :status_reaction, key: :reaction, if: :single_reaction?, serializer: REST::StatusReactionSerializer
 
   def sample_account_ids
     object.sample_accounts.pluck(:id).map(&:to_s)
@@ -29,6 +30,10 @@ class REST::NotificationGroupSerializer < ActiveModel::Serializer
 
   def report_type?
     object.type == :'admin.report'
+  end
+
+  def single_reaction?
+    object.type == :reaction && object.notifications_count == 1
   end
 
   def relationship_severance_event?
