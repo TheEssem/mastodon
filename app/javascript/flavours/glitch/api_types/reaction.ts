@@ -1,3 +1,5 @@
+import type { ApiAccountJSON } from './accounts';
+
 export interface ApiStatusReactionJSON {
   id?: string;
   name: string;
@@ -5,4 +7,5 @@ export interface ApiStatusReactionJSON {
   url?: string | undefined;
   count?: number;
   me?: boolean;
+  account?: ApiAccountJSON;
 }
