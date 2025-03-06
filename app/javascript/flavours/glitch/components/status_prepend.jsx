@@ -70,8 +70,11 @@ export default class StatusPrepend extends PureComponent {
       return (
         <FormattedMessage
           id='notification.reaction'
-          defaultMessage='{name} reacted to your status'
-          values={{ name: link }}
+          defaultMessage='{name} reacted to your post <e>with</e>'
+          values={{
+            name: link,
+            e: () => ''
+          }}
         />
       );
     case 'reblog':
