@@ -11,7 +11,7 @@ class Api::V1::Statuses::ReactionsController < Api::V1::Statuses::BaseController
 
   def index
     cache_if_unauthenticated!
-    render json: @reactions, each_serializer: REST::StatusReactionSerializer
+    render json: @reactions, each_serializer: REST::StatusReactionSerializer, include_account: true, exclude_count: true
   end
 
   def create
