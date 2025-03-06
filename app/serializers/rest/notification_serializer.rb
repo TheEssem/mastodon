@@ -11,6 +11,7 @@ class REST::NotificationSerializer < ActiveModel::Serializer
   belongs_to :report, if: :report_type?, serializer: REST::ReportSerializer
   belongs_to :account_relationship_severance_event, key: :event, if: :relationship_severance_event?, serializer: REST::AccountRelationshipSeveranceEventSerializer
   belongs_to :account_warning, key: :moderation_warning, if: :moderation_warning_event?, serializer: REST::AccountWarningSerializer
+  belongs_to :status_reaction, key: :reaction, if: :reaction_type?, serializer: REST::StatusReactionSerializer
 
   def id
     object.id.to_s
@@ -26,6 +27,10 @@ class REST::NotificationSerializer < ActiveModel::Serializer
 
   def report_type?
     object.type == :'admin.report'
+  end
+
+  def reaction_type?
+    object.type == :reaction
   end
 
   def relationship_severance_event?
