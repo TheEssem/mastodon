@@ -24,6 +24,8 @@ class StatusReaction < ApplicationRecord
   validates :name, presence: true
   validates_with StatusReactionValidator
 
+  scope :not_by_excluded_account, ->(account) { where.not(account_id: account.excluded_from_timeline_account_ids) }
+
   before_validation do
     self.status = status.reblog if status&.reblog?
   end
