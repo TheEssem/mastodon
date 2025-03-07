@@ -6,12 +6,12 @@ class Api::V1::Statuses::ReactionsController < Api::V1::Statuses::BaseController
   before_action -> { doorkeeper_authorize! :write, :'write:favourites' }, only: [:create, :destroy]
   before_action -> { authorize_if_got_token! :read, :'read:accounts' }, only: [:index]
   before_action :require_user!, only: [:create, :destroy]
-  before_action :set_reactions, only: [:index]
   skip_before_action :set_status, only: [:destroy]
   after_action :insert_pagination_headers, only: [:index]
 
   def index
     cache_if_unauthenticated!
+    @reactions = set_reactions
     render json: @reactions, each_serializer: REST::StatusReactionSerializer, include_account: true, exclude_count: true
   end
 
@@ -52,7 +52,7 @@ class Api::V1::Statuses::ReactionsController < Api::V1::Statuses::BaseController
   end
 
   def set_reactions
-    @reactions = ordered_reactions.select(
+    ordered_reactions.select(
       [:id, :account_id, :name, :custom_emoji_id].tap do |values|
         values << StatusReaction.value_for_reaction_me_column(current_account&.id)
       end
@@ -68,6 +68,7 @@ class Api::V1::Statuses::ReactionsController < Api::V1::Statuses::BaseController
 
   def filtered_reactions
     initial_reactions = StatusReaction.where(status: @status)
+    initial_reactions = initial_reactions.not_by_excluded_account(current_account) unless current_account.nil?
     if filtered?
       emoji, domain = params[:emoji].split('@')
       initial_reactions.where(name: emoji).left_outer_joins(:custom_emoji).where(custom_emoji: { domain: domain })
