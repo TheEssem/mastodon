@@ -167,7 +167,12 @@ export const AccountGallery: React.FC<{
         />
       );
     } else if (hidden) {
-      emptyMessage = <LimitedAccountHint accountId={accountId} />;
+      emptyMessage = (
+        <LimitedAccountHint
+          accountId={accountId}
+          reason={account?.remote_limit_reason}
+        />
+      );
     } else if (blockedBy) {
       emptyMessage = (
         <FormattedMessage
