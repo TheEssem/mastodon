@@ -45,7 +45,7 @@ class Reactions extends ImmutablePureComponent {
   };
 
   UNSAFE_componentWillMount () {
-    if (!this.props.accountIds) {
+    if (!this.props.reactions) {
       this.props.dispatch(fetchReactions(this.props.params.statusId));
     }
   }
