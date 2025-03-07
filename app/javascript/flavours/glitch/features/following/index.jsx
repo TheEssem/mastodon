@@ -48,6 +48,7 @@ const mapStateToProps = (state, { params: { acct, id } }) => {
     suspended: state.getIn(['accounts', accountId, 'suspended'], false),
     hideCollections: state.getIn(['accounts', accountId, 'hide_collections'], false),
     hidden: getAccountHidden(state, accountId),
+    instanceHideReason: state.getIn(['accounts', accountId, 'remote_limit_reason']),
   };
 };
 
@@ -84,6 +85,7 @@ class Following extends ImmutablePureComponent {
     isAccount: PropTypes.bool,
     suspended: PropTypes.bool,
     hidden: PropTypes.bool,
+    instanceHideReason: PropTypes.string,
     remote: PropTypes.bool,
     remoteUrl: PropTypes.string,
     multiColumn: PropTypes.bool,
@@ -129,7 +131,7 @@ class Following extends ImmutablePureComponent {
   };
 
   render () {
-    const { accountId, accountIds, hasMore, isAccount, multiColumn, isLoading, suspended, hidden, remote, remoteUrl, hideCollections } = this.props;
+    const { accountId, accountIds, hasMore, isAccount, multiColumn, isLoading, suspended, hidden, remote, remoteUrl, hideCollections, instanceHideReason } = this.props;
 
     if (!isAccount) {
       return (
@@ -152,7 +154,7 @@ class Following extends ImmutablePureComponent {
     if (suspended) {
       emptyMessage = <FormattedMessage id='empty_column.account_suspended' defaultMessage='Account suspended' />;
     } else if (hidden) {
-      emptyMessage = <LimitedAccountHint accountId={accountId} />;
+      emptyMessage = <LimitedAccountHint accountId={accountId} reason={instanceHideReason} />;
     } else if (hideCollections && accountIds.isEmpty()) {
       emptyMessage = <FormattedMessage id='empty_column.account_hides_collections' defaultMessage='This user has chosen to not make this information available' />;
     } else if (remote && accountIds.isEmpty()) {
