@@ -9,7 +9,7 @@ import { useAppDispatch } from 'flavours/glitch/store';
 
 export const LimitedAccountHint: React.FC<{
   accountId: string;
-  reason: string;
+  reason?: string;
 }> = ({ accountId, reason }) => {
   const dispatch = useAppDispatch();
   const reveal = useCallback(() => {
