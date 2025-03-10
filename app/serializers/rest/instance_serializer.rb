@@ -102,6 +102,10 @@ class REST::InstanceSerializer < ActiveModel::Serializer
         enabled: TranslationService.configured?,
       },
 
+      gif_search: {
+        enabled: GifService.configured?,
+      },
+
       reactions: {
         max_reactions: StatusReactionValidator::LIMIT,
       },

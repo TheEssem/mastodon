@@ -31,9 +31,9 @@ const mapDispatchToProps = dispatch => ({
     }));
   },
 
-  onEmbedTenor() {
+  onEmbedGif() {
     dispatch(openModal({
-      modalType: 'TENOR',
+      modalType: 'GIF',
       modalProps: { noEsc: true },
     }));
   },

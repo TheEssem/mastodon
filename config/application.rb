@@ -108,6 +108,7 @@ module Mastodon
     config.x.captcha = config_for(:captcha)
     config.x.mastodon = config_for(:mastodon)
     config.x.translation = config_for(:translation)
+    config.x.gifs = config_for(:gifs)
 
     if ENV.fetch('QUERY_LOG_TAGS_ENABLED', 'false') == 'true'
       config.active_record.query_log_tags_enabled = ENV.fetch('QUERY_LOG_TAGS_ENABLED', 'false') == 'true'
