@@ -48,6 +48,10 @@
   "federation.local_only.short": "Local-only",
   "firehose.bubble": "Bubble servers",
   "firehose.column_settings.allow_local_only": "Show local-only posts in \"All\"",
+  "gif_search.error": "Oops! Something went wrong. Please, try again.",
+  "gif_search.loading": "Loading...",
+  "gif_search.nomatches": "No matches found.",
+  "gif_search.search": "Search for GIFs",
   "home.column_settings.advanced": "Advanced",
   "home.column_settings.filter_regex": "Filter out by regular expressions",
   "home.column_settings.show_direct": "Show private mentions",
@@ -139,9 +143,5 @@
   "status.react": "React",
   "status.reactions": "{count, plural, one {reaction} other {reactions}}",
   "status.reactions.empty": "No one has reacted to this post yet. When someone does, they will show up here.",
-  "status.show_filter_reason": "Show anyway",
-  "tenor.error": "Oops! Something went wrong. Please, try again.",
-  "tenor.loading": "Loading...",
-  "tenor.nomatches": "No matches found.",
-  "tenor.search": "Search for GIFs"
+  "status.show_filter_reason": "Show anyway"
 }

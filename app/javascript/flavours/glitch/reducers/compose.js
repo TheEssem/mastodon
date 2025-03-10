@@ -40,7 +40,10 @@ import {
   COMPOSE_CONTENT_TYPE_CHANGE,
   COMPOSE_EMOJI_INSERT,
   COMPOSE_DOODLE_SET,
-  COMPOSE_TENOR_SET,
+  COMPOSE_GIF_RESET,
+  COMPOSE_GIF_SEARCH_REQUEST,
+  COMPOSE_GIF_SEARCH_SUCCESS,
+  COMPOSE_GIF_SEARCH_FAIL,
   COMPOSE_RESET,
   COMPOSE_POLL_ADD,
   COMPOSE_POLL_REMOVE,
@@ -98,7 +101,11 @@ const initialState = ImmutableMap({
   resetFileKey: Math.floor((Math.random() * 0x10000)),
   idempotencyKey: null,
   tagHistory: ImmutableList(),
-  tenor: null,
+  gifs: ImmutableMap({
+    provider: '',
+    items: ImmutableOrderedSet(),
+    isLoading: false,
+  }),
   doodle: ImmutableMap({
     fg: 'rgb(  0,    0,    0)',
     bg: 'rgb(255,  255,  255)',
@@ -288,6 +295,14 @@ const insertEmoji = (state, position, emojiData, needsSpace) => {
     caretPosition: position + emoji.length + 1,
     idempotencyKey: uuid(),
   });
+};
+
+const normalizeList = (state, path, gifs, provider) => {
+  return state.setIn(path, ImmutableMap({
+    provider,
+    items: ImmutableOrderedSet(gifs),
+    isLoading: false,
+  }));
 };
 
 const hydrate = (state, hydratedState) => {
@@ -568,8 +583,14 @@ export const composeReducer = (state = initialState, action) => {
     return insertEmoji(state, action.position, action.emoji, action.needsSpace);
   case COMPOSE_DOODLE_SET:
     return state.mergeIn(['doodle'], action.options);
-  case COMPOSE_TENOR_SET:
-    return state.mergeIn(['tenor'], action.options);
+  case COMPOSE_GIF_RESET:
+    return state.setIn(['gifs', 'items'], ImmutableOrderedSet());
+  case COMPOSE_GIF_SEARCH_REQUEST:
+    return state.setIn(['gifs', 'isLoading'], true);
+  case COMPOSE_GIF_SEARCH_SUCCESS:
+    return normalizeList(state, ['gifs'], action.results, action.provider);
+  case COMPOSE_GIF_SEARCH_FAIL:
+    return state.setIn(['gifs', 'isLoading'], false);
   case REDRAFT: {
     const do_not_federate = !!action.status.get('local_only');
     let text = action.raw_text || unescapeHTML(expandMentions(action.status));
