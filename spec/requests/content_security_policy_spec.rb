@@ -23,13 +23,13 @@ RSpec.describe 'Content-Security-Policy' do
     <<~CSP.split("\n").map(&:strip)
       base-uri 'none'
       child-src 'self' blob: https://cb6e6126.ngrok.io
-      connect-src 'self' data: blob: https://cb6e6126.ngrok.io #{Rails.configuration.x.streaming_api_base_url} https://media.tenor.com https://api.tenor.com
+      connect-src 'self' data: blob: https://cb6e6126.ngrok.io https://media.tenor.com #{Rails.configuration.x.streaming_api_base_url}
       default-src 'none'
       font-src 'self' https://cb6e6126.ngrok.io
       form-action 'none'
       frame-ancestors 'none'
       frame-src 'self' https:
-      img-src 'self' data: blob: https://cb6e6126.ngrok.io https://media.tenor.com
+      img-src 'self' data: blob: https://cb6e6126.ngrok.io
       manifest-src 'self' https://cb6e6126.ngrok.io
       media-src 'self' data: https://cb6e6126.ngrok.io https://media.tenor.com
       script-src 'self' https://cb6e6126.ngrok.io 'wasm-unsafe-eval'

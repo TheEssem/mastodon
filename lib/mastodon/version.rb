@@ -46,7 +46,7 @@ module Mastodon
     def api_versions
       {
         mastodon: 4,
-        chuckya: 2,
+        chuckya: 3,
       }
     end
 

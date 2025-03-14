@@ -70,7 +70,12 @@ export const COMPOSE_UPLOAD_CHANGE_SUCCESS     = 'COMPOSE_UPLOAD_UPDATE_SUCCESS'
 export const COMPOSE_UPLOAD_CHANGE_FAIL        = 'COMPOSE_UPLOAD_UPDATE_FAIL';
 
 export const COMPOSE_DOODLE_SET        = 'COMPOSE_DOODLE_SET';
-export const COMPOSE_TENOR_SET         = 'COMPOSE_TENOR_SET';
+
+export const COMPOSE_GIF_RESET = 'COMPOSE_GIF_RESET';
+
+export const COMPOSE_GIF_SEARCH_REQUEST = 'COMPOSE_GIF_SEARCH_REQUEST';
+export const COMPOSE_GIF_SEARCH_SUCCESS = 'COMPOSE_GIF_SEARCH_SUCCESS';
+export const COMPOSE_GIF_SEARCH_FAIL    = 'COMPOSE_GIF_SEARCH_FAIL';
 
 export const COMPOSE_POLL_ADD             = 'COMPOSE_POLL_ADD';
 export const COMPOSE_POLL_REMOVE          = 'COMPOSE_POLL_REMOVE';
@@ -329,10 +334,43 @@ export function doodleSet(options) {
   };
 }
 
-export function tenorSet(options) {
+export function resetGifs() {
   return {
-    type: COMPOSE_TENOR_SET,
-    options: options,
+    type: COMPOSE_GIF_RESET,
+  };
+}
+
+export const gifSearch = query => (dispatch) => {
+  dispatch(gifSearchRequest(query));
+
+  api().get(`/api/v1/gifs`, { params: { q: query } }).then(response => {
+    dispatch(gifSearchSuccess(query, response.data));
+  }).catch(error => {
+    dispatch(gifSearchFail(query, error));
+  });
+};
+
+export function gifSearchRequest(query) {
+  return {
+    type: COMPOSE_GIF_SEARCH_REQUEST,
+    query,
+  };
+}
+
+export function gifSearchSuccess(query, data) {
+  return {
+    type: COMPOSE_GIF_SEARCH_SUCCESS,
+    query,
+    results: data.results,
+    provider: data.provider,
+  };
+}
+
+export function gifSearchFail(query, error) {
+  return {
+    type: COMPOSE_GIF_SEARCH_FAIL,
+    query,
+    error,
   };
 }
 

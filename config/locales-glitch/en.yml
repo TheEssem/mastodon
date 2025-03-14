@@ -42,6 +42,9 @@ en:
       title: User verification
   generic:
     use_this: Use this
+  gif:
+    errors:
+      too_many_requests: There have been too many requests to the GIF search service recently.
   notification_mailer:
     reaction:
       body: "%{name} reacted to your post:"
