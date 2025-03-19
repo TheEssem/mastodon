@@ -103,6 +103,7 @@ namespace :api, format: false do
     resources :filters, only: [:index, :create, :show, :update, :destroy]
     resources :endorsements, only: [:index]
     resources :markers, only: [:index, :create]
+    resources :gifs, only: [:index]
 
     namespace :profile do
       resource :avatar, only: :destroy

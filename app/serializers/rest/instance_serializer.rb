@@ -101,6 +101,10 @@ class REST::InstanceSerializer < ActiveModel::Serializer
         enabled: TranslationService.configured?,
       },
 
+      gif_search: {
+        enabled: GifService.configured?,
+      },
+
       timelines_access: {
         live_feeds: {
           local: Setting.local_live_feed_access,

@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet';
 
 import Base from 'flavours/glitch/components/modal_root';
 import { AltTextModal } from 'flavours/glitch/features/alt_text_modal';
+import { GIFModal } from 'flavours/glitch/features/gif_modal';
 import {
   MuteModal,
   BlockModal,
@@ -60,6 +61,7 @@ export const MODAL_COMPONENTS = {
   'BOOST': () => Promise.resolve({ default: BoostModal }),
   'FAVOURITE': () => Promise.resolve({ default: FavouriteModal }),
   'DOODLE': () => Promise.resolve({ default: DoodleModal }),
+  'GIF': () => Promise.resolve({ default: GIFModal }),
   'CONFIRM': () => Promise.resolve({ default: ConfirmationModal }),
   'CONFIRM_DELETE_STATUS': () => Promise.resolve({ default: ConfirmDeleteStatusModal }),
   'CONFIRM_DELETE_LIST': () => Promise.resolve({ default: ConfirmDeleteListModal }),
