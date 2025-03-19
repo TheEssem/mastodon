@@ -38,5 +38,8 @@ en:
       title: User verification
   generic:
     use_this: Use this
+  gif:
+    errors:
+      too_many_requests: There have been too many requests to the GIF search service recently.
   settings:
     flavours: Flavours
