@@ -6947,6 +6947,7 @@ a.status-card {
 }
 
 .doodle-modal,
+.gif-modal,
 .boost-modal,
 .report-modal,
 .actions-modal,
@@ -11733,6 +11734,57 @@ noscript {
         }
       }
     }
+  }
+}
+
+.gif-modal__container {
+  text-align: center;
+  padding: 20px;
+
+  .icon-button {
+    margin: 10px;
+  }
+
+  .search__input {
+    padding-inline-start: 16px;
+    padding-inline-end: 16px + 15px + 8px;
+  }
+
+  .emoji-mart-search-icon {
+    inset-inline-end: 20px;
+    top: 66px;
+    padding: 0;
+    margin: 10px 10px 6px;
+    opacity: 1;
+    color: $darker-text-color;
+
+    &:disabled {
+      opacity: 0.38;
+    }
+  }
+
+  > .gif-modal__results {
+    padding-top: 16px;
+
+    .media-gallery__item {
+      &:hover {
+        opacity: 0.5;
+      }
+
+      &-thumbnail {
+        padding: 0;
+        border: 0;
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+
+  > .circular-progress {
+    margin: 16px 0;
   }
 }
 
