@@ -1,0 +1,3 @@
+shared:
+  tenor:
+    api_key: <%= ENV.fetch('TENOR_API_KEY', nil) %>
