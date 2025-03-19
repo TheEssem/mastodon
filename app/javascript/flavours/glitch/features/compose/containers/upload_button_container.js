@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { uploadCompose } from '../../../actions/compose';
-import { openModal } from '../../../actions/modal';
+import { openModal, closeModal } from '../../../actions/modal';
 import UploadButton from '../components/upload_button';
 
 const mapStateToProps = state => {
@@ -30,6 +30,24 @@ const mapDispatchToProps = dispatch => ({
       modalType: 'DOODLE',
       modalProps: { noEsc: true, noClose: true },
     }));
+  },
+
+  onEmbedGif() {
+    dispatch(openModal({
+      modalType: 'GIF',
+      modalProps: { noEsc: true },
+    }));
+  },
+
+  onModalClose() {
+    dispatch(closeModal({
+      modalType: undefined,
+      ignoreFocus: false,
+    }));
+  },
+
+  onModalOpen(props) {
+    dispatch(openModal({ modalType: 'ACTIONS', modalProps: props }));
   },
 });
 
