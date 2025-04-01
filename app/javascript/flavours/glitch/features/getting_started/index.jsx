@@ -199,6 +199,8 @@ class GettingStarted extends ImmutablePureComponent {
             {!multiColumn && signedIn && <NavigationBar account={myAccount} />}
             {multiColumn && <ColumnSubheading text={intl.formatMessage(messages.navigation_subheading)} />}
             {navItems}
+            <ColumnSubheading text='Peggle Nights' />
+            <ColumnLink href='steam://launch/3540' icon='bubble' iconComponent={BubbleChartIcon} text='Peggle Nights' />
             {signedIn && (
               <>
                 <ColumnSubheading text={intl.formatMessage(messages.lists_subheading)} />
