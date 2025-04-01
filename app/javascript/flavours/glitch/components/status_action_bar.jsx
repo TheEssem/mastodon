@@ -57,6 +57,7 @@ const messages = defineMessages({
   removeBookmark: { id: 'status.remove_bookmark', defaultMessage: 'Remove bookmark' },
   open: { id: 'status.open', defaultMessage: 'Expand this status' },
   report: { id: 'status.report', defaultMessage: 'Report @{name}' },
+  bees: { id: 'status.bees', defaultMessage: 'Send bees to @{name}' },
   muteConversation: { id: 'status.mute_conversation', defaultMessage: 'Mute conversation' },
   unmuteConversation: { id: 'status.unmute_conversation', defaultMessage: 'Unmute conversation' },
   pin: { id: 'status.pin', defaultMessage: 'Pin on profile' },
@@ -86,6 +87,7 @@ class StatusActionBar extends ImmutablePureComponent {
     onMute: PropTypes.func,
     onBlock: PropTypes.func,
     onReport: PropTypes.func,
+    onBees: PropTypes.func,
     onEmbed: PropTypes.func,
     onMuteConversation: PropTypes.func,
     onPin: PropTypes.func,
@@ -198,6 +200,10 @@ class StatusActionBar extends ImmutablePureComponent {
     this.props.onReport(this.props.status);
   };
 
+  handleBees = () => {
+    this.props.onBees(this.props.status);
+  };
+
   handleConversationMuteClick = () => {
     this.props.onMuteConversation(this.props.status);
   };
@@ -277,6 +283,7 @@ class StatusActionBar extends ImmutablePureComponent {
         menu.push({ text: intl.formatMessage(messages.mute, { name: status.getIn(['account', 'username']) }), action: this.handleMuteClick, dangerous: true });
         menu.push({ text: intl.formatMessage(messages.block, { name: status.getIn(['account', 'username']) }), action: this.handleBlockClick, dangerous: true });
         menu.push({ text: intl.formatMessage(messages.report, { name: status.getIn(['account', 'username']) }), action: this.handleReport, dangerous: true });
+        menu.push({ text: intl.formatMessage(messages.bees, { name: status.getIn(['account', 'username']) }), action: this.handleBees, dangerous: true });
 
         if (((permissions & PERMISSION_MANAGE_USERS) === PERMISSION_MANAGE_USERS && (accountAdminLink || statusAdminLink)) || (isRemote && (permissions & PERMISSION_MANAGE_FEDERATION) === PERMISSION_MANAGE_FEDERATION)) {
           menu.push(null);

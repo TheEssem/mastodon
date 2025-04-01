@@ -26,6 +26,7 @@ import { identityContextPropShape, withIdentity } from 'flavours/glitch/identity
 import { autoUnfoldCW } from 'flavours/glitch/utils/content_warning';
 import { WithRouterPropTypes } from 'flavours/glitch/utils/react_router';
 
+import { initBees } from '../../actions/bees';
 import { initBlockModal } from '../../actions/blocks';
 import {
   replyCompose,
@@ -455,6 +456,10 @@ class Status extends ImmutablePureComponent {
     this.props.dispatch(initReport(status.get('account'), status));
   };
 
+  handleBees = (status) => {
+    this.props.dispatch(initBees(status.get('account')));
+  };
+
   handleEmbed = (status) => {
     this.props.dispatch(openModal({
       modalType: 'EMBED',
@@ -752,6 +757,7 @@ class Status extends ImmutablePureComponent {
                   onMuteConversation={this.handleConversationMuteClick}
                   onBlock={this.handleBlockClick}
                   onReport={this.handleReport}
+                  onBees={this.handleBees}
                   onPin={this.handlePin}
                   onEmbed={this.handleEmbed}
                 />

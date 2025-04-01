@@ -28,6 +28,7 @@ import BundleContainer from '../containers/bundle_container';
 
 import ActionsModal from './actions_modal';
 import AudioModal from './audio_modal';
+import { BeesModal } from './bees_modal';
 import { BoostModal } from './boost_modal';
 import {
   ConfirmationModal,
@@ -85,6 +86,7 @@ export const MODAL_COMPONENTS = {
   'CLOSED_REGISTRATIONS': ClosedRegistrationsModal,
   'IGNORE_NOTIFICATIONS': IgnoreNotificationsModal,
   'ANNUAL_REPORT': AnnualReportModal,
+  'BEES': () => Promise.resolve({ default: BeesModal }),
 };
 
 export default class ModalRoot extends PureComponent {

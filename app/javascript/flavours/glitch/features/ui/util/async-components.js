@@ -214,6 +214,10 @@ export function About () {
   return import(/*webpackChunkName: "features/glitch/async/about" */'../../about');
 }
 
+export function Moo () {
+  return import(/*webpackChunkName: "features/glitch/async/moo" */'../../moo');
+}
+
 export function PrivacyPolicy () {
   return import(/*webpackChunkName: "features/glitch/async/privacy_policy" */'../../privacy_policy');
 }

@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import DeleteIcon from '@/material-icons/400-24px/delete.svg?react';
 import MoreHorizIcon from '@/material-icons/400-24px/more_horiz.svg?react';
+import { initBees } from 'flavours/glitch/actions/bees';
 import { initBlockModal } from 'flavours/glitch/actions/blocks';
 import { initMuteModal } from 'flavours/glitch/actions/mutes';
 import { acceptNotificationRequest, dismissNotificationRequest } from 'flavours/glitch/actions/notification_requests';
@@ -30,6 +31,7 @@ const messages = defineMessages({
   mute: { id: 'account.mute', defaultMessage: 'Mute @{name}' },
   block: { id: 'account.block', defaultMessage: 'Block @{name}' },
   report: { id: 'status.report', defaultMessage: 'Report @{name}' },
+  bees: { id: 'status.bees', defaultMessage: 'Send bees to @{name}' },
   more: { id: 'status.more', defaultMessage: 'More' },
 });
 
@@ -59,6 +61,10 @@ export const NotificationRequest = ({ id, accountId, notificationsCount, checked
     dispatch(initReport(account));
   }, [dispatch, account]);
 
+  const handleBees = useCallback(() => {
+    dispatch(initBees(account));
+  }, [dispatch, account]);
+
   const handleView = useCallback(() => {
     historyPush(`/notifications/requests/${id}`);
   }, [historyPush, id]);
@@ -71,6 +77,7 @@ export const NotificationRequest = ({ id, accountId, notificationsCount, checked
     { text: intl.formatMessage(messages.mute, { name: account.username }), action: handleMute, dangerous: true },
     { text: intl.formatMessage(messages.block, { name: account.username }), action: handleBlock, dangerous: true },
     { text: intl.formatMessage(messages.report, { name: account.username }), action: handleReport, dangerous: true },
+    { text: intl.formatMessage(messages.bees, { name: account.username }), action: handleBees, dangerous: true },
   ];
 
   const handleCheck = useCallback(() => {

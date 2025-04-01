@@ -51,6 +51,7 @@ const messages = defineMessages({
   unmuteConversation: { id: 'status.unmute_conversation', defaultMessage: 'Unmute conversation' },
   block: { id: 'status.block', defaultMessage: 'Block @{name}' },
   report: { id: 'status.report', defaultMessage: 'Report @{name}' },
+  bees: { id: 'status.bees', defaultMessage: 'Send bees to @{name}' },
   share: { id: 'status.share', defaultMessage: 'Share' },
   pin: { id: 'status.pin', defaultMessage: 'Pin on profile' },
   unpin: { id: 'status.unpin', defaultMessage: 'Unpin from profile' },
@@ -79,6 +80,7 @@ class ActionBar extends PureComponent {
     onBlock: PropTypes.func,
     onMuteConversation: PropTypes.func,
     onReport: PropTypes.func,
+    onBees: PropTypes.func,
     onPin: PropTypes.func,
     onEmbed: PropTypes.func,
     intl: PropTypes.object.isRequired,
@@ -138,6 +140,10 @@ class ActionBar extends PureComponent {
 
   handleReport = () => {
     this.props.onReport(this.props.status);
+  };
+
+  handleBees = () => {
+    this.props.onBees(this.props.status);
   };
 
   handlePinClick = () => {
@@ -206,6 +212,7 @@ class ActionBar extends PureComponent {
         menu.push({ text: intl.formatMessage(messages.mute, { name: status.getIn(['account', 'username']) }), action: this.handleMuteClick, dangerous: true });
         menu.push({ text: intl.formatMessage(messages.block, { name: status.getIn(['account', 'username']) }), action: this.handleBlockClick, dangerous: true });
         menu.push({ text: intl.formatMessage(messages.report, { name: status.getIn(['account', 'username']) }), action: this.handleReport, dangerous: true });
+        menu.push({ text: intl.formatMessage(messages.bees, { name: status.getIn(['account', 'username']) }), action: this.handleBees, dangerous: true });
         if (((permissions & PERMISSION_MANAGE_USERS) === PERMISSION_MANAGE_USERS && (accountAdminLink || statusAdminLink)) || (isRemote && (permissions & PERMISSION_MANAGE_FEDERATION) === PERMISSION_MANAGE_FEDERATION)) {
           menu.push(null);
           if ((permissions & PERMISSION_MANAGE_USERS) === PERMISSION_MANAGE_USERS) {

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 
+import { initBees } from 'flavours/glitch/actions/bees';
 import { initBlockModal } from 'flavours/glitch/actions/blocks';
 import {
   replyCompose,
@@ -180,6 +181,10 @@ const mapDispatchToProps = (dispatch, { contextType }) => ({
 
   onReport (status) {
     dispatch(initReport(status.get('account'), status));
+  },
+
+  onBees (status) {
+    dispatch(initBees(status.get('account')));
   },
 
   onAddFilter (status) {

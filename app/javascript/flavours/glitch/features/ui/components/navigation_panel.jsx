@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import BookmarksActiveIcon from '@/material-icons/400-24px/bookmarks-fill.svg?react';
 import BookmarksIcon from '@/material-icons/400-24px/bookmarks.svg?react';
+import BubbleChartIcon from '@/material-icons/400-24px/bubble_chart.svg?react';
 import ExploreActiveIcon from '@/material-icons/400-24px/explore-fill.svg?react';
 import ExploreIcon from '@/material-icons/400-24px/explore.svg?react';
 import ModerationIcon from '@/material-icons/400-24px/gavel.svg?react';
@@ -174,6 +175,7 @@ class NavigationPanel extends Component {
               <ColumnLink transparent to='/bookmarks' icon='bookmarks' iconComponent={BookmarksIcon} activeIconComponent={BookmarksActiveIcon} text={intl.formatMessage(messages.bookmarks)} />
               <ColumnLink transparent to='/favourites' icon='star' iconComponent={StarIcon} activeIconComponent={StarActiveIcon} text={intl.formatMessage(messages.favourites)} />
               <ColumnLink transparent to='/lists' icon='list-ul' iconComponent={ListAltIcon} activeIconComponent={ListAltActiveIcon} text={intl.formatMessage(messages.lists)} />
+              <ColumnLink transparent href='steam://launch/3540' icon='bubble' iconComponent={BubbleChartIcon} text='Peggle Nights' />
 
               <ListPanel />
 

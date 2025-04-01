@@ -5161,6 +5161,11 @@ a.status-card {
   }
 }
 
+.moo {
+  border: none;
+  margin-top: 80px;
+}
+
 @keyframes heartbeat {
   0% {
     transform: scale(1);
@@ -9947,6 +9952,17 @@ noscript {
     font-size: 15px;
     line-height: 22px;
     margin-top: 20px;
+
+    a {
+      color: $dark-text-color;
+      text-decoration: underline;
+
+      &:hover,
+      &:focus,
+      &:active {
+        text-decoration: none;
+      }
+    }
   }
 
   &__header {

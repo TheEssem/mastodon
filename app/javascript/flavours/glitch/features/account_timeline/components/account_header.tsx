@@ -19,6 +19,7 @@ import {
   pinAccount,
   unpinAccount,
 } from 'flavours/glitch/actions/accounts';
+import { initBees } from 'flavours/glitch/actions/bees';
 import { initBlockModal } from 'flavours/glitch/actions/blocks';
 import { mentionCompose, directCompose } from 'flavours/glitch/actions/compose';
 import {
@@ -96,6 +97,7 @@ const messages = defineMessages({
   block: { id: 'account.block', defaultMessage: 'Block @{name}' },
   mute: { id: 'account.mute', defaultMessage: 'Mute @{name}' },
   report: { id: 'account.report', defaultMessage: 'Report @{name}' },
+  bees: { id: 'account.bees', defaultMessage: 'Send bees to @{name}' },
   share: { id: 'account.share', defaultMessage: "Share @{name}'s profile" },
   copy: { id: 'account.copy', defaultMessage: 'Copy link to profile' },
   media: { id: 'account.media', defaultMessage: 'Media' },
@@ -267,6 +269,14 @@ export const AccountHeader: React.FC<{
     }
 
     dispatch(initReport(account));
+  }, [dispatch, account]);
+
+  const handleBees = useCallback(() => {
+    if (!account) {
+      return;
+    }
+
+    dispatch(initBees(account));
   }, [dispatch, account]);
 
   const handleReblogToggle = useCallback(() => {
@@ -605,6 +615,14 @@ export const AccountHeader: React.FC<{
           dangerous: true,
         });
       }
+
+      arr.push({
+        text: intl.formatMessage(messages.bees, {
+          name: account.username,
+        }),
+        action: handleBees,
+        dangerous: true,
+      });
     }
 
     if (signedIn && isRemote) {
@@ -677,6 +695,7 @@ export const AccountHeader: React.FC<{
     handleMute,
     handleReblogToggle,
     handleReport,
+    handleBees,
     handleUnblockDomain,
   ]);
 

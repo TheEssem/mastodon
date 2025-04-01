@@ -96,6 +96,12 @@ export const LinkFooter: React.FC<{
         <DividingCircle />
         <span className='version'>v{version}</span>
       </p>
+
+      <p>
+        <Link to='/moo' target={multiColumn ? '_blank' : undefined}>
+          This Chuckya has Super Cow Powers.
+        </Link>
+      </p>
     </div>
   );
 };
