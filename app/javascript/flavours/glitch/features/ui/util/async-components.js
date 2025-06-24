@@ -87,7 +87,7 @@ export function Favourites () {
 }
 
 export function Reactions () {
-  return import(/* webpackChunkName: "flavours/glitch/async/reactions" */'../../reactions');
+  return import('../../reactions');
 }
 
 export function Quotes () {
