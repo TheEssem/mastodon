@@ -77,9 +77,6 @@ class Reactions extends ImmutablePureComponent {
       );
     }
 
-    const accountIds = reactions.map(v => v.account);
-    const reactionsByAccount = new Map(reactions.map(v => [v.account, v]));
-
     const emptyMessage = <FormattedMessage id='status.reactions.empty' defaultMessage='No one has reacted to this post yet. When someone does, they will show up here.' />;
 
     return (
@@ -104,8 +101,8 @@ class Reactions extends ImmutablePureComponent {
           emptyMessage={emptyMessage}
           bindToDocument={!multiColumn}
         >
-          {accountIds.map(id =>
-            <Account key={id} id={id} withNote={false} overlayEmoji={reactionsByAccount.get(id)} />,
+          {reactions.map(r =>
+            <Account key={r.id} id={r.account} withNote={false} overlayEmoji={r} />,
           )}
         </ScrollableList>
 
