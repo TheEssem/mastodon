@@ -5,6 +5,7 @@ class REST::StatusReactionSerializer < ActiveModel::Serializer
 
   attributes :name
 
+  attribute :id, if: :exclude_count?
   attribute :me, if: :include_me?
   attribute :url, if: :custom_emoji?
   attribute :static_url, if: :custom_emoji?
