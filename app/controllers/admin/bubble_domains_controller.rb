@@ -21,7 +21,7 @@ module Admin
 
       @bubble_domain = BubbleDomain.new(domain: domain)
 
-      if @bubble_domain.save!
+      if @bubble_domain.save
         log_action :create, @bubble_domain
         redirect_to admin_bubble_domains_path, notice: I18n.t('admin.bubble_domains.created_msg')
       else
