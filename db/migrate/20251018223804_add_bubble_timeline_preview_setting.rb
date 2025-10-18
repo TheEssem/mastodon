@@ -10,7 +10,7 @@ class AddBubbleTimelinePreviewSetting < ActiveRecord::Migration[8.0]
     value = YAML.safe_load(setting.attributes['value'], permitted_classes: [ActiveSupport::HashWithIndifferentAccess, Symbol])
 
     Setting.upsert(
-      { var: 'bubble_live_feed_access', value: value ? "--- public\n" : "--- authenticated\n" },
+      { var: 'bubble_live_feed_access', value: value },
       unique_by: :var
     )
   end
