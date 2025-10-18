@@ -14,7 +14,7 @@ import { connectPublicStream, connectCommunityStream, connectBubbleStream } from
 import { expandPublicTimeline, expandCommunityTimeline, expandBubbleTimeline } from 'flavours/glitch/actions/timelines';
 import { DismissableBanner } from 'flavours/glitch/components/dismissable_banner';
 import SettingText from 'flavours/glitch/components/setting_text';
-import { localLiveFeedAccess, remoteLiveFeedAccess, domain } from 'flavours/glitch/initial_state';
+import { localLiveFeedAccess, bubbleLiveFeedAccess, remoteLiveFeedAccess, domain } from 'flavours/glitch/initial_state';
 import { canViewFeed } from 'flavours/glitch/permissions';
 import { useAppDispatch, useAppSelector } from 'flavours/glitch/store';
 
@@ -254,23 +254,31 @@ const Firehose = ({ feedType, multiColumn }) => {
         <ColumnSettings />
       </ColumnHeader>
 
-      {(canViewFeed(signedIn, permissions, localLiveFeedAccess) && canViewFeed(signedIn, permissions, remoteLiveFeedAccess)) && (
+      {((canViewFeed(signedIn, permissions, localLiveFeedAccess) + canViewFeed(signedIn, permissions, bubbleLiveFeedAccess) + canViewFeed(signedIn, permissions, remoteLiveFeedAccess)) > 1) && (
         <div className='account__section-headline'>
-          <NavLink exact to='/public/local'>
-            <FormattedMessage tagName='div' id='firehose.local' defaultMessage='This server' />
-          </NavLink>
+          {(signedIn || localLiveFeedAccess === 'public') && (
+            <NavLink exact to='/public/local'>
+              <FormattedMessage tagName='div' id='firehose.local' defaultMessage='This server' />
+            </NavLink>
+          )}
 
-          <NavLink exact to='/public/bubble'>
-            <FormattedMessage tagName='div' id='firehose.bubble' defaultMessage='Bubble servers' />
-          </NavLink>
+          {(signedIn || bubbleLiveFeedAccess === 'public') && (
+            <NavLink exact to='/public/bubble'>
+              <FormattedMessage tagName='div' id='firehose.bubble' defaultMessage='Bubble servers' />
+            </NavLink>
+          )}
 
-          <NavLink exact to='/public/remote'>
-            <FormattedMessage tagName='div' id='firehose.remote' defaultMessage='Other servers' />
-          </NavLink>
+          {(signedIn || remoteLiveFeedAccess === 'public') && (
+            <NavLink exact to='/public/remote'>
+              <FormattedMessage tagName='div' id='firehose.remote' defaultMessage='Other servers' />
+            </NavLink>
+          )}
 
-          <NavLink exact to='/public'>
-            <FormattedMessage tagName='div' id='firehose.all' defaultMessage='All' />
-          </NavLink>
+          {(signedIn || (localLiveFeedAccess === 'public' && bubbleLiveFeedAccess === 'public' && remoteLiveFeedAccess === 'public')) && (
+            <NavLink exact to='/public'>
+              <FormattedMessage tagName='div' id='firehose.all' defaultMessage='All' />
+            </NavLink>
+          )}
         </div>
       )}
 

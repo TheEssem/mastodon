@@ -48,6 +48,7 @@ class Form::AdminSettings
     favicon
     min_age
     local_live_feed_access
+    bubble_live_feed_access
     remote_live_feed_access
     local_topic_feed_access
     remote_topic_feed_access
@@ -117,6 +118,7 @@ class Form::AdminSettings
   validates :show_domain_blocks_rationale, inclusion: { in: DOMAIN_BLOCK_AUDIENCES }, if: -> { defined?(@show_domain_blocks_rationale) }
   validates :show_bubble_domains, inclusion: { in: BUBBLE_DOMAIN_AUDIENCES }, if: -> { defined?(@show_bubble_domains) }
   validates :local_live_feed_access, inclusion: { in: FEED_ACCESS_MODES }, if: -> { defined?(@local_live_feed_access) }
+  validates :bubble_live_feed_access, inclusion: { in: FEED_ACCESS_MODES }, if: -> { defined?(@bubble_live_feed_access) }
   validates :remote_live_feed_access, inclusion: { in: FEED_ACCESS_MODES }, if: -> { defined?(@remote_live_feed_access) }
   validates :local_topic_feed_access, inclusion: { in: ALTERNATE_FEED_ACCESS_MODES }, if: -> { defined?(@local_topic_feed_access) }
   validates :remote_topic_feed_access, inclusion: { in: FEED_ACCESS_MODES }, if: -> { defined?(@remote_topic_feed_access) }
