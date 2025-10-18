@@ -17,6 +17,8 @@ class Api::V1::Timelines::PublicController < Api::V1::Timelines::BaseController
   def require_auth?
     if truthy_param?(:local)
       Setting.local_live_feed_access != 'public'
+    elsif truthy_param?(:bubble)
+      Setting.bubble_live_feed_access != 'public'
     elsif truthy_param?(:remote)
       Setting.remote_live_feed_access != 'public'
     else
