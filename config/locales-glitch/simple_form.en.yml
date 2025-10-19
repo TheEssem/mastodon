@@ -20,6 +20,8 @@ en:
         setting_show_followers_count: Show your followers count
         setting_skin: Skin
         setting_system_emoji_font: Use system's default font for emojis (applies to Glitch flavour only)
+      form_admin_settings:
+        bubble_live_feed_access: Access to live feeds featuring bubble posts
       notification_emails:
         trending_link: New trending link requires review
         trending_status: New trending post requires review
