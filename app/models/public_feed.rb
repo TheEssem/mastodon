@@ -47,7 +47,7 @@ class PublicFeed
   end
 
   def incompatible_feed_settings?
-    (local_only? && !user_has_access_to_feed?(local_feed_setting)) || (remote_only? && !user_has_access_to_feed?(remote_feed_setting))
+    (local_only? && !user_has_access_to_feed?(local_feed_setting)) || (bubble_only? && !user_has_access_to_feed?(bubble_feed_setting)) || (remote_only? && !user_has_access_to_feed?(remote_feed_setting))
   end
 
   def user_has_access_to_feed?(setting)
