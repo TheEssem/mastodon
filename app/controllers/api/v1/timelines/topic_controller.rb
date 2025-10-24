@@ -8,6 +8,8 @@ class Api::V1::Timelines::TopicController < Api::V1::Timelines::BaseController
   def require_auth?
     if truthy_param?(:local)
       Setting.local_topic_feed_access != 'public'
+    elsif truthy_param?(:bubble)
+      Setting.bubble_topic_feed_access != 'public'
     elsif truthy_param?(:remote)
       Setting.remote_topic_feed_access != 'public'
     else

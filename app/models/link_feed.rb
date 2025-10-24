@@ -24,6 +24,7 @@ class LinkFeed < PublicFeed
     scope.merge!(account_filters_scope) if account?
     scope.merge!(language_scope) if account&.chosen_languages.present?
     scope.merge!(local_only_scope) if local_only?
+    scope.merge!(bubble_only_scope) if bubble_only?
     scope.merge!(remote_only_scope) if remote_only?
 
     scope.to_a_paginated_by_id(limit, max_id: max_id, since_id: since_id, min_id: min_id)
@@ -33,6 +34,10 @@ class LinkFeed < PublicFeed
 
   def local_feed_setting
     Setting.local_topic_feed_access
+  end
+
+  def bubble_feed_setting
+    Setting.bubble_topic_feed_access
   end
 
   def remote_feed_setting

@@ -10,6 +10,7 @@ class TagFeed < PublicFeed
   # @option [Enumerable<String>] :all
   # @option [Enumerable<String>] :none
   # @option [Boolean] :local
+  # @option [Boolean] :bubble
   # @option [Boolean] :remote
   # @option [Boolean] :only_media
   def initialize(tag, account, options = {})
@@ -44,6 +45,10 @@ class TagFeed < PublicFeed
 
   def local_feed_setting
     Setting.local_topic_feed_access
+  end
+
+  def bubble_feed_setting
+    Setting.bubble_topic_feed_access
   end
 
   def remote_feed_setting
