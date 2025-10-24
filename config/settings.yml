@@ -16,6 +16,7 @@ defaults: &defaults
   bubble_live_feed_access: 'authenticated'
   remote_live_feed_access: 'authenticated'
   local_topic_feed_access: 'authenticated'
+  bubble_topic_feed_access: 'authenticated'
   remote_topic_feed_access: 'authenticated'
   show_staff_badge: true
   preview_sensitive_media: false
