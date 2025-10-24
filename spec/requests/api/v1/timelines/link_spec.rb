@@ -87,7 +87,7 @@ RSpec.describe 'Link' do
 
     context 'when the instance does not allow public preview' do
       before do
-        Form::AdminSettings.new(local_topic_feed_access: 'authenticated', remote_topic_feed_access: 'authenticated').save
+        Form::AdminSettings.new(local_topic_feed_access: 'authenticated', remote_topic_feed_access: 'authenticated', bubble_topic_feed_access: 'authenticated').save
       end
 
       it_behaves_like 'forbidden for wrong scope', 'profile'
@@ -125,6 +125,7 @@ RSpec.describe 'Link' do
       before do
         Setting.local_topic_feed_access = 'public'
         Setting.remote_topic_feed_access = 'public'
+        Setting.bubble_topic_feed_access = 'public'
       end
 
       context 'with an authorized user' do
