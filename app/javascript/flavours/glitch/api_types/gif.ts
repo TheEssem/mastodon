@@ -1,5 +1,5 @@
 export interface ApiGifResultJSON {
   id: string;
-  description?: string;
+  description: string | null;
   url: string;
 }
