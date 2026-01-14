@@ -28,7 +28,7 @@ export const GifItem: React.FC<{
         <div className='media-gallery__gifv'>
           <video
             className='media-gallery__item-gifv-thumbnail'
-            aria-label={gif.description}
+            aria-label={gif.description ?? undefined}
             src={gif.url}
             autoPlay
             playsInline
