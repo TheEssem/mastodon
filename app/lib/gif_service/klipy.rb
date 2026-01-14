@@ -41,7 +41,7 @@ class GifService::Klipy < GifService
     raise UnexpectedResponseError unless data.is_a?(Hash)
 
     results = data['data']['data'].map do |media_response|
-      GifResults::GifResult.new(id: media_response['id'], url: media_response['file']['hd']['mp4']['url'])
+      GifResults::GifResult.new(id: media_response['id'], url: media_response['file']['hd']['mp4']['url'], description: media_response['title'])
     end
     GifResults.new(provider: 'Klipy', results: results)
   rescue Oj::ParseError
