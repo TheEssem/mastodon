@@ -22,6 +22,7 @@ import { IconButton } from 'flavours/glitch/components/icon_button';
 import { GifItem } from 'flavours/glitch/features/gif_modal/components/gif_item';
 import type { GifResult } from 'flavours/glitch/models/gif';
 import { useAppDispatch, useAppSelector } from 'flavours/glitch/store';
+import { isDarkMode } from 'flavours/glitch/utils/theme';
 
 const messages = defineMessages({
   search: { id: 'gif_search.search', defaultMessage: 'Search for GIFs' },
@@ -50,6 +51,15 @@ export const GIFModal: React.FC<{
   const searchInputRef = useRef<HTMLInputElement>(null);
   const gifs = useAppSelector(
     (state) => state.compose.get('gifs') as ImmutableMap<string, unknown>,
+  );
+  const provider = useAppSelector(
+    (state) =>
+      state.server.getIn([
+        'server',
+        'configuration',
+        'gif_search',
+        'provider',
+      ]) as string | null,
   );
   const results = gifs.get('items') as ImmutableOrderedSet<GifResult>;
   const isLoading = gifs.get('isLoading') as boolean;
@@ -125,7 +135,7 @@ export const GIFModal: React.FC<{
       fetch(url)
         .then((response) => response.blob())
         .then((blob) => {
-          dispatch(uploadCompose([blob], alt));
+          dispatch(uploadCompose([blob], alt ?? ''));
           onClose();
           return;
         })
@@ -136,6 +146,18 @@ export const GIFModal: React.FC<{
     },
     [dispatch, onClose],
   );
+
+  let logoPath;
+  let logoWidth = 48;
+  switch (provider) {
+    case 'Tenor':
+      logoPath = '/tenor.svg';
+      break;
+    case 'Klipy':
+      logoPath = isDarkMode() ? '/klipy-dark.svg' : '/klipy-light.svg';
+      logoWidth = 128;
+      break;
+  }
 
   return (
     <div className='modal-root__modal gif-modal'>
@@ -190,7 +212,9 @@ export const GIFModal: React.FC<{
           )
         )}
         <br />
-        <img src='/tenor.svg' alt='Tenor' />
+        {provider && logoPath && (
+          <img src={logoPath} alt={provider} width={logoWidth} />
+        )}
       </div>
     </div>
   );
