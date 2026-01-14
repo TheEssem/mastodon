@@ -7,7 +7,11 @@ class GifService
   class UnexpectedResponseError < Error; end
 
   def self.configured
-    if configuration.tenor[:api_key].present?
+    if configuration.klipy[:api_key].present?
+      GifService::Klipy.new(
+        configuration.klipy[:api_key]
+      )
+    elsif configuration.tenor[:api_key].present?
       GifService::Tenor.new(
         configuration.tenor[:api_key]
       )
@@ -17,7 +21,15 @@ class GifService
   end
 
   def self.configured?
-    configuration.tenor[:api_key].present?
+    configuration.klipy[:api_key].present? || configuration.tenor[:api_key].present?
+  end
+
+  def self.provider
+    if configuration.klipy[:api_key].present?
+      'Klipy'
+    elsif configuration.tenor[:api_key].present?
+      'Tenor'
+    end
   end
 
   def self.configuration

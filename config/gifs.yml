@@ -1,3 +1,5 @@
 shared:
+  klipy:
+    api_key: <%= ENV.fetch('KLIPY_API_KEY', nil) %>
   tenor:
     api_key: <%= ENV.fetch('TENOR_API_KEY', nil) %>

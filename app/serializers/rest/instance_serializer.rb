@@ -111,6 +111,7 @@ class REST::InstanceSerializer < ActiveModel::Serializer
 
       gif_search: {
         enabled: GifService.configured?,
+        provider: GifService.provider,
       },
 
       timelines_access: {
