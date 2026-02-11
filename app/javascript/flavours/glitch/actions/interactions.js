@@ -6,6 +6,7 @@ import { fetchRelationships } from './accounts';
 import { importFetchedAccounts, importFetchedStatus } from './importer';
 import { unreblog, reblog } from './interactions_typed';
 import { openModal } from './modal';
+import { timelineExpandPinnedFromStatus } from './timelines_typed';
 
 export const REACTIONS_EXPAND_REQUEST = 'REACTIONS_EXPAND_REQUEST';
 export const REACTIONS_EXPAND_SUCCESS = 'REACTIONS_EXPAND_SUCCESS';
@@ -470,6 +471,7 @@ export function pin(status) {
     api().post(`/api/v1/statuses/${status.get('id')}/pin`).then(response => {
       dispatch(importFetchedStatus(response.data));
       dispatch(pinSuccess(status));
+      dispatch(timelineExpandPinnedFromStatus(status));
     }).catch(error => {
       dispatch(pinFail(status, error));
     });
@@ -508,6 +510,7 @@ export function unpin (status) {
     api().post(`/api/v1/statuses/${status.get('id')}/unpin`).then(response => {
       dispatch(importFetchedStatus(response.data));
       dispatch(unpinSuccess(status));
+      dispatch(timelineExpandPinnedFromStatus(status));
     }).catch(error => {
       dispatch(unpinFail(status, error));
     });

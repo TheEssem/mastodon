@@ -21,8 +21,8 @@
                 selected: current_user.time_zone || Time.zone.tzinfo.name,
                 wrapper: :with_label
 
-  - if Mastodon::Feature.new_theme_options_enabled?
-    .fields-group
+  .fields-group
+    = f.simple_fields_for :settings, current_user.settings do |ff|
       .input.horizontal-options
         = ff.input :'web.color_scheme',
                    as: :radio_buttons,

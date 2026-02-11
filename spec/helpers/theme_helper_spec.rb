@@ -6,35 +6,13 @@ RSpec.describe ThemeHelper do
   describe 'theme_style_tags' do
     let(:result) { helper.theme_style_tags(theme) }
 
-    context 'when using "system" theme' do
-      let(:theme) { ['glitch', 'system'] }
-
-      it 'returns the default theme' do
-        expect(html_links.first.attributes.symbolize_keys)
-          .to include(
-            href: have_attributes(value: match(/contrast/))
-          )
-      end
-    end
-
     context 'when using "default" theme' do
       let(:theme) { ['glitch', 'default'] }
 
       it 'returns the default stylesheet' do
         expect(html_links.last.attributes.symbolize_keys)
           .to include(
-            href: have_attributes(value: match(/contrast/))
-          )
-      end
-    end
-
-    context 'when using other theme' do
-      let(:theme) { ['glitch', 'contrast'] }
-
-      it 'returns the theme stylesheet without color scheme information' do
-        expect(html_links.first.attributes.symbolize_keys)
-          .to include(
-            href: have_attributes(value: match(/contrast/))
+            href: have_attributes(value: match(/default/))
           )
       end
     end
@@ -119,6 +97,48 @@ RSpec.describe ThemeHelper do
         expect(custom_stylesheet)
           .to be_blank
       end
+    end
+  end
+
+  describe '#current_theme' do
+    subject { helper.current_theme }
+
+    context 'when user is not signed in' do
+      context 'when theme was not changed in settings' do
+        it { is_expected.to eq(['glitch', 'default']) }
+      end
+    end
+
+    context 'when user is signed in' do
+      before { allow(helper).to receive(:current_user).and_return(current_user) }
+
+      let(:current_user) { Fabricate :user }
+
+      context 'when user did not set theme' do
+        it { is_expected.to eq(['glitch', 'default']) }
+      end
+
+      context 'when user set theme' do
+        before { current_user.settings.update(skin: 'alternate', noindex: false) }
+
+        context 'when theme is not valid' do
+          it { is_expected.to eq(['glitch', 'default']) }
+        end
+      end
+    end
+  end
+
+  describe '#page_color_scheme' do
+    subject { helper.page_color_scheme }
+
+    context 'when force_color_scheme is present' do
+      before { helper.content_for(:force_color_scheme) { 'value' } }
+
+      it { is_expected.to eq('value') }
+    end
+
+    context 'when force_color_scheme is absent' do
+      it { is_expected.to eq('auto') }
     end
   end
 

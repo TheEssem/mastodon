@@ -2,6 +2,8 @@ import type { FC, HTMLAttributes, MouseEventHandler, ReactNode } from 'react';
 
 import { defineMessage, useIntl } from 'react-intl';
 
+import classNames from 'classnames';
+
 import { isStatusVisibility } from '@/flavours/glitch/api_types/statuses';
 import type { Account } from '@/flavours/glitch/models/account';
 import type { Status } from '@/flavours/glitch/models/status';
@@ -12,8 +14,6 @@ import type { DisplayNameProps } from '../display_name';
 import { LinkedDisplayName } from '../display_name';
 import { VisibilityIcon } from '../visibility_icon';
 
-import type { StatusProps } from './types';
-
 export interface StatusHeaderProps {
   status: Status;
   account?: Account;
@@ -22,17 +22,17 @@ export interface StatusHeaderProps {
   wrapperProps?: HTMLAttributes<HTMLDivElement>;
   displayNameProps?: DisplayNameProps;
   onHeaderClick?: MouseEventHandler<HTMLDivElement>;
+  className?: string;
+  featured?: boolean;
 }
 
-export type StatusHeaderRenderFn = (
-  args: StatusHeaderProps,
-  statusProps?: StatusProps,
-) => ReactNode;
+export type StatusHeaderRenderFn = (args: StatusHeaderProps) => ReactNode;
 
 export const StatusHeader: FC<StatusHeaderProps> = ({
   status,
   account,
   children,
+  className,
   avatarSize = 48,
   wrapperProps,
   onHeaderClick,
@@ -45,7 +45,7 @@ export const StatusHeader: FC<StatusHeaderProps> = ({
       onClick={onHeaderClick}
       onAuxClick={onHeaderClick}
       {...wrapperProps}
-      className='status__info'
+      className={classNames('status__info', className)}
       /* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
     >
       <StatusDisplayName

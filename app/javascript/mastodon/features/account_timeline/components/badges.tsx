@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import classNames from 'classnames';
 
+import IconPinned from '@/images/icons/icon_pinned.svg?react';
 import { fetchRelationships } from '@/mastodon/actions/accounts';
 import {
   AdminBadge,
@@ -14,6 +15,7 @@ import {
   GroupBadge,
   MutedBadge,
 } from '@/mastodon/components/badge';
+import { Icon } from '@/mastodon/components/icon';
 import { useAccount } from '@/mastodon/hooks/useAccount';
 import type { AccountRole } from '@/mastodon/models/account';
 import { useAppDispatch, useAppSelector } from '@/mastodon/store';
@@ -44,7 +46,8 @@ export const AccountBadges: FC<{ accountId: string }> = ({ accountId }) => {
     return null;
   }
 
-  const className = isRedesignEnabled() ? classes.badge : '';
+  const isRedesign = isRedesignEnabled();
+  const className = isRedesign ? classes.badge : '';
 
   const domain = account.acct.includes('@')
     ? account.acct.split('@')[1]
@@ -66,7 +69,7 @@ export const AccountBadges: FC<{ accountId: string }> = ({ accountId }) => {
           key={role.id}
           label={role.name}
           className={className}
-          domain={isRedesignEnabled() ? `(${domain})` : domain}
+          domain={isRedesign ? `(${domain})` : domain}
           roleId={role.id}
         />,
       );
@@ -79,7 +82,7 @@ export const AccountBadges: FC<{ accountId: string }> = ({ accountId }) => {
   if (account.group) {
     badges.push(<GroupBadge key='group-badge' className={className} />);
   }
-  if (isRedesignEnabled() && relationship) {
+  if (isRedesign && relationship) {
     if (relationship.blocking) {
       badges.push(
         <BlockedBadge
@@ -87,7 +90,8 @@ export const AccountBadges: FC<{ accountId: string }> = ({ accountId }) => {
           className={classNames(className, classes.badgeBlocked)}
         />,
       );
-    } else if (relationship.domain_blocking) {
+    }
+    if (relationship.domain_blocking) {
       badges.push(
         <BlockedBadge
           key='domain-blocking'
@@ -101,11 +105,13 @@ export const AccountBadges: FC<{ accountId: string }> = ({ accountId }) => {
           }
         />,
       );
-    } else if (relationship.muting) {
+    }
+    if (relationship.muting) {
       badges.push(
         <MutedBadge
           key='muted-badge'
           className={classNames(className, classes.badgeMuted)}
+          expiresAt={relationship.muting_expires_at}
         />,
       );
     }
@@ -117,6 +123,16 @@ export const AccountBadges: FC<{ accountId: string }> = ({ accountId }) => {
 
   return <div className={'account__header__badges'}>{badges}</div>;
 };
+
+export const PinnedBadge: FC = () => (
+  <Badge
+    className={classes.badge}
+    icon={<Icon id='pinned' icon={IconPinned} />}
+    label={
+      <FormattedMessage id='account.timeline.pinned' defaultMessage='Pinned' />
+    }
+  />
+);
 
 function isAdminBadge(role: AccountRole) {
   const name = role.name.toLowerCase();

@@ -22,7 +22,7 @@ defaults: &defaults
   preview_sensitive_media: false
   noindex: false
   flavour: 'glitch'
-  skin: 'system'
+  skin: 'default'
   trends: true
   trendable_by_default: false
   trending_status_cw: true

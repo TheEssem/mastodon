@@ -89,12 +89,6 @@ module ApplicationHelper
     Rails.env.production? ? site_title : "#{site_title} (Dev)"
   end
 
-  def page_color_scheme
-    return content_for(:force_color_scheme) if content_for(:force_color_scheme)
-
-    color_scheme
-  end
-
   def label_for_scope(scope)
     safe_join [
       tag.samp(scope, class: { 'scope-danger' => SessionActivation::DEFAULT_SCOPES.include?(scope.to_s) }),
@@ -291,8 +285,8 @@ module ApplicationHelper
   end
 
   # glitch-soc addition to handle the multiple flavors
-  def flavoured_vite_typescript_tag(pack_name, **)
-    vite_typescript_tag("#{Themes.instance.flavour(current_flavour)['pack_directory'].delete_prefix('app/javascript/')}/#{pack_name}", **)
+  def flavoured_vite_typescript_tag(pack_name, flavour: nil, **)
+    vite_typescript_tag("#{Themes.instance.flavour(flavour || current_flavour)['pack_directory'].delete_prefix('app/javascript/')}/#{pack_name}", **)
   end
 
   private
