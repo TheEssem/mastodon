@@ -2021,10 +2021,7 @@ pt-PT:
     review_link: Rever termos de serviço
     title: Os termos de serviço de %{domain} estão a ser alterados
   themes:
-    contrast: Mastodon (alto contraste)
-    default: Mastodon (escuro)
-    mastodon-light: Mastodon (claro)
-    system: Automático (usar tema do sistema)
+    default: Mastodon
   time:
     formats:
       default: "%H:%M em %d de %b de %Y"

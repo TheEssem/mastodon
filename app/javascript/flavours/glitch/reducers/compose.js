@@ -673,7 +673,7 @@ export const composeReducer = (state = initialState, action) => {
         map => map.merge(new ImmutableMap({ do_not_federate })),
       );
       map.set('id', null);
-      map.set('quoted_status_id', action.status.getIn(['quote', 'quoted_status'], null));
+      map.set('quoted_status_id', action.quoted_status_id);
       // Mastodon-authored posts can be expected to have at most one automatic approval policy
       map.set('quote_policy', action.status.getIn(['quote_approval', 'automatic', 0]) || 'nobody');
 
