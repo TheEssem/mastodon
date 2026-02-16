@@ -91,6 +91,11 @@ export function AccountFeatured() {
   return import('../../account_featured');
 }
 
+export function AccountAbout() {
+  return import('../../account_about')
+    .then((module) => ({ default: module.AccountAbout }));
+}
+
 export function Followers () {
   return import('../../followers');
 }
