@@ -1,5 +1,5 @@
-import { isClientFeatureEnabled } from '@/flavours/glitch/utils/environment';
+import { isServerFeatureEnabled } from '@/flavours/glitch/utils/environment';
 
 export function isRedesignEnabled() {
-  return isClientFeatureEnabled('profile_redesign');
+  return isServerFeatureEnabled('profile_redesign');
 }
