@@ -48,13 +48,19 @@ export function DirectTimeline() {
   return import('../../direct_timeline');
 }
 
-export function Collections () {
+export function Collections() {
   return import('../../collections').then(
     module => ({default: module.Collections})
   );
 }
 
-export function CollectionsEditor () {
+export function CollectionDetail() {
+  return import('../../collections/detail/index').then(
+    module => ({default: module.CollectionDetailPage})
+  );
+}
+
+export function CollectionsEditor() {
   return import('../../collections/editor').then(
     module => ({default: module.CollectionEditorPage})
   );
@@ -94,6 +100,11 @@ export function AccountFeatured() {
 export function AccountAbout() {
   return import('../../account_about')
     .then((module) => ({ default: module.AccountAbout }));
+}
+
+export function AccountEdit() {
+  return import('../../account_edit')
+  .then((module) => ({ default: module.AccountEdit }));
 }
 
 export function Followers () {

@@ -56,6 +56,7 @@ en:
         label: Change role
         no_role: No role
         title: Change role for %{username}
+      collections: Collections
       confirm: Confirm
       confirmed: Confirmed
       confirming: Confirming
@@ -350,6 +351,15 @@ en:
         save: Save
         title: Add new bubble domain
       title: Bubble
+    collections:
+      accounts: Accounts
+      collection_title: Collection by %{name}
+      contents: Contents
+      number_of_accounts:
+        one: 1 account
+        other: "%{count} accounts"
+      open: Open
+      view_publicly: View publicly
     critical_update_pending: Critical update pending
     custom_emojis:
       assign_category: Assign category
@@ -689,6 +699,7 @@ en:
       cancel: Cancel
       category: Category
       category_description_html: The reason this account and/or content was reported will be cited in communication with the reported account
+      collections: Collections
       comment:
         none: None
       comment_description_html: 'To provide more information, %{name} wrote:'
@@ -718,12 +729,13 @@ en:
       report: 'Report #%{id}'
       reported_account: Reported account
       reported_by: Reported by
+      reported_content: Reported content
       reported_with_application: Reported with application
       resolved: Resolved
       resolved_msg: Report successfully resolved!
       skip_to_actions: Skip to actions
       status: Status
-      statuses: Reported content
+      statuses: Posts
       statuses_description_html: Offending content will be cited in communication with the reported account
       summary:
         action_preambles:

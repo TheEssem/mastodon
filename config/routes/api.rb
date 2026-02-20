@@ -120,9 +120,11 @@ namespace :api, format: false do
     resources :markers, only: [:index, :create]
     resources :gifs, only: [:index]
 
-    namespace :profile do
-      resource :avatar, only: :destroy
-      resource :header, only: :destroy
+    resource :profile, only: [:show] do
+      scope module: :profile do
+        resource :avatar, only: :destroy
+        resource :header, only: :destroy
+      end
     end
 
     namespace :apps do
