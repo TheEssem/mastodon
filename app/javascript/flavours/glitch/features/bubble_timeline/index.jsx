@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
+import { defineMessages, FormattedMessage } from 'react-intl';
 
 import { Helmet } from 'react-helmet';
 
 import { connect } from 'react-redux';
 
+import { injectIntl } from '@/flavours/glitch/components/intl';
 import BubbleChartIcon from '@/material-icons/400-24px/bubble_chart.svg?react';
 import { DismissableBanner } from 'flavours/glitch/components/dismissable_banner';
 import { identityContextPropShape, withIdentity } from 'flavours/glitch/identity_context';
