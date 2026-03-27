@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
-import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
+import { defineMessages, FormattedMessage } from 'react-intl';
 
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import SettingText from 'flavours/glitch/components/setting_text';
-import SettingToggle from 'flavours/glitch/features/notifications/components/setting_toggle';
+import { injectIntl } from '@/flavours/glitch/components/intl';
+import SettingText from '@/flavours/glitch/components/setting_text';
+import SettingToggle from '@/flavours/glitch/features/notifications/components/setting_toggle';
 
 const messages = defineMessages({
   filter_regex: { id: 'home.column_settings.filter_regex', defaultMessage: 'Filter out by regular expressions' },
