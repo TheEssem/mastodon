@@ -221,7 +221,7 @@ const Firehose = ({ feedType, multiColumn }) => {
     );
   }
 
-  const canViewSelectedFeed = canViewFeed(signedIn, permissions, feedType === 'community' ? localLiveFeedAccess : remoteLiveFeedAccess);
+  const canViewSelectedFeed = canViewFeed(signedIn, permissions, feedType === 'community' ? localLiveFeedAccess : feedType === 'bubble' ? bubbleLiveFeedAccess : remoteLiveFeedAccess);
 
   const disabledTimelineMessage = (
     <FormattedMessage
@@ -232,9 +232,13 @@ const Firehose = ({ feedType, multiColumn }) => {
 
   let title;
 
-  if (canViewFeed(signedIn, permissions, localLiveFeedAccess) && canViewFeed(signedIn, permissions, remoteLiveFeedAccess)) {
+  const canViewLocal = canViewFeed(signedIn, permissions, localLiveFeedAccess);
+  const canViewBubble = canViewFeed(signedIn, permissions, bubbleLiveFeedAccess);
+  const canViewRemote = canViewFeed(signedIn, permissions, remoteLiveFeedAccess);
+
+  if ((canViewLocal + canViewBubble + canViewRemote) > 1) {
     title = messages.title;
-  } else if (canViewFeed(signedIn, permissions, localLiveFeedAccess)) {
+  } else if (canViewLocal) {
     title = messages.title_local;
   } else {
     title = messages.title_singular;
