@@ -82,7 +82,7 @@ class PublicFeed
   end
 
   def local_only?
-    (options[:local] && !options[:remote] && !options[:bubble]) || (!user_has_access_to_feed?(remote_feed_setting) && !user_has_access_to_feed?(bubble_feed_setting))
+    (options[:local] && !options[:remote] && !options[:bubble]) || (!user_has_access_to_feed?(remote_feed_setting) || !user_has_access_to_feed?(bubble_feed_setting))
   end
 
   def bubble_only?
@@ -90,7 +90,7 @@ class PublicFeed
   end
 
   def remote_only?
-    (options[:remote] && !options[:local] && !options[:bubble]) || (!user_has_access_to_feed?(local_feed_setting) && !user_has_access_to_feed?(bubble_feed_setting))
+    (options[:remote] && !options[:local] && !options[:bubble]) || !user_has_access_to_feed?(local_feed_setting)
   end
 
   def account?
