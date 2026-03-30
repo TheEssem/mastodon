@@ -30,6 +30,6 @@ class Api::V1::Instances::BubbleDomainsController < Api::V1::Instances::BaseCont
   end
 
   def show_bubble_domains_to_user?
-    Setting.show_bubble_domains == 'users' && user_signed_in?
+    Setting.show_bubble_domains == 'users' && user_signed_in? && current_user.functional_or_moved?
   end
 end
