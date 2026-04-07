@@ -37,14 +37,14 @@ class GifService::Tenor < GifService
   end
 
   def transform_response(json)
-    data = Oj.load(json, mode: :strict)
+    data = JSON.parse(json)
     raise UnexpectedResponseError unless data.is_a?(Hash)
 
     results = data['results'].map do |media_response|
       GifResults::GifResult.new(id: media_response['id'], url: media_response['media_formats']['mp4']['url'], description: media_response['content_description'])
     end
     GifResults.new(provider: 'Tenor', results: results)
-  rescue Oj::ParseError
+  rescue JSON::ParserError
     raise UnexpectedResponseError
   end
 end
