@@ -106,6 +106,7 @@ de:
         status_page_url: Link zu einer Internetseite, auf der der Serverstatus während eines Ausfalls angezeigt wird
         theme: Das Design, das nicht angemeldete Personen sehen.
         thumbnail: Ein Bild ungefähr im 2:1-Format, das neben den Server-Informationen angezeigt wird.
+        thumbnail_description: Eine Beschreibung des Bildes, damit Menschen, die blind oder sehbehindert sind, den Inhalt besser verstehen und einordnen können.
         trendable_by_default: Manuelles Überprüfen angesagter Inhalte überspringen. Einzelne Elemente können später noch aus den Trends entfernt werden.
         trends: Trends zeigen, welche Beiträge, Hashtags und Nachrichten auf deinem Server immer beliebter werden.
         wrapstodon: Ermöglicht Nutzer*innen dieses Servers einen spielerischen Jahresrückblick ihrer Mastodon-Aktivität zu erstellen. Diese Funktion ist jedes Jahr zwischen dem 10. und 31. Dezember verfügbar und wird Nutzer*innen angeboten, die innerhalb des Jahres mindestens einen öffentlichen oder stillen Beitrag verfasst und mindestens einen Hashtag verwendet haben.
@@ -156,6 +157,7 @@ de:
           other: Wir müssen sicherstellen, dass du mindestens %{count} Jahre alt bist, um %{domain} verwenden zu können. Wir werden diese Information nicht aufbewahren.
         role: Die Rolle bestimmt, welche Berechtigungen das Konto hat.
       user_role:
+        collection_limit: Begrenzt die Anzahl an Sammlungen, die Profile mit dieser Rolle erstellen können. Solltest du die Anzahl verringern, verlieren Konten, die die maximal Anzahl bereits erreicht haben, zwar keine Sammlungen – aber sie können keine weiteren erstellen.
         color: Farbe, die für diese Rolle im Webinterface verwendet wird, als RGB im Hexadezimalsystem
         highlighted: Moderative/administrative Rolle im öffentlichen Profil anzeigen
         name: Name der Rolle, der auch öffentlich als Badge angezeigt wird, sofern dies unten aktiviert ist
@@ -312,6 +314,7 @@ de:
         status_page_url: Statusseite (URL)
         theme: Standard-Design
         thumbnail: Vorschaubild des Servers
+        thumbnail_description: Bildbeschreibung des Vorschaubilds
         trendable_by_default: Trends ohne vorherige Überprüfung erlauben
         trends: Trends aktivieren
         wrapstodon: Wrapstodon aktivieren
@@ -382,6 +385,7 @@ de:
         role: Rolle
         time_zone: Zeitzone
       user_role:
+        collection_limit: Höchstzahl an Sammlungen pro Profil
         color: Badge-Farbe
         highlighted: Badge im Profil
         name: Name

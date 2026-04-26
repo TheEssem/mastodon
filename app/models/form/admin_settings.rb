@@ -25,6 +25,7 @@ class Form::AdminSettings
     hide_followers_count
     flavour_and_skin
     thumbnail
+    thumbnail_description
     mascot
     show_reblogs_in_public_timelines
     show_replies_in_public_timelines
@@ -134,6 +135,7 @@ class Form::AdminSettings
   validates :min_age, numericality: { only_integer: true }, allow_blank: true, if: -> { defined?(@min_age) }
   validates :site_short_description, length: { maximum: DESCRIPTION_LIMIT }, if: -> { defined?(@site_short_description) }
   validates :reject_pattern, regexp_syntax: true, if: -> { defined?(@reject_pattern) }
+  validates :thumbnail_description, length: { maximum: DESCRIPTION_LIMIT }, if: -> { defined?(@thumbnail_description) }
   validates :status_page_url, url: true, allow_blank: true
   validate :validate_site_uploads
   validates :landing_page, inclusion: { in: LANDING_PAGE }, if: -> { defined?(@landing_page) }

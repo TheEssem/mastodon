@@ -7,6 +7,8 @@ import { useHistory } from 'react-router-dom';
 import { isFulfilled } from '@reduxjs/toolkit';
 
 import { ComboboxMenuItem } from '@/flavours/glitch/components/form_fields/combobox_field';
+import { useAccount } from '@/flavours/glitch/hooks/useAccount';
+import { useCurrentAccountId } from '@/flavours/glitch/hooks/useAccountId';
 import { languages } from '@/flavours/glitch/initial_state';
 import {
   hasSpecialCharacters,
@@ -35,6 +37,8 @@ import {
   updateCollectionEditorField,
 } from 'flavours/glitch/reducers/slices/collections';
 import { useAppDispatch, useAppSelector } from 'flavours/glitch/store';
+
+import { getCollectionPath } from '../utils';
 
 import classes from './styles.module.scss';
 import { WizardStepTitle } from './wizard_step_title';
@@ -93,6 +97,9 @@ export const CollectionDetails: React.FC = () => {
     [dispatch],
   );
 
+  const accountId = useCurrentAccountId();
+  const { acct: currentUserName } = useAccount(accountId) ?? {};
+
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
@@ -128,8 +135,8 @@ export const CollectionDetails: React.FC = () => {
           }),
         ).then((result) => {
           if (isFulfilled(result)) {
-            history.replace(`/collections`);
-            history.push(`/collections/${result.payload.collection.id}`, {
+            history.replace(`/@${currentUserName}/collections`);
+            history.push(getCollectionPath(result.payload.collection.id), {
               newCollection: true,
             });
           }
@@ -146,6 +153,7 @@ export const CollectionDetails: React.FC = () => {
       dispatch,
       history,
       accountIds,
+      currentUserName,
     ],
   );
 

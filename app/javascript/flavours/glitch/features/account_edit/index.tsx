@@ -17,6 +17,7 @@ import { ToggleField } from '@/flavours/glitch/components/form_fields';
 import { useElementHandledLink } from '@/flavours/glitch/components/status/handled_link';
 import { useAccount } from '@/flavours/glitch/hooks/useAccount';
 import { useCurrentAccountId } from '@/flavours/glitch/hooks/useAccountId';
+import { useCustomEmojis } from '@/flavours/glitch/hooks/useCustomEmojis';
 import { autoPlayGif } from '@/flavours/glitch/initial_state';
 import {
   fetchProfile,
@@ -175,7 +176,7 @@ export const AccountEdit: FC = () => {
   }, [dispatch, profile?.bot]);
 
   // Normally we would use the account emoji, but we want all custom emojis to be available to render after editing.
-  const emojis = useAppSelector((state) => state.custom_emojis);
+  const emojis = useCustomEmojis();
   const htmlHandlers = useElementHandledLink({
     hashtagAccountId: profile?.id,
   });

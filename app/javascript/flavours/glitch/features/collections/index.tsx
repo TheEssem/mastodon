@@ -28,7 +28,12 @@ import {
 import { useAppSelector, useAppDispatch } from 'flavours/glitch/store';
 
 import { CollectionListItem } from './components/collection_list_item';
-import { messages as editorMessages } from './editor';
+import {
+  messages as editorMessages,
+  MaxCollectionsCallout,
+  userCollectionLimit,
+} from './editor';
+import { areCollectionsEnabled } from './utils';
 
 const messages = defineMessages({
   headingMe: { id: 'column.my_collections', defaultMessage: 'My collections' },
@@ -38,24 +43,27 @@ const messages = defineMessages({
   },
 });
 
+export function useAccountCollections(accountId: string | null | undefined) {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (accountId && areCollectionsEnabled()) {
+      void dispatch(fetchAccountCollections({ accountId }));
+    }
+  }, [dispatch, accountId]);
+
+  return useAppSelector((state) => selectAccountCollections(state, accountId));
+}
+
 export const Collections: React.FC<{
   multiColumn?: boolean;
 }> = ({ multiColumn }) => {
-  const dispatch = useAppDispatch();
   const intl = useIntl();
   const me = useCurrentAccountId();
   const accountId = useAccountId();
   const account = useAccount(accountId);
 
-  const { collections, status } = useAppSelector((state) =>
-    selectAccountCollections(state, accountId),
-  );
-
-  useEffect(() => {
-    if (accountId) {
-      void dispatch(fetchAccountCollections({ accountId }));
-    }
-  }, [dispatch, accountId]);
+  const { collections, status } = useAccountCollections(accountId);
 
   const emptyMessage =
     status === 'error' || !accountId ? (
@@ -82,6 +90,7 @@ export const Collections: React.FC<{
       </>
     );
 
+  const canCreateMoreCollections = collections.length < userCollectionLimit;
   const isOwnCollection = accountId === me;
   const titleMessage = isOwnCollection
     ? messages.headingMe
@@ -102,7 +111,9 @@ export const Collections: React.FC<{
         iconComponent={CollectionsFilledIcon}
         multiColumn={multiColumn}
         extraButton={
-          isOwnCollection && (
+          isOwnCollection &&
+          status === 'idle' &&
+          canCreateMoreCollections && (
             <Link
               to='/collections/new'
               className='column-header__button'
@@ -116,6 +127,9 @@ export const Collections: React.FC<{
       />
 
       <Scrollable>
+        {status === 'idle' && !canCreateMoreCollections && (
+          <MaxCollectionsCallout />
+        )}
         <ItemList emptyMessage={emptyMessage} isLoading={status === 'loading'}>
           {collections.map((item, index) => (
             <CollectionListItem

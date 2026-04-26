@@ -109,6 +109,7 @@ es-MX:
         status_page_url: URL de una página donde las personas pueden ver el estado de este servidor durante una interrupción
         theme: El tema que los visitantes no registrados y los nuevos usuarios ven.
         thumbnail: Una imagen de aproximadamente 2:1 se muestra junto a la información de tu servidor.
+        thumbnail_description: Una descripción de la imagen para ayudar a las personas con discapacidades visuales a entender su contenido.
         trendable_by_default: Omitir la revisión manual del contenido en tendencia. Los elementos individuales aún podrán eliminarse de las tendencias.
         trends: Las tendencias muestran qué mensajes, etiquetas y noticias están ganando tracción en tu servidor.
         wrapstodon: Ofrece a los usuarios locales la posibilidad de generar un resumen divertido de su uso de Mastodon durante el año. Esta función está disponible entre el 10 y el 31 de diciembre de cada año, y se ofrece a los usuarios que hayan publicado al menos una publicación pública o pública silenciosa y hayan utilizado al menos una etiqueta durante el año.
@@ -160,6 +161,7 @@ es-MX:
           other: Tenemos que asegurarnos de que tienes al menos %{count} para usar %{domain}. No almacenaremos esta información.
         role: El rol controla qué permisos tiene el usuario.
       user_role:
+        collection_limit: Limita el número de colecciones que puede crear un solo usuario con este rol. Ten en cuenta que, si reduces este número, los usuarios que ya hayan alcanzado este límite no perderán ninguna de sus colecciones, pero no podrán crear otras nuevas.
         color: Color que se usará para el rol en toda la interfaz de usuario, como RGB en formato hexadecimal
         highlighted: Esto hace que el rol sea públicamente visible
         name: Nombre público del rol, si el rol se establece para que se muestre como una insignia
@@ -316,6 +318,7 @@ es-MX:
         status_page_url: URL de página de estado
         theme: Tema por defecto
         thumbnail: Miniatura del servidor
+        thumbnail_description: Texto alternativo de miniatura
         trendable_by_default: Permitir tendencias sin revisión previa
         trends: Habilitar tendencias
         wrapstodon: Habilitar Wrapstodon
@@ -386,6 +389,7 @@ es-MX:
         role: Rol
         time_zone: Zona horaria
       user_role:
+        collection_limit: Número máximo de colecciones por usuario
         color: Color de insignia
         highlighted: Mostrar rol como insignia en perfiles de usuario
         name: Nombre

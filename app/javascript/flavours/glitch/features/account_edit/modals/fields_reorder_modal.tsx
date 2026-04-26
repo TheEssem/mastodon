@@ -35,6 +35,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { CustomEmojiProvider } from '@/flavours/glitch/components/emoji/context';
 import { normalizeKey } from '@/flavours/glitch/components/hotkeys/utils';
 import { Icon } from '@/flavours/glitch/components/icon';
+import { useCustomEmojis } from '@/flavours/glitch/hooks/useCustomEmojis';
 import type { FieldData } from '@/flavours/glitch/reducers/slices/profile_edit';
 import {
   patchProfile,
@@ -217,7 +218,7 @@ export const ReorderFieldsModal: FC<DialogModalProps> = ({ onClose }) => {
     void dispatch(patchProfile({ fields_attributes: newFields })).then(onClose);
   }, [dispatch, fieldKeys, fields, onClose]);
 
-  const emojis = useAppSelector((state) => state.custom_emojis);
+  const emojis = useCustomEmojis();
 
   return (
     // Add a wrapper here in the capture phase, so that it can be intercepted before the window listener in ModalRoot.

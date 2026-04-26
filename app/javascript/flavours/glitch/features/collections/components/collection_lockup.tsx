@@ -13,6 +13,8 @@ import { RelativeTimestamp } from 'flavours/glitch/components/relative_timestamp
 import { useAccount } from 'flavours/glitch/hooks/useAccount';
 import { domain } from 'flavours/glitch/initial_state';
 
+import { getCollectionPath } from '../utils';
+
 import classes from './collection_lockup.module.scss';
 
 export const AvatarGrid: React.FC<{
@@ -27,10 +29,10 @@ export const AvatarGrid: React.FC<{
         sensitive ? classes.avatarGridSensitive : null,
       )}
     >
-      {avatarIds.map((id) => (
+      {avatarIds.map((id, index) => (
         <AvatarById
           animate={false}
-          key={id}
+          key={index}
           accountId={id}
           className={classes.avatar}
           size={25}
@@ -67,7 +69,7 @@ export const CollectionLockup: React.FC<CollectionLockupProps> = ({
       />
       <div>
         <h2 id={linkId}>
-          <Link to={`/collections/${id}`} className={classes.link}>
+          <Link to={getCollectionPath(id)} className={classes.link}>
             {name}
           </Link>
         </h2>

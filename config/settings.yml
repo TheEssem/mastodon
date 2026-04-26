@@ -23,6 +23,7 @@ defaults: &defaults
   noindex: false
   flavour: 'glitch'
   skin: 'default'
+  thumbnail_description: ''
   trends: true
   trendable_by_default: false
   trending_status_cw: true

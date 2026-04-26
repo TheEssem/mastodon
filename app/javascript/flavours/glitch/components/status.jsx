@@ -32,6 +32,7 @@ import StatusContent from './status_content';
 import StatusIcons from './status_icons';
 import StatusPrepend from './status_prepend';
 import { StatusReactions } from './status_reactions';
+import { CollectionPreviewCard } from '../features/collections/components/collection_preview_card';
 
 const domParser = new DOMParser();
 
@@ -648,14 +649,30 @@ class Status extends ImmutablePureComponent {
         mediaIcons.push('video-camera');
       }
     } else if (status.get('card') && settings.get('inline_preview_cards') && !this.props.muted && !status.get('quote')) {
-      media.push(
-        <Card
-          key={`${status.get('id')}-${status.get('edited_at')}`}
-          card={status.get('card')}
-          sensitive={status.get('sensitive')}
-        />,
-      );
+      const cardUrl = status.getIn(['card', 'url']);
+
+      const taggedCollection = (
+        status.get('tagged_collections')
+      ).find((item) => compareUrls(item.get('url'), cardUrl));
+      if (taggedCollection) {
+        media.push(<CollectionPreviewCard collection={taggedCollection} />);
+      } else {
+        media.push(
+          <Card
+            key={`${status.get('id')}-${status.get('edited_at')}`}
+            card={status.get('card')}
+            sensitive={status.get('sensitive')}
+          />,
+        );
+      }
       mediaIcons.push('link');
+    } else if (status.get('tagged_collections').size && settings.get('inline_preview_cards') && !this.props.muted) {
+      const firstLinkedCollection = status.get('tagged_collections').first();
+      if (firstLinkedCollection) {
+        media = (
+          <CollectionPreviewCard collection={firstLinkedCollection.toJS()} />
+        );
+      }
     }
 
     if (status.get('poll')) {
