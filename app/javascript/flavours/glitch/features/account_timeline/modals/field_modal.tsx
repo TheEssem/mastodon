@@ -2,6 +2,7 @@ import type { FC } from 'react';
 
 import { FormattedMessage } from 'react-intl';
 
+import type { AccountField } from '@/flavours/glitch/components/account_header/fields';
 import { Button } from '@/flavours/glitch/components/button';
 import { EmojiHTML } from '@/flavours/glitch/components/emoji/html';
 import {
@@ -10,7 +11,6 @@ import {
   ModalShellBody,
 } from '@/flavours/glitch/components/modal_shell';
 
-import type { AccountField } from '../common';
 import { useFieldHtml } from '../hooks/useFieldHtml';
 
 import classes from './styles.module.scss';

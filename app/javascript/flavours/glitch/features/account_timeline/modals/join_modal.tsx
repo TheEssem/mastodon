@@ -100,7 +100,7 @@ export const AccountJoinModal: FC<{
   }, [anniversary, handle, dispatch, isMe]);
 
   return (
-    <ModalShell className={classes.joinShell}>
+    <ModalShell as='div' className={classes.joinShell}>
       <ModalShellBody className={classes.joinWrapper}>
         <AccountAnniversaryImage anniversary={anniversary} />
 

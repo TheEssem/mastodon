@@ -1731,6 +1731,27 @@ de:
     copy_account_note_text: 'Dieses Konto ist von %{acct} umgezogen. Hier deine damals verfassten Notizen zum Profil:'
   navigation:
     toggle_menu: Menü ein-/ausblenden
+  notification_fallbacks:
+    added_to_collection:
+      title_html: "%{name} fügte dich zu einer Sammlung hinzu"
+    admin_report:
+      title_html: "%{name} meldete %{target}"
+    admin_sign_up:
+      title_and_others_html:
+        one: "%{name} und noch jemand anderes registrierten sich"
+        other: "%{name} und %{count} weitere registrierten sich"
+      title_html: "%{name} registrierte sich"
+    collection_update:
+      title_html: "%{name} aktualisierte eine Sammlung, in der du vorgestellt wirst"
+    generic:
+      sign_in: Auf der Mastodon-Website anmelden
+      summary_html: Deine App unterstützt nicht die neueste Mastodon-Version. Rufe %{link} auf, um alle Funktionen nutzen zu können.
+    moderation_warning:
+      summary_html: Deine App unterstützt nicht die neueste Mastodon-Version. %{link}.
+      title: Die Moderator*innen haben dich verwarnt.
+    severed_relationships:
+      summary_html: Administrator*innen von %{from} haben den Zugriff auf den externen Server %{target} gesperrt. Das bedeutet, dass du keine Inhalte mehr von dort erhältst. Du kannst auch nicht mehr mit den Profilen dieses Servers interagieren. Rufe %{link} auf, um alle Profile, denen du folgtest und die dir folgten, einzusehen.
+      title: Verbindung zu %{name} verloren
   notification_mailer:
     admin:
       report:
@@ -1825,6 +1846,7 @@ de:
     public_timelines: Öffentliche Timelines
   privacy:
     email_subscriptions: Sende Beiträge per E-Mail
+    email_subscriptions_hint_html: Füge deinem Profil ein E-Mail-Formular für nicht angemeldete Personen hinzu. Dadurch können sie von Mastodon E-Mails über deine neuen öffentlichen Beiträge erhalten.
     hint_html: "<strong>Bestimme selbst, wie dein Profil und deine Beiträge gefunden werden sollen.</strong> Zahlreiche Mastodon-Funktionen können dir für eine größere Reichweite behilflich sein. Nimm dir einen Moment Zeit, um diese Einstellungen zu überprüfen."
     privacy: Datenschutz
     privacy_hint_html: Bestimme, wie viele Informationen du für andere preisgeben möchtest. Viele Menschen entdecken interessante Profile und coole Apps, indem sie die Follower anderer Profile durchstöbern und die Apps sehen, über die Beiträge veröffentlicht wurden – möglicherweise möchtest du diese Informationen ausblenden.
@@ -1945,7 +1967,7 @@ de:
     preferences: Einstellungen
     profile: Öffentliches Profil
     relationships: Follower und Folge ich
-    severed_relationships: Getrennte Beziehungen
+    severed_relationships: Getrennte Verbindungen
     statuses_cleanup: Automatisiertes Löschen
     strikes: Maßnahmen
     two_factor_authentication: Zwei-Faktor-Authentisierung
@@ -1958,7 +1980,7 @@ de:
       user_domain_block: Du hast %{target_name} blockiert
     lost_followers: Verlorene Follower
     lost_follows: Konten entfolgt
-    preamble: Möglicherweise verlierst du Follower und entfolgst Konten, wenn du eine Domain blockierst oder Moderator*innen externe Server sperren. Sollte das der Fall sein, wirst du eine Liste mit den getrennten Beziehungen herunterladen können. Dadurch kannst du die Änderungen einsehen oder die Liste auf einen anderen Server importieren.
+    preamble: Möglicherweise verlierst du Follower und entfolgst Konten, wenn du eine Domain blockierst oder Moderator*innen externe Server sperren. Sollte das der Fall sein, wirst du eine Liste mit den getrennten Verbindungen einsehen und herunterladen können. Dadurch kannst du die Änderungen einsehen oder die Liste auf einen anderen Server importieren.
     purged: Informationen über diesen Server wurden von deinen Server-Administrator*innen entfernt.
     type: Ereignis
   statuses:
@@ -2094,11 +2116,21 @@ de:
       email_subscription:
         confirmation_html: Du erhältst keine E-Mails mehr von %{name}.
       title: Du wurdest abgemeldet
+      user:
+        confirmation_html: Du erhältst von Mastodon zukünftig keine %{type} auf %{domain}.
+    notification_emails:
+      favourite: E-Mail-Benachrichtigungen über neue Favoriten
+      follow: E-Mail-Benachrichtigungen über neue Follower
+      follow_request: E-Mail-Benachrichtigungen über neue Follower-Anfragen
+      mention: E-Mail-Benachrichtigungen über neue Erwähnungen
+      reblog: E-Mail-Benachrichtigungen über geteilte Beiträge
     show:
       action: Abbestellen
       email_subscription:
+        confirmation_html: Du wirst bei neuen Beiträgen keine E-Mails mehr erhalten.
         title: "%{name} abbestellen?"
       user:
+        confirmation_html: Du wirst von Mastodon zukünftig keine %{type} auf %{domain} erhalten.
         title: "%{type} abbestellen?"
   user_mailer:
     announcement_published:

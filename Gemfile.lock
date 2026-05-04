@@ -107,8 +107,8 @@ GEM
     ast (2.4.3)
     attr_required (1.0.2)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1238.0)
-    aws-sdk-core (3.244.0)
+    aws-partitions (1.1242.0)
+    aws-sdk-core (3.246.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
@@ -116,10 +116,10 @@ GEM
       bigdecimal
       jmespath (~> 1, >= 1.6.1)
       logger
-    aws-sdk-kms (1.123.0)
+    aws-sdk-kms (1.124.0)
       aws-sdk-core (~> 3, >= 3.244.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.219.0)
+    aws-sdk-s3 (1.220.0)
       aws-sdk-core (~> 3, >= 3.244.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
@@ -140,7 +140,7 @@ GEM
     binding_of_caller (2.0.0)
       debug_inspector (>= 1.2.0)
     blurhash (0.1.8)
-    bootsnap (1.23.0)
+    bootsnap (1.24.1)
       msgpack (~> 1.2)
     brakeman (8.0.4)
       racc
@@ -186,7 +186,7 @@ GEM
       bigdecimal
       rexml
     crass (1.0.6)
-    css_parser (2.0.0)
+    css_parser (2.1.0)
       addressable
     csv (3.3.5)
     database_cleaner-active_record (2.2.1)
@@ -234,7 +234,7 @@ GEM
     elasticsearch-dsl (0.1.10)
     email_validator (2.2.4)
       activemodel
-    erb (6.0.3)
+    erb (6.0.4)
     erubi (1.13.1)
     et-orbi (1.4.0)
       tzinfo
@@ -272,7 +272,7 @@ GEM
       excon (~> 1.0)
       formatador (>= 0.2, < 2.0)
       mime-types
-    fog-json (1.2.0)
+    fog-json (1.3.0)
       fog-core
       multi_json (~> 1.10)
     fog-openstack (1.1.5)
@@ -322,7 +322,7 @@ GEM
       http-cookie (~> 1.0)
       http-form_data (~> 2.2)
       llhttp-ffi (~> 0.5.0)
-    http-cookie (1.1.4)
+    http-cookie (1.1.6)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
     http_accept_language (2.1.1)
@@ -351,7 +351,7 @@ GEM
       activesupport (>= 3.0)
       nokogiri (>= 1.6)
     io-console (0.8.2)
-    irb (1.17.0)
+    irb (1.18.0)
       pp (>= 0.6.0)
       prism (>= 1.3.0)
       rdoc (>= 4.0.0)
@@ -361,7 +361,7 @@ GEM
       azure-blob (~> 0.5.2)
       hashie (~> 5.0)
     jmespath (1.6.2)
-    json (2.19.3)
+    json (2.19.4)
     json-canonicalization (1.0.0)
     json-jwt (1.17.0)
       activesupport (>= 4.2)
@@ -458,7 +458,7 @@ GEM
     mime-types-data (3.2026.0414)
     mini_mime (1.1.5)
     mini_portile2 (2.8.9)
-    minitest (6.0.4)
+    minitest (6.0.5)
       drb (~> 2.0)
       prism (~> 1.5)
     msgpack (1.8.0)
@@ -466,7 +466,7 @@ GEM
     mutex_m (0.3.0)
     net-http (0.6.0)
       uri
-    net-imap (0.6.3)
+    net-imap (0.6.4)
       date
       net-protocol
     net-ldap (0.20.0)
@@ -479,7 +479,7 @@ GEM
     net-smtp (0.5.1)
       net-protocol
     nio4r (2.7.5)
-    nokogiri (1.19.2)
+    nokogiri (1.19.3)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     omniauth (2.1.4)
@@ -633,7 +633,7 @@ GEM
       date
       stringio
     public_suffix (7.0.5)
-    puma (7.2.0)
+    puma (8.0.1)
       nio4r (~> 2.0)
     pundit (2.5.2)
       activesupport (>= 3.0.0)
@@ -699,7 +699,7 @@ GEM
       tsort (>= 0.2)
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
-    rake (13.4.1)
+    rake (13.4.2)
     rdf (3.3.4)
       bcp47_spec (~> 0.2)
       bigdecimal (~> 3.1, >= 3.1.5)
@@ -856,11 +856,11 @@ GEM
     stackprof (0.2.28)
     starry (0.2.0)
       base64
-    stoplight (5.8.0)
+    stoplight (5.8.2)
       concurrent-ruby
       zeitwerk
     stringio (3.2.0)
-    strong_migrations (2.6.0)
+    strong_migrations (2.7.0)
       activerecord (>= 7.2)
     swd (2.0.3)
       activesupport (>= 3)
@@ -897,7 +897,7 @@ GEM
       unf (~> 0.1.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    tzinfo-data (1.2026.1)
+    tzinfo-data (1.2026.2)
       tzinfo (>= 1.0.0)
     unf (0.1.4)
       unf_ext
@@ -1054,7 +1054,7 @@ DEPENDENCIES
   prometheus_exporter (~> 2.2)
   propshaft
   public_suffix (~> 7.0)
-  puma (~> 7.0)
+  puma
   pundit (~> 2.3)
   rack-attack (~> 6.6)
   rack-cors
@@ -1107,7 +1107,7 @@ DEPENDENCIES
   xorcist (~> 1.1)
 
 RUBY VERSION
-  ruby 4.0.2
+  ruby 4.0.3
 
 BUNDLED WITH
-  4.0.10
+  4.0.11

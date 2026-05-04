@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { openModal } from '@/flavours/glitch/actions/modal';
 import { Button } from '@/flavours/glitch/components/button';
 import { EmptyState } from '@/flavours/glitch/components/empty_state';
-import { LimitedAccountHint } from '@/flavours/glitch/features/account_timeline/components/limited_account_hint';
+import { LimitedAccountHint } from '@/flavours/glitch/components/limited_account_hint';
 import { areCollectionsEnabled } from '@/flavours/glitch/features/collections/utils';
 import { useCurrentAccountId } from '@/flavours/glitch/hooks/useAccountId';
 import { useAppDispatch } from '@/flavours/glitch/store';

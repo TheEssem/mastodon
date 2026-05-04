@@ -2,7 +2,7 @@ import type { FC, ReactNode } from 'react';
 
 import { FormattedMessage } from 'react-intl';
 
-import { LimitedAccountHint } from '@/flavours/glitch/features/account_timeline/components/limited_account_hint';
+import { LimitedAccountHint } from '@/flavours/glitch/components/limited_account_hint';
 import { useAccountVisibility } from '@/flavours/glitch/hooks/useAccountVisibility';
 import type { Account } from '@/flavours/glitch/models/account';
 

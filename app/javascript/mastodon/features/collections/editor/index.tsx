@@ -25,7 +25,7 @@ import {
 } from 'mastodon/reducers/slices/collections';
 import { useAppDispatch, useAppSelector } from 'mastodon/store';
 
-import { useAccountCollections } from '..';
+import { useCollectionsCreatedBy } from '../overview/created_by_you';
 
 import { CollectionAccounts } from './accounts';
 import { CollectionDetails } from './details';
@@ -86,7 +86,7 @@ export const CollectionEditorPage: React.FC<{
   // When creating a new collection, we load the current account's collections
   // to determine if they're allowed to create more.
   const { collections: collectionList, status: collectionListStatus } =
-    useAccountCollections(isEditMode ? null : accountId);
+    useCollectionsCreatedBy(isEditMode ? null : accountId);
 
   const isLoading =
     (isEditMode && !collection) ||
@@ -144,7 +144,7 @@ export const CollectionEditorPage: React.FC<{
             />
           </Switch>
         ) : (
-          <MaxCollectionsCallout />
+          <MaxCollectionsCallout className={classes.maxCollectionsError} />
         )}
       </div>
 
@@ -156,9 +156,11 @@ export const CollectionEditorPage: React.FC<{
   );
 };
 
-export const MaxCollectionsCallout: React.FC = () => (
+export const MaxCollectionsCallout: React.FC<{ className?: string }> = ({
+  className,
+}) => (
   <Callout
-    className={classes.maxCollectionsError}
+    className={className}
     title={
       <FormattedMessage
         id='collections.maximum_collection_count_reached'
