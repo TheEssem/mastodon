@@ -34,37 +34,29 @@ export const IdentityContext = createContext<IdentityContextType>({
 
 export const useIdentity = () => useContext(IdentityContext);
 
-export interface IdentityProps {
-  ref?: unknown;
-  wrappedComponentRef?: unknown;
+interface IdentityInjectedProps {
+  identity: IdentityContextType;
 }
 
-/* Injects an `identity` props into the wrapped component to be able to use the new context in class components */
-export function withIdentity<
-  ComponentType extends React.ComponentType<IdentityProps>,
->(Component: ComponentType) {
-  const displayName = `withIdentity(${Component.displayName ?? Component.name})`;
-  const C = (props: React.ComponentProps<ComponentType>) => {
-    const { wrappedComponentRef, ...remainingProps } = props;
+type WithoutIdentity<Props> = Omit<Props, keyof IdentityInjectedProps>;
 
-    return (
-      <IdentityContext.Consumer>
-        {(context) => {
-          return (
-            // @ts-expect-error - Dynamic covariant generic components are tough to type.
-            <Component
-              {...remainingProps}
-              identity={context}
-              ref={wrappedComponentRef}
-            />
-          );
-        }}
-      </IdentityContext.Consumer>
-    );
-  };
+/* Injects an `identity` prop into the wrapped component to be able to use the new context in class components */
+export function withIdentity<Props extends IdentityInjectedProps>(
+  Component: React.ComponentType<Props>,
+) {
+  const displayName = `withIdentity(${Component.displayName ?? Component.name})`;
+  const C = (props: WithoutIdentity<Props>) => (
+    <IdentityContext.Consumer>
+      {(context) => {
+        const componentProps = { ...props, identity: context } as Props;
+
+        return <Component {...componentProps} />;
+      }}
+    </IdentityContext.Consumer>
+  );
 
   C.displayName = displayName;
   C.WrappedComponent = Component;
 
-  return hoistStatics(C, Component);
+  return hoistStatics(C, Component) as React.ComponentType<WithoutIdentity<Props>>;
 }
