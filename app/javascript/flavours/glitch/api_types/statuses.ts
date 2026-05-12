@@ -129,6 +129,7 @@ export interface ApiStatusJSON {
   local_only?: boolean;
   content_type?: string;
 
+  reactions_count: number;
   reactions: ApiStatusReactionJSON[];
 }
 
