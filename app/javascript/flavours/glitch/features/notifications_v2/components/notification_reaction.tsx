@@ -5,7 +5,9 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 
 import MoodIcon from '@/material-icons/400-24px/mood.svg?react';
-import { HoverableEmoji } from 'flavours/glitch/components/status_reactions';
+import { Emoji } from 'flavours/glitch/components/emoji';
+import { isUnicodeEmoji } from 'flavours/glitch/features/emoji/utils';
+import { useCustomEmojis } from 'flavours/glitch/hooks/useCustomEmojis';
 import type { NotificationGroupReaction } from 'flavours/glitch/models/notification_group';
 import { useAppSelector } from 'flavours/glitch/store';
 
@@ -16,16 +18,19 @@ export const NotificationReaction: React.FC<{
   notification: NotificationGroupReaction;
   unread: boolean;
 }> = ({ notification, unread }) => {
-  const { statusId } = notification;
   const statusAccount = useAppSelector(
     (state) =>
-      state.accounts.get(state.statuses.getIn([statusId, 'account']) as string)
+      state.accounts.get(state.statuses.getIn([notification.statusId, 'account']) as string)
         ?.acct,
   );
+  const customEmoji = useCustomEmojis();
 
   const labelRenderer = useCallback<LabelRenderer>(
     (displayedName, total, seeMoreHref) => {
-      if (total === 1)
+      if (notification.reaction && total === 1) {
+        const code = isUnicodeEmoji(notification.reaction.name)
+          ? notification.reaction.name
+          : `:${notification.reaction.name}:`;
         return (
           <FormattedMessage
             id='notification.reaction'
@@ -36,10 +41,9 @@ export const NotificationReaction: React.FC<{
                 notification.reaction ? (
                   <>
                     {chunks}{' '}
-                    <HoverableEmoji
-                      emoji={notification.reaction.name}
-                      url={notification.reaction.url}
-                      staticUrl={notification.reaction.static_url}
+                    <Emoji
+                      code={code}
+                      customEmoji={customEmoji}
                     />
                   </>
                 ) : (
@@ -48,6 +52,7 @@ export const NotificationReaction: React.FC<{
             }}
           />
         );
+      }
 
       return (
         <FormattedMessage
@@ -62,7 +67,7 @@ export const NotificationReaction: React.FC<{
         />
       );
     },
-    [notification.reaction],
+    [notification.reaction, customEmoji],
   );
 
   return (
@@ -76,7 +81,7 @@ export const NotificationReaction: React.FC<{
       count={notification.notifications_count}
       labelRenderer={labelRenderer}
       labelSeeMoreHref={
-        statusAccount ? `/@${statusAccount}/${statusId}/reactions` : undefined
+        statusAccount ? `/@${statusAccount}/${notification.statusId}/reactions` : undefined
       }
       unread={unread}
     />
