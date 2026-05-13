@@ -6,8 +6,9 @@ import { Link } from 'react-router-dom';
 
 import MoodIcon from '@/material-icons/400-24px/mood.svg?react';
 import { Emoji } from 'flavours/glitch/components/emoji';
+import { AnimateEmojiProvider } from 'flavours/glitch/components/emoji/context';
+import type { ExtraCustomEmojiMap } from 'flavours/glitch/features/emoji/types';
 import { isUnicodeEmoji } from 'flavours/glitch/features/emoji/utils';
-import { useCustomEmojis } from 'flavours/glitch/hooks/useCustomEmojis';
 import type { NotificationGroupReaction } from 'flavours/glitch/models/notification_group';
 import { useAppSelector } from 'flavours/glitch/store';
 
@@ -23,7 +24,6 @@ export const NotificationReaction: React.FC<{
       state.accounts.get(state.statuses.getIn([notification.statusId, 'account']) as string)
         ?.acct,
   );
-  const customEmoji = useCustomEmojis();
 
   const labelRenderer = useCallback<LabelRenderer>(
     (displayedName, total, seeMoreHref) => {
@@ -31,26 +31,35 @@ export const NotificationReaction: React.FC<{
         const code = isUnicodeEmoji(notification.reaction.name)
           ? notification.reaction.name
           : `:${notification.reaction.name}:`;
+        let custom: ExtraCustomEmojiMap | undefined;
+        if (notification.reaction.url && notification.reaction.static_url) {
+          custom = {
+            [notification.reaction.name]: {
+              shortcode: notification.reaction.name,
+              static_url: notification.reaction.static_url,
+              url: notification.reaction.url,
+            },
+          };
+        }
+
         return (
-          <FormattedMessage
-            id='notification.reaction'
-            defaultMessage='{name} reacted to your post <e>with</e>'
-            values={{
-              name: displayedName,
-              e: (chunks) =>
-                notification.reaction ? (
-                  <>
-                    {chunks}{' '}
-                    <Emoji
-                      code={code}
-                      customEmoji={customEmoji}
-                    />
-                  </>
-                ) : (
-                  ''
-                ),
-            }}
-          />
+          <AnimateEmojiProvider>
+            <FormattedMessage
+              id='notification.reaction'
+              defaultMessage='{name} reacted to your post <e>with</e>'
+              values={{
+                name: displayedName,
+                e: (chunks) =>
+                  notification.reaction ? (
+                    <>
+                      {chunks} <Emoji code={code} customEmoji={custom} />
+                    </>
+                  ) : (
+                    ''
+                  ),
+              }}
+            />
+          </AnimateEmojiProvider>
         );
       }
 
@@ -67,7 +76,7 @@ export const NotificationReaction: React.FC<{
         />
       );
     },
-    [notification.reaction, customEmoji],
+    [notification.reaction],
   );
 
   return (

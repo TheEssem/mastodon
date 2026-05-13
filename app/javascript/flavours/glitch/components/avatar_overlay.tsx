@@ -1,6 +1,5 @@
 import { Emoji } from 'flavours/glitch/components/emoji';
 import { isUnicodeEmoji } from 'flavours/glitch/features/emoji/utils';
-import { useCustomEmojis } from 'flavours/glitch/hooks/useCustomEmojis';
 import { useHovering } from 'flavours/glitch/hooks/useHovering';
 import { autoPlayGif } from 'flavours/glitch/initial_state';
 import type { Account, AccountShapeFull } from 'flavours/glitch/models/account';
@@ -36,7 +35,6 @@ export const AvatarOverlay: React.FC<Props> = ({
   baseSize = 36,
   overlaySize = 24,
 }) => {
-  const emojis = useCustomEmojis();
   const { hovering, handleMouseEnter, handleMouseLeave } =
     useHovering(autoPlayGif);
   const accountSrc = hovering ? account?.avatar : account?.avatar_static;
@@ -60,16 +58,21 @@ export const AvatarOverlay: React.FC<Props> = ({
       </div>
     );
   } else if (emoji) {
-    const code = isUnicodeEmoji(emoji.name)
-      ? emoji.name
-      : `:${emoji.name}:`;
+    const code = isUnicodeEmoji(emoji.name) ? emoji.name : `:${emoji.name}:`;
+    let custom;
+    if (emoji.url) {
+      custom = {
+        [emoji.name]: {
+          shortcode: emoji.name,
+          static_url: emoji.static_url,
+          url: emoji.url,
+        },
+      };
+    }
 
     overlayElement = (
       <div className='account__emoji' data-emoji-name={emoji.name}>
-        <Emoji
-          code={code}
-          customEmoji={emojis}
-        />
+        <Emoji code={code} customEmoji={custom} />
       </div>
     );
   }
