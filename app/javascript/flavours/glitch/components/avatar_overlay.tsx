@@ -1,4 +1,5 @@
 import { Emoji } from 'flavours/glitch/components/emoji';
+import { CustomEmojiProvider } from 'flavours/glitch/components/emoji/context';
 import { isUnicodeEmoji } from 'flavours/glitch/features/emoji/utils';
 import { useHovering } from 'flavours/glitch/hooks/useHovering';
 import { autoPlayGif } from 'flavours/glitch/initial_state';
@@ -71,7 +72,9 @@ export const AvatarOverlay: React.FC<Props> = ({
 
     overlayElement = (
       <div className='account__emoji' data-emoji-name={emoji.name}>
-        <Emoji code={code} customEmoji={custom} />
+        <CustomEmojiProvider emojis={custom}>
+          <Emoji code={code} />
+        </CustomEmojiProvider>
       </div>
     );
   }
