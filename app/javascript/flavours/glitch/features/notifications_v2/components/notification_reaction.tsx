@@ -6,7 +6,10 @@ import { Link } from 'react-router-dom';
 
 import MoodIcon from '@/material-icons/400-24px/mood.svg?react';
 import { Emoji } from 'flavours/glitch/components/emoji';
-import { AnimateEmojiProvider } from 'flavours/glitch/components/emoji/context';
+import {
+  AnimateEmojiProvider,
+  CustomEmojiProvider,
+} from 'flavours/glitch/components/emoji/context';
 import type { ExtraCustomEmojiMap } from 'flavours/glitch/features/emoji/types';
 import { isUnicodeEmoji } from 'flavours/glitch/features/emoji/utils';
 import type { NotificationGroupReaction } from 'flavours/glitch/models/notification_group';
@@ -52,7 +55,10 @@ export const NotificationReaction: React.FC<{
                 e: (chunks) =>
                   notification.reaction ? (
                     <>
-                      {chunks} <Emoji code={code} customEmoji={custom} />
+                      {chunks}{' '}
+                      <CustomEmojiProvider emojis={custom}>
+                        <Emoji code={code} />
+                      </CustomEmojiProvider>
                     </>
                   ) : (
                     ''
