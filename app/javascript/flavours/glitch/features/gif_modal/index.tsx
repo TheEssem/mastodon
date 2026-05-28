@@ -53,13 +53,7 @@ export const GIFModal: React.FC<{
     (state) => state.compose.get('gifs') as ImmutableMap<string, unknown>,
   );
   const provider = useAppSelector(
-    (state) =>
-      state.server.getIn([
-        'server',
-        'configuration',
-        'gif_search',
-        'provider',
-      ]) as string | null,
+    (state) => state.server.server.item?.configuration.gif_search.provider,
   );
   const results = gifs.get('items') as ImmutableOrderedSet<GifResult>;
   const isLoading = gifs.get('isLoading') as boolean;
