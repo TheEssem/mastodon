@@ -10,6 +10,7 @@
   "column_header.profile": "Profile",
   "community.column_settings.allow_local_only": "Show local-only toots",
   "compose.attach.doodle": "Draw something",
+  "compose.attach.gif": "Upload GIF",
   "compose.change_federation": "Change federation settings",
   "compose.content-type.change": "Change advanced formatting options",
   "compose.content-type.html": "HTML",
