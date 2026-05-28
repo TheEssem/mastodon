@@ -24,7 +24,7 @@ const messages = defineMessages({
 const makeMapStateToProps = () => {
   const mapStateToProps = state => ({
     acceptContentTypes: state.getIn(['media_attachments', 'accept_content_types']),
-    supportsGif: state.getIn(['server', 'server', 'configuration', 'gif_search', 'enabled']),
+    supportsGif: state.server.server.item?.configuration.gif_search.enabled,
   });
 
   return mapStateToProps;
@@ -83,7 +83,7 @@ class UploadButton extends ImmutablePureComponent {
         iconComponent: BrushIcon,
         value: 'doodle',
         text: intl.formatMessage(messages.doodle),
-      },
+      }
     ];
 
     if (supportsGif) {

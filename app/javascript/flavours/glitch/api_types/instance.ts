@@ -143,5 +143,10 @@ export interface ApiInstanceJSON {
     };
 
     limited_federation: boolean;
+
+    gif_search: {
+      enabled: boolean;
+      provider: string;
+    };
   };
 }
