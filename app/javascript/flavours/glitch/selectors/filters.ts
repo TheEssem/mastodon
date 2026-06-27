@@ -3,6 +3,14 @@ import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from 'flavours/glitch/store';
 import { toServerSideType } from 'flavours/glitch/utils/filters';
 
+export interface FilterShape {
+  id: string;
+  title: string;
+  context: string[];
+  expires_at: string | null;
+  filter_action: 'hide' | 'blur' | 'warn';
+}
+
 // TODO: move to `app/javascript/flavours/glitch/models` and use more globally
 type Filter = Immutable.Map<string, unknown>;
 
@@ -12,7 +20,7 @@ type FilterResult = Immutable.Map<string, unknown>;
 export const getFilters = createSelector(
   [
     (state: RootState) => state.filters as Immutable.Map<string, Filter>,
-    (_, { contextType }: { contextType: string }) => contextType,
+    (_, { contextType }: { contextType?: string }) => contextType,
   ],
   (filters, contextType) => {
     if (!contextType) {
