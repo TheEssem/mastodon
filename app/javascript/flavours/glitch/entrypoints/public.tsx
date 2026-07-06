@@ -15,6 +15,7 @@ import { throttle } from 'lodash';
 
 import { determineEmojiMode } from '@/flavours/glitch/features/emoji/mode';
 import { updateHtmlWithEmoji } from '@/flavours/glitch/features/emoji/render';
+import type { InitialState } from '@/flavours/glitch/initial_state';
 import loadKeyboardExtensions from '@/flavours/glitch/load_keyboard_extensions';
 import { loadLocale, getLocale } from '@/flavours/glitch/locales';
 import { loadPolyfills } from '@/flavours/glitch/polyfills';
@@ -83,7 +84,7 @@ async function loaded() {
     document.getElementById('initial-state')?.textContent;
   if (initialStateText) {
     const stateEmojiStyle = getNestedProperty(
-      JSON.parse(initialStateText) as unknown,
+      JSON.parse(initialStateText) as InitialState,
       'meta',
       'emoji_style',
     );
@@ -522,14 +523,6 @@ on('click', '.rules-list button', ({ target }) => {
  * don't produce accessible markup (simple-forms & simple-navigation)
  */
 function applyRailsA11yPatches() {
-  /**
-   * Mark current navigation item with aria-current
-   */
-  const activeNavLink = document.querySelector(
-    '.simple-navigation-active-leaf a.selected',
-  );
-  activeNavLink?.setAttribute('aria-current', 'page');
-
   /**
    * Hides the asterisk added to labels of required form fields
    * from assistive tech. (Those fields already have the `required` attribute)

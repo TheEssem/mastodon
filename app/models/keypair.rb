@@ -4,16 +4,17 @@
 #
 # Table name: keypairs
 #
-#  id          :bigint(8)        not null, primary key
-#  expires_at  :datetime
-#  private_key :string
-#  public_key  :string           not null
-#  revoked     :boolean          default(FALSE), not null
-#  type        :integer          not null
-#  uri         :string           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  account_id  :bigint(8)        not null
+#  id             :bigint(8)        not null, primary key
+#  expires_at     :datetime
+#  local_fragment :string
+#  private_key    :string
+#  public_key     :string           not null
+#  revoked        :boolean          default(FALSE), not null
+#  type           :integer          not null
+#  uri            :string
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  account_id     :bigint(8)        not null
 #
 
 class Keypair < ApplicationRecord
@@ -30,19 +31,26 @@ class Keypair < ApplicationRecord
     ed25519: 1,
   }, validate: true
 
-  attr_accessor :require_private_key
+  validates :uri, presence: true, uniqueness: true, if: -> { account.remote? }
+  validates :uri, absence: true, if: -> { account.local? }
 
-  validates :uri, presence: true, uniqueness: true
+  validates :local_fragment, presence: true, uniqueness: { scope: :account_id }, format: { with: /\A#[A-Z0-9-]+\Z/i }, if: -> { account.local? }
+  validates :local_fragment, absence: true, if: -> { account.remote? }
+
   validates :public_key, presence: true
   validates :private_key, presence: true, if: -> { account.local? }
-
-  # NOTE: this should be true in production, but tests heavily rely on remote accounts having a keypair
-  validates :private_key, absence: true, if: -> { account.remote? && !require_private_key }
+  validates :private_key, absence: true, if: -> { account.remote? }
 
   scope :unexpired, -> { where(expires_at: nil).or(where.not(expires_at: ..Time.now.utc)) }
   scope :usable, -> { unexpired.where(revoked: false) }
 
   alias actor account
+
+  def full_uri
+    return ActivityPub::TagManager.instance.uri_for(account) + local_fragment if local_fragment.present?
+
+    uri
+  end
 
   def keypair
     @keypair ||= begin
@@ -60,6 +68,8 @@ class Keypair < ApplicationRecord
   end
 
   def self.from_keyid(uri)
+    return if uri.blank?
+
     keypair = find_by(uri: uri)
     return keypair unless keypair.nil?
 
@@ -78,5 +88,23 @@ class Keypair < ApplicationRecord
       private_key: account.private_key,
       type: :rsa
     )
+  end
+
+  def self.from_worker_arg(account, private_key_pem_or_hash)
+    if private_key_pem_or_hash.is_a?(String)
+      account.keypairs.build(
+        private_key: private_key_pem_or_hash,
+        local_fragment: '#main-key',
+        type: :rsa
+      )
+    else
+      account.keypairs.build(
+        private_key: private_key_pem_or_hash['private_key'],
+        public_key: private_key_pem_or_hash['public_key'],
+        uri: private_key_pem_or_hash['uri'],
+        local_fragment: private_key_pem_or_hash['local_fragment'],
+        type: private_key_pem_or_hash['type']
+      )
+    end
   end
 end

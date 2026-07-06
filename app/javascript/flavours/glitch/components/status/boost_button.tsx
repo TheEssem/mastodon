@@ -5,6 +5,8 @@ import { useIntl } from 'react-intl';
 
 import classNames from 'classnames';
 
+import type { SetRequired } from 'type-fest';
+
 import { quoteComposeById } from '@/flavours/glitch/actions/compose_typed';
 import { toggleReblog } from '@/flavours/glitch/actions/interactions';
 import { openModal } from '@/flavours/glitch/actions/modal';
@@ -13,7 +15,6 @@ import { quickBoosting } from '@/flavours/glitch/initial_state';
 import type { ActionMenuItem } from '@/flavours/glitch/models/dropdown_menu';
 import type { Status } from '@/flavours/glitch/models/status';
 import { useAppDispatch, useAppSelector } from '@/flavours/glitch/store';
-import type { SomeRequired } from '@/flavours/glitch/utils/types';
 
 import type { RenderItemFn } from '../dropdown_menu';
 import { Dropdown, DropdownMenuItemContent } from '../dropdown_menu';
@@ -91,7 +92,7 @@ interface ReblogButtonProps {
   counters?: boolean;
 }
 
-type ActionMenuItemWithIcon = SomeRequired<ActionMenuItem, 'icon'>;
+type ActionMenuItemWithIcon = SetRequired<ActionMenuItem, 'icon'>;
 
 const BoostOrQuoteMenu: FC<ReblogButtonProps> = ({ status, counters }) => {
   const intl = useIntl();
@@ -187,7 +188,7 @@ const BoostOrQuoteMenu: FC<ReblogButtonProps> = ({ status, counters }) => {
   return (
     <Dropdown
       placement='bottom-start'
-      offset={[-19, 5]} // This aligns button icon with menu icons
+      offset={{ mainAxis: 5, crossAxis: -19 }} // This aligns button icon with menu icons
       items={items}
       renderItem={renderMenuItem}
       onOpen={handleDropdownOpen}

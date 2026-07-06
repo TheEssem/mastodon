@@ -372,7 +372,7 @@
   }
 }
 
-body > [data-popper-placement] {
+body > [data-popover-placement] {
   z-index: 9999;
 }
 
@@ -1620,6 +1620,7 @@ body > [data-popper-placement] {
     content: '';
     position: absolute;
     inset: 0;
+    z-index: -1;
     background: var(--color-bg-brand-softest);
     opacity: 0;
     animation: fade 0.7s reverse both 0.3s;
@@ -4091,9 +4092,8 @@ a.account__display-name {
   align-items: center;
   gap: 8px;
   width: 100%;
-  padding: 10px;
-  padding-inline-start: 14px;
-  overflow: hidden;
+  padding: 12px;
+  padding-inline-start: 16px;
   font-size: 16px;
   font-weight: 400;
   text-decoration: none;
@@ -4104,7 +4104,7 @@ a.account__display-name {
     var(--color-text-secondary)
   );
   background: transparent;
-  border: 2px solid transparent;
+  border: none;
   border-radius: 4px;
 
   &:hover,
@@ -4118,14 +4118,14 @@ a.account__display-name {
   }
 
   &:focus-visible {
-    outline: none;
-    border-color: var(--color-border-brand);
+    outline: var(--outline-focus-default);
+    outline-offset: -2px;
     background: var(--color-bg-brand-softest);
   }
 
   &--logo {
-    padding: 8px;
-    padding-inline-start: 12px;
+    padding: 10px;
+    padding-inline-start: 14px;
   }
 }
 
@@ -5772,10 +5772,6 @@ a.status-card {
 }
 
 .visibility-dropdown {
-  &__overlay[data-popper-placement] {
-    z-index: 9999;
-  }
-
   &.disabled {
     opacity: 0.6;
     cursor: default;
@@ -10715,7 +10711,7 @@ noscript {
   }
 }
 
-.hover-card-controller[data-popper-reference-hidden='true'] {
+.hover-card-controller[data-popover-reference-hidden='true'] {
   opacity: 0;
   pointer-events: none;
 }

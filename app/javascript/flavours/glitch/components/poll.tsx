@@ -15,7 +15,6 @@ import { fetchPoll, vote } from 'flavours/glitch/actions/polls';
 import { Icon } from 'flavours/glitch/components/icon';
 import { useIdentity } from 'flavours/glitch/identity_context';
 import type * as Model from 'flavours/glitch/models/poll';
-import type { Status } from 'flavours/glitch/models/status';
 import { useAppDispatch, useAppSelector } from 'flavours/glitch/store';
 
 import { RelativeTimestamp } from './relative_timestamp';
@@ -40,12 +39,18 @@ const isPollExpired = (expiresAt: Model.Poll['expires_at']) =>
 
 interface PollProps {
   pollId: string;
-  status: Status;
+  accountId: string;
+  statusUrl: string;
   lang?: string;
   disabled?: boolean;
 }
 
-export const Poll: React.FC<PollProps> = ({ pollId, disabled, status }) => {
+export const Poll: React.FC<PollProps> = ({
+  pollId,
+  disabled,
+  accountId,
+  statusUrl,
+}) => {
   // Third party hooks
   const poll = useAppSelector((state) => state.polls[pollId]);
   const identity = useIdentity();
@@ -110,14 +115,22 @@ export const Poll: React.FC<PollProps> = ({ pollId, disabled, status }) => {
         openModal({
           modalType: 'INTERACTION',
           modalProps: {
+            accountId,
             intent: 'vote',
-            accountId: status.getIn(['account', 'id']),
-            url: status.get('uri'),
+            url: statusUrl,
           },
         }),
       );
     }
-  }, [voteDisabled, dispatch, identity, pollId, selected, status]);
+  }, [
+    voteDisabled,
+    dispatch,
+    identity,
+    pollId,
+    selected,
+    accountId,
+    statusUrl,
+  ]);
 
   const handleReveal = useCallback(() => {
     setRevealed(true);
