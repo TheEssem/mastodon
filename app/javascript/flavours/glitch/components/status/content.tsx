@@ -6,10 +6,10 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import classnames from 'classnames';
 
 import { toggleStatusCollapse } from '@/flavours/glitch/actions/statuses';
+import { useStatus } from '@/flavours/glitch/hooks/useStatus';
 import { useIdentity } from '@/flavours/glitch/identity_context';
 import { languages as preloadedLanguages } from '@/flavours/glitch/initial_state';
 import type { StatusTranslation } from '@/flavours/glitch/models/status';
-import { selectPlainStatus } from '@/flavours/glitch/selectors/statuses';
 import { useAppDispatch, useAppSelector } from '@/flavours/glitch/store';
 import ChevronRightIcon from '@/material-icons/400-24px/chevron_right.svg?react';
 
@@ -23,11 +23,12 @@ const MAX_HEIGHT = 706; // 22px * 32 (+ 2px padding at the top)
 
 export const StatusContent: React.FC<{
   statusId: string;
+  statusContent?: string;
   onClick?: React.MouseEventHandler;
   onTranslate?: React.MouseEventHandler<HTMLButtonElement>;
   collapsible?: boolean;
-}> = ({ statusId, onClick, onTranslate, collapsible }) => {
-  const status = useAppSelector((state) => selectPlainStatus(state, statusId));
+}> = ({ statusId, statusContent, onClick, onTranslate, collapsible }) => {
+  const status = useStatus(statusId);
   const { signedIn } = useIdentity();
   const targetLanguages = useAppSelector(
     (state) =>
@@ -129,7 +130,9 @@ export const StatusContent: React.FC<{
     <EmojiHTML
       className='status__content__text status__content__text--visible translate'
       lang={language}
-      htmlString={status.translation?.contentHtml ?? status.contentHtml}
+      htmlString={
+        statusContent ?? status.translation?.contentHtml ?? status.contentHtml
+      }
       extraEmojis={status.emojis}
       {...htmlHandlers}
     />

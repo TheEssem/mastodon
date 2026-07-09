@@ -1014,12 +1014,14 @@ fr:
       description: Il est recommandé de maintenir votre installation de Mastodon à jour afin de bénéficier des derniers correctifs et fonctionnalités. Par ailleurs, il est parfois critique de mettre à jour Mastodon rapidement de manière à éviter les incidents relatifs à la sécurité. Pour ces raisons, Mastodon examine la disponibilté des mises à jour toutes les 30 minutes, et vous en avisera en fonction de vos préférences de notification par courriel.
       documentation_link: En savoir plus
       release_notes: Notes de mises à jour
+      supported_until: Le support se termine le %{date}
       title: Mises à jour disponibles
       type: Type
       types:
         major: Mise à jour majeure
         minor: Mise à jour mineure
         patch: Mise à jour « patch » — correctifs de bugs et changements faciles à faire
+      unsupported_since: Non supportée depuis le %{date}
       version: Version
     statuses:
       account: Auteur·rice
@@ -1229,14 +1231,15 @@ fr:
         trendable: Peut apparaître sous les tendances
         trending_rank: 'Tendance #%{rank}'
         usable: Peut être utilisé
-        usage_comparison: Utilisé %{today} fois aujourd'hui, comparé à %{yesterday} hier
+        usage_comparison: Utilisé %{today} fois aujourd'hui, et %{yesterday} fois hier
         used_by_over_week:
           one: Utilisé par %{count} personne au cours de la dernière semaine
           other: Utilisé par %{count} personnes au cours de la dernière semaine
       title: Recommandations et tendances
       trending: Tendances
+    update_available: Mise à jour disponible
     username_blocks:
-      add_new: Ajouter un nouveau
+      add_new: Ajouter une règle
       block_registrations: Bloquer les inscriptions
       comparison:
         contains: Contient

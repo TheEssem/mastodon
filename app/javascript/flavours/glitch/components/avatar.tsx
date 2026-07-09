@@ -5,14 +5,15 @@ import { Link } from 'react-router-dom';
 
 import { useHovering } from 'flavours/glitch/hooks/useHovering';
 import { autoPlayGif } from 'flavours/glitch/initial_state';
-import type { Account } from 'flavours/glitch/models/account';
+import type { Account, AccountShapeFull } from 'flavours/glitch/models/account';
 
 import { useAccount } from '../hooks/useAccount';
 
 interface Props {
-  account:
-    | Pick<Account, 'id' | 'acct' | 'avatar' | 'avatar_static'>
-    | undefined; // FIXME: remove `undefined` once we know for sure its always there
+  account?: Pick<
+    Account | AccountShapeFull,
+    'id' | 'acct' | 'avatar' | 'avatar_static'
+  >;
   alt?: string;
   size?: number;
   style?: React.CSSProperties;

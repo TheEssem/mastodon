@@ -4,19 +4,21 @@ import { defineMessage, useIntl } from 'react-intl';
 
 import classNames from 'classnames';
 
-import { isStatusVisibility } from '@/flavours/glitch/api_types/statuses';
-import type { Account } from '@/flavours/glitch/models/account';
-import type { Status } from '@/flavours/glitch/models/status';
+import type {
+  Account,
+  AccountShapeFull,
+} from '@/flavours/glitch/models/account';
+import { selectAccountStatus } from '@/flavours/glitch/selectors/statuses';
+import { useAppSelector } from '@/flavours/glitch/store';
 
 import { Avatar } from '../avatar';
 import { AvatarOverlay } from '../avatar_overlay';
 import type { DisplayNameProps } from '../display_name';
 import { LinkedDisplayName } from '../display_name';
-import { VisibilityIcon } from '../visibility_icon';
 
 export interface StatusHeaderProps {
-  status: Status;
-  account?: Account;
+  statusId: string;
+  account?: Account | AccountShapeFull;
   avatarSize?: number;
   contentBeforeDate?: ReactNode;
   contentAfterDate?: ReactNode;
@@ -30,7 +32,7 @@ export interface StatusHeaderProps {
 export type StatusHeaderRenderFn = (args: StatusHeaderProps) => ReactNode;
 
 export const StatusHeader: FC<StatusHeaderProps> = ({
-  status,
+  statusId,
   account,
   className,
   avatarSize = 48,
@@ -39,7 +41,13 @@ export const StatusHeader: FC<StatusHeaderProps> = ({
   contentAfterDate,
   onHeaderClick,
 }) => {
-  const statusAccount = status.get('account') as Account | undefined;
+  const status = useAppSelector((state) =>
+    selectAccountStatus(state, statusId),
+  );
+  if (!status) {
+    return null;
+  }
+  const statusAccount = status.account;
 
   return (
     /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
@@ -62,25 +70,13 @@ export const StatusHeader: FC<StatusHeaderProps> = ({
   );
 };
 
-export const StatusVisibility: FC<{ visibility: unknown }> = ({
-  visibility,
-}) => {
-  if (typeof visibility !== 'string' || !isStatusVisibility(visibility)) {
-    return null;
-  }
-  return (
-    <span className='status__visibility-icon'>
-      <VisibilityIcon visibility={visibility} />
-    </span>
-  );
-};
-
 const editMessage = defineMessage({
   id: 'status.edited',
   defaultMessage: 'Edited {date}',
 });
 
-export const StatusEditedAt: FC<{ editedAt: string }> = ({ editedAt }) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- unused in glitch-soc but that might change
+const StatusEditedAt: FC<{ editedAt: string }> = ({ editedAt }) => {
   const intl = useIntl();
   return (
     <abbr
@@ -100,9 +96,9 @@ export const StatusEditedAt: FC<{ editedAt: string }> = ({ editedAt }) => {
   );
 };
 
-export const StatusDisplayName: FC<{
-  statusAccount?: Account;
-  friendAccount?: Account;
+const StatusDisplayName: FC<{
+  statusAccount?: AccountShapeFull;
+  friendAccount?: Account | AccountShapeFull;
   avatarSize: number;
 }> = ({ statusAccount, friendAccount, avatarSize }) => {
   const AccountComponent = friendAccount ? AvatarOverlay : Avatar;

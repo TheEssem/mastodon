@@ -5,7 +5,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 import glob from 'fast-glob';
-import yaml from 'js-yaml';
+import * as yaml from 'js-yaml';
 import type { Plugin } from 'vite';
 
 interface Flavour {

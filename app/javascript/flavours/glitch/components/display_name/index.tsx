@@ -2,7 +2,10 @@ import type { ComponentPropsWithoutRef, FC } from 'react';
 
 import type { LinkProps } from 'react-router-dom';
 
-import type { Account } from '@/flavours/glitch/models/account';
+import type {
+  Account,
+  AccountShapeFull,
+} from '@/flavours/glitch/models/account';
 import { Permalink } from 'flavours/glitch/components/permalink';
 
 import { DisplayNameDefault } from './default';
@@ -10,7 +13,7 @@ import { DisplayNameWithoutDomain } from './no-domain';
 import { DisplayNameSimple } from './simple';
 
 export interface DisplayNameProps {
-  account?: Account;
+  account?: Account | AccountShapeFull;
   localDomain?: string;
   variant?: 'default' | 'simple' | 'noDomain';
 }

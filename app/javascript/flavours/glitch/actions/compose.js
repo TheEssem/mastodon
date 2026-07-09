@@ -15,6 +15,7 @@ import { useEmoji } from './emojis';
 import { importFetchedAccounts, importFetchedStatus } from './importer';
 import { openModal } from './modal';
 import { updateTimeline } from './timelines';
+import { insertStatusIntoAccountTimelines } from './timelines_typed';
 
 /** @type {AbortController | undefined} */
 let fetchComposeSuggestionsAccountsController;
@@ -211,14 +212,14 @@ export function directCompose(account) {
  */
 export function submitCompose(overridePrivacy = null, successCallback = undefined) {
   return function (dispatch, getState) {
-    let status     = getState().getIn(['compose', 'text'], '');
-    const media    = getState().getIn(['compose', 'media_attachments']);
-    const statusId = getState().getIn(['compose', 'id'], null);
-    const hasQuote = !!getState().getIn(['compose', 'quoted_status_id']);
-    const spoilers = getState().getIn(['compose', 'spoiler']) || getState().getIn(['local_settings', 'always_show_spoilers_field']);
+    const statusText   = getState().getIn(['compose', 'text'], '');
+    const media        = getState().getIn(['compose', 'media_attachments']);
+    const statusId     = getState().getIn(['compose', 'id'], null);
+    const hasQuote     = !!getState().getIn(['compose', 'quoted_status_id']);
+    const spoilers     = getState().getIn(['compose', 'spoiler']) || getState().getIn(['local_settings', 'always_show_spoilers_field']);
     const spoiler_text = spoilers ? getState().getIn(['compose', 'spoiler_text'], '') : '';
 
-    const fulltext = `${spoiler_text ?? ''}${countableText(status ?? '')}`;
+    const fulltext = `${spoiler_text ?? ''}${countableText(statusText ?? '')}`;
     const hasText = fulltext.trim().length > 0;
 
     if (!(hasText || media.size !== 0 || (hasQuote && spoiler_text?.length))) {
@@ -257,7 +258,7 @@ export function submitCompose(overridePrivacy = null, successCallback = undefine
       url: statusId === null ? '/api/v1/statuses' : `/api/v1/statuses/${statusId}`,
       method: statusId === null ? 'post' : 'put',
       data: {
-        status,
+        status: statusText,
         spoiler_text,
         content_type: getState().getIn(['compose', 'content_type']),
         local_only: getState().getIn(['compose', 'advanced_options', 'do_not_federate']),
@@ -281,7 +282,7 @@ export function submitCompose(overridePrivacy = null, successCallback = undefine
         browserHistory.goBack();
       }
 
-      dispatch(insertIntoTagHistory(response.data.tags, status));
+      dispatch(insertIntoTagHistory(response.data.tags, statusText));
       dispatch(submitComposeSuccess({ ...response.data }));
       if (typeof successCallback === 'function') {
         successCallback(response.data);
@@ -313,6 +314,8 @@ export function submitCompose(overridePrivacy = null, successCallback = undefine
       } else if (statusId === null && response.data.visibility === 'direct') {
         insertIfOnline('direct');
       }
+
+      dispatch(insertStatusIntoAccountTimelines({ ...response.data }));
 
       if (getState().getIn(['local_settings', 'show_published_toast'])) {
         dispatch(showAlert({

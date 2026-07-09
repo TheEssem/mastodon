@@ -109,15 +109,15 @@ const expandNormalizedTimeline = (state, timeline, statuses, next, isPartial, is
   }));
 };
 
-const updateTimeline = (state, timeline, status, usePendingItems, filtered) => {
+const updateTimeline = (state, timeline, statusId, usePendingItems, filtered) => {
   const top = state.getIn([timeline, 'top']);
 
   if (usePendingItems || !state.getIn([timeline, 'pendingItems']).isEmpty()) {
-    if (state.getIn([timeline, 'pendingItems'], ImmutableList()).includes(status.get('id')) || state.getIn([timeline, 'items'], ImmutableList()).includes(status.get('id'))) {
+    if (state.getIn([timeline, 'pendingItems'], ImmutableList()).includes(statusId) || state.getIn([timeline, 'items'], ImmutableList()).includes(statusId)) {
       return state;
     }
 
-    state = state.update(timeline, initialTimeline, map => map.update('pendingItems', list => list.unshift(status.get('id'))));
+    state = state.update(timeline, initialTimeline, map => map.update('pendingItems', list => list.unshift(statusId)));
 
     if (!filtered) {
       state = state.updateIn([timeline, 'unread'], unread => unread + 1);
@@ -127,7 +127,7 @@ const updateTimeline = (state, timeline, status, usePendingItems, filtered) => {
   }
 
   const ids        = state.getIn([timeline, 'items'], ImmutableList());
-  const includesId = ids.includes(status.get('id'));
+  const includesId = ids.includes(statusId);
   const unread     = state.getIn([timeline, 'unread'], 0);
 
   if (includesId) {
@@ -139,7 +139,7 @@ const updateTimeline = (state, timeline, status, usePendingItems, filtered) => {
   return state.update(timeline, initialTimeline, map => map.withMutations(mMap => {
     if (!top && !filtered) mMap.set('unread', unread + 1);
     if (top && ids.size > 40) newIds = newIds.take(20);
-    mMap.set('items', newIds.unshift(status.get('id')));
+    mMap.set('items', newIds.unshift(statusId));
   }));
 };
 
@@ -219,7 +219,7 @@ export default function timelines(state = initialState, action) {
   case TIMELINE_EXPAND_SUCCESS:
     return expandNormalizedTimeline(state, action.timeline, fromJS(action.statuses), action.next, action.partial, action.isLoadingRecent, action.usePendingItems);
   case TIMELINE_UPDATE:
-    return updateTimeline(state, action.timeline, fromJS(action.status), action.usePendingItems, action.filtered);
+    return updateTimeline(state, action.timeline, action.status.id, action.usePendingItems, action.filtered);
   case TIMELINE_CLEAR:
     return clearTimeline(state, action.timeline);
   case TIMELINE_SCROLL_TOP:

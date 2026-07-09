@@ -180,7 +180,7 @@ export const Footer: React.FC<{
         obfuscateCount={!showReplyCount}
       />
 
-      <BoostButton counters status={status} />
+      <BoostButton counters statusId={statusId} />
 
       <IconButton
         className='status__action-bar-button star-icon'
