@@ -733,7 +733,7 @@ export const composeReducer = (state = initialState, action) => {
         map.set('spoiler', true);
         map.set('spoiler_text', action.spoiler_text);
       } else {
-        map.set('spoiler', action.status.get('sensitive') && action.status.get('media_attachments').size > 0);
+        map.set('spoiler', false);
         map.set('spoiler_text', '');
       }
 

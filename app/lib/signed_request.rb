@@ -101,7 +101,7 @@ class SignedRequest
 
     def verify_signature(keypair, signature, compare_signed_string)
       true if keypair.keypair.public_key.verify(OpenSSL::Digest.new('SHA256'), signature, compare_signed_string)
-    rescue OpenSSL::PKey::RSAError
+    rescue OpenSSL::PKey::PKeyError
       nil
     end
 
@@ -171,12 +171,7 @@ class SignedRequest
     end
 
     def verified?(keypair)
-      case keypair.type
-      when 'rsa'
-        key = Linzer.new_rsa_v1_5_sha256_public_key(keypair.public_key)
-      when 'ed25519'
-        key = Linzer.new_ed25519_public_key(keypair.public_key)
-      end
+      key = keypair.linzer_public_key
 
       Linzer.verify(key, @message, @signature)
     rescue Linzer::VerifyError

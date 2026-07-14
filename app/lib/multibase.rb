@@ -7,6 +7,7 @@ class Multibase
   MULTICODEC_PREFIXES = {
     'rsa-pub': 0x1205,
     'ed25519-pub': 0xED,
+    'mldsa-44-pub': 0x1210,
   }.transform_values do |code|
     bytes = []
 
@@ -25,7 +26,7 @@ class Multibase
   class Error < StandardError; end
 
   def self.decode(string)
-    raise Error, 'Multibase string is null' if string.nil?
+    raise Error, 'Multibase string is nil' if string.nil?
 
     case string[0]
     when 'u'
@@ -66,7 +67,7 @@ class Multibase
     else
       raise Error, 'Unsupported key type'
     end
-  rescue OpenSSL::PKey::RSAError => e
+  rescue OpenSSL::PKey::PKeyError => e
     raise Error, e
   end
 end

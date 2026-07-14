@@ -29,6 +29,7 @@ class Keypair < ApplicationRecord
   enum :type, {
     rsa: 0,
     ed25519: 1,
+    'ml-dsa-44': 2,
   }, validate: true
 
   validates :uri, presence: true, uniqueness: true, if: -> { account.remote? }
@@ -57,8 +58,30 @@ class Keypair < ApplicationRecord
       case type
       when 'rsa'
         OpenSSL::PKey::RSA.new(private_key || public_key)
-      when 'ed25519'
+      when 'ed25519', 'ml-dsa-44'
         OpenSSL::PKey.read(private_key || public_key)
+      end
+    end
+  end
+
+  def linzer_public_key
+    @linzer_public_key ||= begin
+      case type
+      when 'rsa'
+        Linzer.new_rsa_v1_5_sha256_public_key(public_key)
+      when 'ed25519'
+        Linzer.new_ed25519_public_key(public_key)
+      end
+    end
+  end
+
+  def linzer_private_key
+    @linzer_private_key ||= begin
+      case type
+      when 'rsa'
+        Linzer.new_rsa_v1_5_sha256_key(private_key, full_uri)
+      when 'ed25519'
+        Linzer.new_ed25519_key(private_key, full_uri)
       end
     end
   end
