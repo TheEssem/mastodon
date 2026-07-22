@@ -1043,7 +1043,7 @@ body > [data-popover-placement] {
 
 .character-counter {
   cursor: default;
-  font-family: $font-sans-serif, sans-serif;
+  font-family: var(--font-body);
   font-size: 14px;
   font-weight: 400;
   line-height: normal;
@@ -2769,6 +2769,9 @@ a.account__display-name {
 }
 
 .zoomable-image {
+  --media-max-width: 100%;
+  --media-max-height: 80%;
+
   position: relative;
   width: 100%;
   height: 100%;
@@ -2780,8 +2783,8 @@ a.account__display-name {
   user-select: none;
 
   img {
-    max-width: $media-modal-media-max-width;
-    max-height: $media-modal-media-max-height;
+    max-width: var(--media-max-width);
+    max-height: var(--media-max-height);
     width: auto;
     height: auto;
     outline: 1px solid var(--color-border-media);
@@ -2810,8 +2813,8 @@ a.account__display-name {
   }
 
   &__preview {
-    max-width: $media-modal-media-max-width;
-    max-height: $media-modal-media-max-height;
+    max-width: var(--media-max-width);
+    max-height: var(--media-max-height);
     position: absolute;
     z-index: 1;
     outline: 1px solid var(--color-border-media);
@@ -8925,7 +8928,7 @@ noscript {
   }
 
   &__pagination {
-    padding: 15px;
+    padding: 0 12px 15px 0;
     color: var(--color-text-secondary);
     position: absolute;
     bottom: 3px;
@@ -8950,7 +8953,10 @@ noscript {
   align-items: center;
   margin-top: 15px;
   margin-inline-start: -2px;
-  width: calc(100% - (90px - 33px));
+
+  --pagination-width: 70px;
+
+  width: calc(100% - var(--pagination-width));
 
   &__item {
     flex-shrink: 0;

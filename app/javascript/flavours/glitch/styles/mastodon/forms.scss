@@ -2,7 +2,7 @@
 @use 'variables' as *;
 
 code {
-  font-family: $font-monospace, monospace;
+  font-family: var(--font-monospace);
   font-weight: 400;
 }
 
@@ -897,7 +897,7 @@ code {
     width: 100%;
     border: 0;
     padding: 10px;
-    font-family: $font-monospace, monospace;
+    font-family: var(--font-monospace);
     background: var(--color-bg-secondary);
     color: var(--color-text-primary);
     font-size: 14px;
@@ -1148,7 +1148,7 @@ code {
 .form_admin_settings_custom_css,
 .form_admin_settings_closed_registrations_message {
   textarea {
-    font-family: $font-monospace, monospace;
+    font-family: var(--font-monospace);
   }
 }
 
@@ -1173,7 +1173,7 @@ code {
     border: 0;
     padding: 10px;
     font-size: 14px;
-    font-family: $font-monospace, monospace;
+    font-family: var(--font-monospace);
   }
 
   button {

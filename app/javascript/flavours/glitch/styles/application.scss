@@ -2,9 +2,11 @@
 @use 'mastodon/mixins';
 @use '@/styles/fonts/roboto';
 @use '@/styles/fonts/roboto-mono';
+@use '@/styles/fonts/inter';
+@use '@/styles/fonts/syne';
 
 @use 'mastodon/reset';
-@use 'mastodon/theme';
+@use 'mastodon/tokens';
 @use 'mastodon/basics';
 @use 'mastodon/branding';
 @use 'mastodon/containers';

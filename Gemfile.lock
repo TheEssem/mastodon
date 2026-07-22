@@ -107,7 +107,7 @@ GEM
     ast (2.4.3)
     attr_required (1.0.2)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1267.0)
+    aws-partitions (1.1270.0)
     aws-sdk-core (3.254.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -119,7 +119,7 @@ GEM
     aws-sdk-kms (1.130.0)
       aws-sdk-core (~> 3, >= 3.254.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.227.0)
+    aws-sdk-s3 (1.228.0)
       aws-sdk-core (~> 3, >= 3.254.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
@@ -165,8 +165,8 @@ GEM
       playwright-ruby-client (>= 1.16.0)
     case_transform (0.2)
       activesupport
-    cbor (0.5.10.2)
-    cgi (0.5.1)
+    cbor (0.5.10.3)
+    cgi (0.5.2)
     charlock_holmes (0.7.9)
     chewy (8.4.1)
       activesupport (>= 7.2)
@@ -223,7 +223,7 @@ GEM
     dotenv (3.2.0)
     drb (2.2.3)
     dry-cli (1.4.1)
-    elastic-transport (8.5.2)
+    elastic-transport (8.5.3)
       faraday (< 3)
       multi_json
     elasticsearch (8.19.3)
@@ -271,19 +271,19 @@ GEM
       excon (~> 1.0)
       formatador (>= 0.2, < 2.0)
       mime-types
-    fog-json (1.3.0)
+    fog-json (1.4.0)
       fog-core
-      multi_json (~> 1.10)
+      json (~> 2.19)
     fog-openstack (1.1.5)
       fog-core (~> 2.1)
       fog-json (>= 1.0)
     formatador (1.2.3)
       reline
     forwardable (1.4.0)
-    fugit (1.12.2)
+    fugit (1.13.0)
       et-orbi (~> 1.4)
       raabro (~> 1.4)
-    globalid (1.3.0)
+    globalid (1.4.0)
       activesupport (>= 6.1)
     google-protobuf (4.35.1)
       bigdecimal
@@ -299,7 +299,7 @@ GEM
       activesupport (>= 5.1)
       haml (>= 4.0.6)
       railties (>= 5.1)
-    haml_lint (0.75.0)
+    haml_lint (0.76.0)
       haml (>= 5.0)
       parallel (>= 1.10)
       rainbow
@@ -312,8 +312,8 @@ GEM
       json
     highline (3.1.2)
       reline
-    hiredis-client (0.30.0)
-      redis-client (= 0.30.0)
+    hiredis-client (0.30.1)
+      redis-client (= 0.30.1)
     hkdf (0.3.0)
     htmlentities (4.4.2)
     http (5.3.1)
@@ -361,7 +361,7 @@ GEM
       azure-blob (~> 0.5.2)
       hashie (~> 5.0)
     jmespath (1.6.2)
-    json (2.20.0)
+    json (2.21.1)
     json-canonicalization (1.0.0)
     json-jwt (1.17.1)
       activesupport (>= 4.2)
@@ -436,7 +436,7 @@ GEM
       activesupport (>= 4)
       railties (>= 4)
       request_store (~> 1.0)
-    loofah (2.25.1)
+    loofah (2.25.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     mail (2.9.1)
@@ -580,7 +580,7 @@ GEM
       opentelemetry-instrumentation-base (~> 0.25)
     opentelemetry-instrumentation-sidekiq (0.29.0)
       opentelemetry-instrumentation-base (~> 0.25)
-    opentelemetry-registry (0.6.1)
+    opentelemetry-registry (0.6.2)
       opentelemetry-api (~> 1.1)
     opentelemetry-sdk (1.12.1)
       logger
@@ -588,7 +588,7 @@ GEM
       opentelemetry-common (~> 0.20)
       opentelemetry-registry (~> 0.2)
       opentelemetry-semantic_conventions
-    opentelemetry-semantic_conventions (1.39.0)
+    opentelemetry-semantic_conventions (1.43.0)
       opentelemetry-api (~> 1.0)
     orm_adapter (0.5.0)
     ostruct (0.6.3)
@@ -604,7 +604,7 @@ GEM
     pg (1.6.3)
     pghero (3.8.0)
       activerecord (>= 7.2)
-    playwright-ruby-client (1.60.0)
+    playwright-ruby-client (1.61.0)
       base64
       concurrent-ruby (>= 1.1.6)
       mime-types (>= 3.0)
@@ -626,9 +626,6 @@ GEM
       actionpack (>= 7.0.0)
       activesupport (>= 7.0.0)
       rack
-    psych (5.4.0)
-      date
-      stringio
     public_suffix (7.0.5)
     puma (8.0.2)
       nio4r (~> 2.0)
@@ -680,8 +677,8 @@ GEM
       activesupport (>= 5.0.0)
       minitest
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.7.0)
-      loofah (~> 2.25)
+    rails-html-sanitizer (1.7.1)
+      loofah (~> 2.25, >= 2.25.2)
       nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
     rails-i18n (8.1.0)
       i18n (>= 0.7, < 2)
@@ -697,6 +694,10 @@ GEM
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.4.2)
+    rbs (4.0.3)
+      logger
+      prism (>= 1.6.0)
+      tsort
     rdf (3.3.4)
       bcp47_spec (~> 0.2)
       bigdecimal (~> 3.1, >= 3.1.5)
@@ -706,16 +707,17 @@ GEM
       readline (~> 0.0)
     rdf-normalize (0.7.0)
       rdf (~> 3.3)
-    rdoc (7.2.0)
+    rdoc (8.0.0)
       erb
-      psych (>= 4.0.0)
+      prism (>= 1.6.0)
+      rbs (>= 4.0.0)
       tsort
     readline (0.0.4)
       reline
     redcarpet (3.6.1)
     redis (5.4.1)
       redis-client (>= 0.22.0)
-    redis-client (0.30.0)
+    redis-client (0.30.1)
       connection_pool
     regexp_parser (2.12.0)
     reline (0.6.3)
@@ -786,7 +788,7 @@ GEM
       lint_roller (~> 1.1)
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.47.1, < 2.0)
-    rubocop-rails (2.35.5)
+    rubocop-rails (2.36.0)
       activesupport (>= 4.2.0)
       lint_roller (~> 1.1)
       rack (>= 1.1)
@@ -800,7 +802,7 @@ GEM
       lint_roller (~> 1.1)
       rubocop (~> 1.72, >= 1.72.1)
       rubocop-rspec (~> 3.5)
-    ruby-prof (2.0.4)
+    ruby-prof (2.0.5)
       base64
       ostruct
     ruby-progressbar (1.13.0)
@@ -846,7 +848,7 @@ GEM
     simple_form (5.4.1)
       actionpack (>= 7.0)
       activemodel (>= 7.0)
-    simplecov (1.0.0)
+    simplecov (1.0.2)
     simplecov-lcov (0.9.0)
     ssrf_filter (1.5.0)
     stackprof (0.2.28)
@@ -855,7 +857,6 @@ GEM
     stoplight (5.8.2)
       concurrent-ruby
       zeitwerk
-    stringio (3.2.0)
     strong_migrations (2.8.0)
       activerecord (>= 7.2)
     strscan (3.1.8)
@@ -870,7 +871,8 @@ GEM
       unicode-display_width (>= 1.1.1, < 4)
     terrapin (1.1.1)
       climate_control
-    test-prof (1.6.1)
+    test-prof (1.6.3)
+      logger
     thor (1.5.0)
     tilt (2.8.0)
     timeout (0.6.1)
@@ -935,7 +937,7 @@ GEM
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
     webrick (1.9.2)
-    websocket-driver (0.8.1)
+    websocket-driver (0.8.2)
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -1048,7 +1050,7 @@ DEPENDENCIES
   parslet
   pg (~> 1.5)
   pghero
-  playwright-ruby-client (= 1.60.0)
+  playwright-ruby-client
   premailer-rails
   prism
   prometheus_exporter (~> 2.2)
@@ -1107,7 +1109,7 @@ DEPENDENCIES
   xorcist (~> 1.1)
 
 RUBY VERSION
-  ruby 4.0.5
+  ruby 4.0.6
 
 BUNDLED WITH
-  4.0.13
+  4.0.16
