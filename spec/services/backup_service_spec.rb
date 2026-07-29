@@ -44,6 +44,22 @@ RSpec.describe BackupService do
     end
   end
 
+  context 'when a status has a link preview card attached' do
+    let(:preview_card) { Fabricate(:preview_card) }
+
+    before { PreviewCardsStatus.create!(status: status, preview_card: preview_card) }
+
+    it 'rewrites media paths but leaves link attachments alone' do
+      service_call
+
+      expect(export_json(:outbox).dig('orderedItems', 0, 'object', 'attachment'))
+        .to contain_exactly(
+          include('type' => 'Document', 'url' => start_with('media_attachments/')),
+          include('type' => 'Link', 'href' => preview_card.url)
+        )
+    end
+  end
+
   it 'marks the backup as processed and exports files' do
     expect { service_call }.to process_backup
 
