@@ -20,6 +20,7 @@ import { CircularProgress } from 'flavours/glitch/components/circular_progress';
 import { Icon } from 'flavours/glitch/components/icon';
 import { IconButton } from 'flavours/glitch/components/icon_button';
 import { GifItem } from 'flavours/glitch/features/gif_modal/components/gif_item';
+import { useTimeout } from 'flavours/glitch/hooks/useTimeout';
 import type { GifResult } from 'flavours/glitch/models/gif';
 import { useAppDispatch, useAppSelector } from 'flavours/glitch/store';
 import { isDarkMode } from 'flavours/glitch/utils/theme';
@@ -58,36 +59,35 @@ export const GIFModal: React.FC<{
   const results = gifs.get('items') as ImmutableOrderedSet<GifResult>;
   const isLoading = gifs.get('isLoading') as boolean;
   const [value, setValue] = useState('');
-  const [sendTimeout, setSendTimeout] = useState<number>();
+  const [setSendTimeout, cancelSendTimeout] = useTimeout();
   const [disabled, setDisabled] = useState(false);
-  const hasValue = value.length > 0;
 
   useEffect(() => {
-    clearTimeout(sendTimeout);
+    cancelSendTimeout();
     void dispatch(resetGifs());
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Adding sendTimeout as suggested would result in this being called every time it changes
   }, [dispatch]);
 
-  useEffect(() => {
+  const [prevResults, setPrevResults] = useState(results);
+  if (results !== prevResults) {
+    setPrevResults(results);
     if (!isLoading) setDisabled(false);
-  }, [results, isLoading]);
+  }
 
   const handleChange = useCallback(
     ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
       setValue(value);
 
       if (value.length > 0) {
-        clearTimeout(sendTimeout);
-        setSendTimeout(
-          window.setTimeout(() => {
-            dispatch(gifSearch(value));
-          }, 500),
-        );
+        cancelSendTimeout();
+        setSendTimeout(() => {
+          dispatch(gifSearch(value));
+        }, 500);
       } else {
-        clearTimeout(sendTimeout);
+        cancelSendTimeout();
       }
     },
-    [dispatch, sendTimeout],
+    [dispatch, setSendTimeout, cancelSendTimeout],
   );
 
   const handleClear = useCallback(() => {
@@ -111,14 +111,14 @@ export const GIFModal: React.FC<{
           break;
         case 'Enter':
           e.preventDefault();
-          clearTimeout(sendTimeout);
+          cancelSendTimeout();
           setDisabled(true);
           dispatch(gifSearch(value));
 
           break;
       }
     },
-    [dispatch, sendTimeout, value],
+    [dispatch, cancelSendTimeout, value],
   );
 
   const handleSelect = useCallback(
@@ -181,11 +181,11 @@ export const GIFModal: React.FC<{
           <button
             type='button'
             className='emoji-mart-search-icon'
-            disabled={!hasValue || disabled}
+            disabled={!value || disabled}
             aria-label={intl.formatMessage(messages.clear)}
             onClick={handleClear}
           >
-            <Icon id='' icon={!hasValue ? SearchIcon : CancelIcon} />
+            <Icon id='' icon={!value ? SearchIcon : CancelIcon} />
           </button>
         </div>
 
