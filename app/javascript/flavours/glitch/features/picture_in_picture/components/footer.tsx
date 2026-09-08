@@ -66,7 +66,6 @@ export const Footer: React.FC<{
     (state) => (state.compose.get('text') as string).trim().length !== 0,
   );
   const showReplyCount = useAppSelector(
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     (state) => state.local_settings.get('show_reply_count', false) as boolean,
   );
 

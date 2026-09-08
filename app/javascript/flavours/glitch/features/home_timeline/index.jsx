@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import CampaignIcon from '@/material-icons/400-24px/campaign.svg?react';
 import HomeIcon from '@/material-icons/400-24px/home-fill.svg?react';
 import { Column } from '@/flavours/glitch/components/column';
-import { ColumnHeader } from '@/flavours/glitch/components/column/header';
+import { ColumnHeader as LegacyColumnHeader } from '@/flavours/glitch/components/column/header';
 import { injectIntl } from '@/flavours/glitch/components/intl';
 import { SymbolLogo } from 'flavours/glitch/components/logo';
 import { fetchAnnouncements, toggleShowAnnouncements } from 'flavours/glitch/actions/announcements';
@@ -28,9 +28,14 @@ import { ColumnSettings } from './components/column_settings';
 import { CriticalUpdateBanner } from './components/critical_update_banner';
 import { Announcements } from './components/announcements';
 import { AnnualReportTimeline } from '../annual_report/timeline';
+import { isRedesignEnabled } from '@/flavours/glitch/utils/environment';
+import { ColumnHeader } from '@/flavours/glitch/components/column_header';
+import { HomeColumnSettings } from './components/column_settings_redesign';
+import { MultiColumnMenuItems } from '@/flavours/glitch/components/column_header/multicolumn_settings';
 
 const messages = defineMessages({
   title: { id: 'column.home', defaultMessage: 'Home' },
+  following: { id: 'column.following', defaultMessage: 'Following' },
   show_announcements: { id: 'home.show_announcements', defaultMessage: 'Show announcements' },
   hide_announcements: { id: 'home.hide_announcements', defaultMessage: 'Hide announcements' },
 });
@@ -145,21 +150,40 @@ class HomeTimeline extends PureComponent {
 
     return (
       <Column bindToDocument={!multiColumn} label={intl.formatMessage(messages.title)}>
-        <ColumnHeader
-          icon='home'
-          iconComponent={matchesBreakpoint ? SymbolLogo : HomeIcon}
-          active={hasUnread}
-          title={intl.formatMessage(messages.title)}
-          onPin={this.handlePin}
-          onMove={this.handleMove}
-          pinned={pinned}
-          multiColumn={multiColumn}
-          extraButton={announcementsButton}
-          appendContent={hasAnnouncements && showAnnouncements && <Announcements />}
-          scrollTopOnClick
-        >
-          <ColumnSettings />
-        </ColumnHeader>
+        {isRedesignEnabled() ? (
+          <ColumnHeader
+            title={intl.formatMessage(messages.following)}
+            withUnreadMarker={hasUnread}
+            extraButtons={
+              <HomeColumnSettings>
+                {multiColumn &&
+                  <MultiColumnMenuItems
+                    withDivider
+                    onPin={this.handlePin}
+                    onMove={this.handleMove}
+                    pinned={pinned}
+                  />
+                }
+              </HomeColumnSettings>
+            }
+          />
+        ) : (
+          <LegacyColumnHeader
+            icon='home'
+            iconComponent={matchesBreakpoint ? SymbolLogo : HomeIcon}
+            active={hasUnread}
+            title={intl.formatMessage(messages.title)}
+            onPin={this.handlePin}
+            onMove={this.handleMove}
+            pinned={pinned}
+            multiColumn={multiColumn}
+            extraButton={announcementsButton}
+            appendContent={hasAnnouncements && showAnnouncements && <Announcements />}
+            scrollTopOnClick
+          >
+            <ColumnSettings />
+          </LegacyColumnHeader>
+        )}
 
         {signedIn ? (
           <StatusListContainer

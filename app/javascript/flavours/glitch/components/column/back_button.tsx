@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import ArrowBackIcon from '@/material-icons/400-24px/arrow_back.svg?react';
 import { Icon } from 'flavours/glitch/components/icon';
 import { getColumnSkipLinkId } from 'flavours/glitch/features/ui/components/skip_links';
-import { ButtonInTabsBar } from 'flavours/glitch/features/ui/util/columns_context';
+import { RenderIntoTabsBarPortal } from 'flavours/glitch/features/ui/util/columns_context';
 
 import { useAppHistory } from '../router';
 
@@ -49,5 +49,5 @@ export const ColumnBackButton: React.FC<{ onClick?: OnClickCallback }> = ({
     </button>
   );
 
-  return <ButtonInTabsBar>{component}</ButtonInTabsBar>;
+  return <RenderIntoTabsBarPortal>{component}</RenderIntoTabsBarPortal>;
 };

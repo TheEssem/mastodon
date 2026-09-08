@@ -3,6 +3,8 @@ import type { FC } from 'react';
 
 import { defineMessages, useIntl } from 'react-intl';
 
+import { useLocation } from 'react-router-dom';
+
 import { followAccount } from '@/flavours/glitch/actions/accounts';
 import { useAccount } from '@/flavours/glitch/hooks/useAccount';
 import { getAccountHidden } from '@/flavours/glitch/selectors/accounts';
@@ -81,6 +83,10 @@ const AccountButtonsOther: FC<
       });
     }
   }, [accountUrl]);
+  const { state } = useLocation<{
+    reference?: string;
+  } | null>();
+  const reference = state?.reference ?? 'profile';
 
   if (!account) {
     return null;
@@ -96,7 +102,7 @@ const AccountButtonsOther: FC<
           accountId={accountId}
           className={classes.followButton}
           labelLength='long'
-          reference='profile'
+          reference={reference}
         />
       )}
       {isFollowing && (

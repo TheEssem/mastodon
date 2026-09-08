@@ -30,6 +30,7 @@ export const StatusPrepend: React.FC<{
                   variant: 'simple',
                 }}
                 className='status__display-name muted'
+                reference='status'
               />
             ),
           }}

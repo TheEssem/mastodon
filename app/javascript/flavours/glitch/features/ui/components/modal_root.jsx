@@ -119,6 +119,7 @@ export const MODAL_COMPONENTS = {
   'COMPOSER_DRAFT_DELETE': () => import('@/flavours/glitch/features/compose/redesign/modal_cancel'),
   'COMPOSER_REARRANGE': () => import('@/flavours/glitch/features/compose/redesign/modal_rearrange'),
   'COMPOSER_SWITCH_TO_POST': () => import('@/flavours/glitch/features/compose/redesign/modal_switch'),
+  'NOTIFICATION_SETTINGS': () => import('@/flavours/glitch/features/notifications_v2/components/notification_settings_modal'),
 };
 
 /** @arg {keyof import('@/flavours/glitch/features/account_edit/modals')} type */

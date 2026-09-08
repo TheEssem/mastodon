@@ -48,6 +48,7 @@ const initialState = ImmutableMap({
 
 const hydrate = (state, localSettings) => state.mergeDeep(localSettings);
 
+/** @type {import('@reduxjs/toolkit').Reducer<ImmutableMap<string, unknown>>} */
 export default function localSettings(state = initialState, action) {
   switch(action.type) {
   case STORE_HYDRATE:

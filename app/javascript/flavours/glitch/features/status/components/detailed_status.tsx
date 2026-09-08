@@ -510,9 +510,13 @@ export const DetailedStatus: React.FC<{
         data-status-by={status.getIn(['account', 'acct'])}
       >
         <Permalink
-          to={`/@${status.getIn(['account', 'acct'])}`}
+          to={{
+            pathname: `/@${status.getIn(['account', 'acct'])}`,
+            state: { reference: 'status' },
+          }}
           href={status.getIn(['account', 'url'])}
           data-hover-card-account={status.getIn(['account', 'id'])}
+          data-hover-card-reference='status'
           className='detailed-status__display-name'
         >
           <div className='detailed-status__display-avatar'>

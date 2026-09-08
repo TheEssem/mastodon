@@ -77,7 +77,6 @@ const Compose: React.FC<{ multiColumn: boolean }> = ({ multiColumn }) => {
   );
   const showNotificationsBadge = useAppSelector(
     (state) =>
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       state.local_settings.getIn(
         ['notifications', 'tab_badge'],
         false,

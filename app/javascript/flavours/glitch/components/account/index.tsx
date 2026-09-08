@@ -323,8 +323,9 @@ export const Account: React.FC<AccountProps> = ({
             className='account__display-name focusable'
             title={account?.acct}
             href={account?.url}
-            to={`/@${account?.acct}`}
+            to={{ pathname: `/@${account?.acct}`, state: { reference } }}
             data-hover-card-account={id}
+            data-hover-card-reference={reference}
           >
             <div className='account__avatar-wrapper'>
               <AnimateEmojiProvider>

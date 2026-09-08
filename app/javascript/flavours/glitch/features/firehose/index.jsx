@@ -13,7 +13,7 @@ import { changeSetting } from 'flavours/glitch/actions/settings';
 import { connectPublicStream, connectCommunityStream, connectBubbleStream } from 'flavours/glitch/actions/streaming';
 import { expandPublicTimeline, expandCommunityTimeline, expandBubbleTimeline } from 'flavours/glitch/actions/timelines';
 import { Column } from '@/flavours/glitch/components/column';
-import { ColumnHeader } from '@/flavours/glitch/components/column/header';
+import { ColumnHeader as LegacyColumnHeader } from '@/flavours/glitch/components/column/header';
 import { DismissableBanner } from 'flavours/glitch/components/dismissable_banner';
 import SettingText from 'flavours/glitch/components/setting_text';
 import { localLiveFeedAccess, bubbleLiveFeedAccess, remoteLiveFeedAccess, domain } from 'flavours/glitch/initial_state';
@@ -22,6 +22,9 @@ import { useAppDispatch, useAppSelector } from 'flavours/glitch/store';
 
 import SettingToggle from '../notifications/components/setting_toggle';
 import StatusListContainer from '../ui/containers/status_list_container';
+import { isRedesignEnabled } from '@/flavours/glitch/utils/environment';
+import { ColumnHeader, ColumnSettingsMenu } from '@/flavours/glitch/components/column_header';
+import { MultiColumnMenuItems } from '@/flavours/glitch/components/column_header/multicolumn_settings';
 
 const messages = defineMessages({
   title: { id: 'column.firehose', defaultMessage: 'Live feeds' },
@@ -33,6 +36,7 @@ const messages = defineMessages({
     id: 'column.firehose_singular',
     defaultMessage: 'Live feed',
   },
+  title_redesign: { id: 'tabs_bar.fediverse_feeds', defaultMessage: 'Fediverse Feeds' },
   filter_regex: { id: 'home.column_settings.filter_regex', defaultMessage: 'Filter out by regular expressions' },
 });
 
@@ -243,17 +247,30 @@ const Firehose = ({ feedType, multiColumn }) => {
 
   return (
     <Column bindToDocument={!multiColumn} label={intl.formatMessage(messages.title)}>
-      <ColumnHeader
-        icon='globe'
-        iconComponent={PublicIcon}
-        active={hasUnread}
-        title={intl.formatMessage(title)}
-        onPin={handlePin}
-        multiColumn={multiColumn}
-        scrollTopOnClick
-      >
-        <ColumnSettings />
-      </ColumnHeader>
+      {isRedesignEnabled() ? (
+        <ColumnHeader
+          title={intl.formatMessage(messages.title_redesign)}
+          withBackButton={multiColumn && 'auto'}
+          withUnreadMarker={hasUnread}
+          extraButtons={multiColumn &&
+            <ColumnSettingsMenu labelPrefix={intl.formatMessage(messages.title_redesign)}>
+              <MultiColumnMenuItems onPin={handlePin} />
+            </ColumnSettingsMenu>
+          }
+        />
+      ) : (
+        <LegacyColumnHeader
+          icon='globe'
+          iconComponent={PublicIcon}
+          active={hasUnread}
+          title={intl.formatMessage(title)}
+          onPin={handlePin}
+          multiColumn={multiColumn}
+          scrollTopOnClick
+        >
+          <ColumnSettings />
+        </LegacyColumnHeader>
+      )}
 
       {((canViewFeed(signedIn, permissions, localLiveFeedAccess) + canViewFeed(signedIn, permissions, bubbleLiveFeedAccess) + canViewFeed(signedIn, permissions, remoteLiveFeedAccess)) > 1) && (
         <div className='account__section-headline'>
