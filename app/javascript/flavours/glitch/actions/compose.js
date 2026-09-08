@@ -3,10 +3,10 @@ import { defineMessages } from 'react-intl';
 import axios from 'axios';
 import { throttle } from 'lodash';
 
-import api from 'flavours/glitch/api';
-import { browserHistory } from 'flavours/glitch/components/router';
-import { countableText } from 'flavours/glitch/features/compose/util/counter';
-import { tagHistory } from 'flavours/glitch/settings';
+import api from '@/flavours/glitch/api';
+import { browserHistory } from '@/flavours/glitch/components/router';
+import { countableText } from '@/flavours/glitch/features/compose/util/counter';
+import { tagHistory } from '@/flavours/glitch/settings';
 import { emojiMartSearch } from '@/flavours/glitch/features/emoji/picker';
 import { recoverHashtags } from 'flavours/glitch/utils/hashtag';
 
@@ -16,6 +16,7 @@ import { importFetchedAccounts, importFetchedStatus } from './importer';
 import { openModal } from './modal';
 import { updateTimeline } from './timelines';
 import { insertStatusIntoAccountTimelines } from './timelines_typed';
+import { isRedesignEnabled } from '../utils/environment';
 
 /** @type {AbortController | undefined} */
 let fetchComposeSuggestionsAccountsController;
@@ -101,7 +102,7 @@ const messages = defineMessages({
 });
 
 export const ensureComposeIsVisible = (getState) => {
-  if (!getState().getIn(['compose', 'mounted'])) {
+  if (!getState().getIn(['compose', 'mounted']) && !isRedesignEnabled()) {
     browserHistory.push('/publish', { focusTarget: false });
   }
 };

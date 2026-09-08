@@ -3,12 +3,10 @@ import type { ComponentType, ReactNode } from 'react';
 import StatusContainer from '@/flavours/glitch/containers/status_container';
 import type { Account as TAccount } from '@/flavours/glitch/models/account';
 import type { Status as TStatus } from '@/flavours/glitch/models/status';
-import { isRedesignEnabled } from '@/flavours/glitch/utils/environment';
 
 import Status from '../status';
 
 import type { StatusHeaderRenderFn } from './header';
-import { StatusRedesign } from './status';
 
 export type StatusContextType =
   | 'account'
@@ -53,9 +51,8 @@ export interface StatusContainerProps {
   withDismiss?: boolean;
 }
 
-export const TypedStatusContainer = isRedesignEnabled()
-  ? StatusRedesign
-  : (StatusContainer as ComponentType<StatusContainerProps>);
+export const TypedStatusContainer =
+  StatusContainer as ComponentType<StatusContainerProps>;
 
 // Taken from the Status component.
 export interface StatusProps extends Omit<StatusContainerProps, 'nextId'> {
