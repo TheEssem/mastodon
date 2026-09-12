@@ -599,6 +599,7 @@ class DoodleModal extends ImmutablePureComponent {
                 c === null ?
                   <br key={i} /> :
                   <button
+                    type='button'
                     key={i}
                     style={{ backgroundColor: c[0] }}
                     onClick={this.onPaletteClick}

@@ -20,6 +20,22 @@
   cursor: default;
 }
 
+.toggleButton {
+  // Compensate for the button's outer spacing
+  --button-padding: calc(var(--space-xs) - var(--space-3xs));
+
+  margin: calc(-1 * var(--button-padding));
+  margin-inline-end: var(--button-padding);
+
+  svg {
+    transition: rotate 100ms ease-in;
+  }
+
+  &[aria-expanded='false'] svg {
+    rotate: -90deg;
+  }
+}
+
 .action {
   margin-inline-start: auto;
 }

@@ -4,7 +4,8 @@ import { Avatar } from '@/flavours/glitch/components/avatar';
 import { LinkedDisplayName } from '@/flavours/glitch/components/display_name';
 import { EmojiHTML } from '@/flavours/glitch/components/emoji/html';
 import { RelativeTimestamp } from '@/flavours/glitch/components/relative_timestamp';
-import { useHandlersForStatus } from '@/flavours/glitch/components/status/hooks';
+import { onStatusLinksDisabled } from '@/flavours/glitch/components/status/hooks';
+import { statusLink } from '@/flavours/glitch/components/status/utils';
 import { selectAccountStatus } from '@/flavours/glitch/selectors/statuses';
 import { useAppSelector } from '@/flavours/glitch/store';
 
@@ -15,8 +16,6 @@ export const ComposeReply: React.FC = () => {
     (state) => state.compose.get('in_reply_to') as null | string,
   );
   const status = useAppSelector((state) => selectAccountStatus(state, replyId));
-
-  const htmlHandlers = useHandlersForStatus(status);
 
   if (!status) {
     return;
@@ -30,26 +29,29 @@ export const ComposeReply: React.FC = () => {
           className={classes.replyAvatar}
           withLink
         />
+
         <LinkedDisplayName
           displayProps={{ account: status.account, variant: 'simple' }}
         />
+
         <span className={classes.replyTime}>
-          &middot;&nbsp;
-          <Link to={`/@${status.account.acct}/${status.id}`}>
+          &nbsp;&bull;&nbsp;
+          <Link to={statusLink(status)}>
             <RelativeTimestamp timestamp={status.created_at} />
           </Link>
         </span>
       </figcaption>
 
-      <EmojiHTML
-        as='blockquote'
-        cite={status.uri}
-        htmlString={status.translation?.contentHtml ?? status.contentHtml}
-        extraEmojis={status.emojis}
-        className={classes.replyText}
-        lang={status.translation?.language ?? status.language}
-        {...htmlHandlers}
-      />
+      <Link to={statusLink(status)} className={classes.replyText}>
+        <EmojiHTML
+          as='blockquote'
+          cite={status.uri}
+          htmlString={status.translation?.contentHtml ?? status.contentHtml}
+          extraEmojis={status.emojis}
+          lang={status.translation?.language ?? status.language}
+          onElement={onStatusLinksDisabled}
+        />
+      </Link>
     </figure>
   );
 };

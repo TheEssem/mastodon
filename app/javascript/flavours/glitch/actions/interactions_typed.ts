@@ -21,7 +21,7 @@ import { deleteModal } from '../initial_state';
 import { selectStatusInteractions } from '../selectors/statuses';
 
 import { showAlert, showGenericAlert } from './alerts';
-import { replyCompose } from './compose';
+import { replyComposeById } from './compose';
 import { quoteComposeById } from './compose_typed';
 import { importFetchedStatus, importFetchedStatuses } from './importer';
 import {
@@ -45,6 +45,7 @@ import {
 
 export type StatusInteractionIntent =
   | 'bookmark'
+  | 'copy'
   | 'delete'
   | 'editQuotePolicy'
   | 'edit'
@@ -62,6 +63,10 @@ export type StatusInteractionIntent =
   | 'translate';
 
 const messages = defineMessages({
+  copied: {
+    id: 'status.copied',
+    defaultMessage: 'Copied post link to clipboard',
+  },
   noEdits: {
     id: 'status.cannot_edit',
     defaultMessage: 'You are not allowed to edit this post',
@@ -138,6 +143,13 @@ export const statusInteraction = createAppThunk(
         } else {
           dispatch(bookmark(statusImmutable));
         }
+        return;
+      case 'copy':
+        void navigator.clipboard
+          .writeText(status.url ?? status.uri)
+          .then(() => {
+            dispatch(showAlert({ message: messages.copied }));
+          });
         return;
       case 'delete':
         if (!deleteModal) {
@@ -241,7 +253,7 @@ export const statusInteraction = createAppThunk(
         }
         return;
       case 'reply':
-        dispatch(replyCompose(statusImmutable));
+        dispatch(replyComposeById(statusId));
         return;
       case 'report':
         dispatch(

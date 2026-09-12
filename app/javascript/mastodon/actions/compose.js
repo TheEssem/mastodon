@@ -16,6 +16,7 @@ import { openModal } from './modal';
 import { updateTimeline } from './timelines';
 import { insertStatusIntoAccountTimelines } from './timelines_typed';
 import { isRedesignEnabled } from '../utils/environment';
+import { requestComposerFocus } from '../reducers/slices/composer';
 
 /** @type {AbortController | undefined} */
 let fetchComposeSuggestionsAccountsController;
@@ -126,6 +127,12 @@ export function replyCompose(status) {
     });
 
     ensureComposeIsVisible(getState);
+
+    if (isRedesignEnabled()) {
+      const text = getState().getIn(['compose', 'text'], '');
+      // Preselect any mentions past the first, mirroring the reply text's leading `@user `.
+      dispatch(requestComposerFocus({ start: text.search(/\s/) + 1, end: text.length }));
+    }
   };
 }
 
@@ -161,6 +168,11 @@ export const focusCompose = (defaultText = '', caretStart = false) => (dispatch,
   });
 
   ensureComposeIsVisible(getState);
+
+  if (isRedesignEnabled()) {
+    const position = caretStart ? 0 : getState().getIn(['compose', 'text'], '').length;
+    dispatch(requestComposerFocus({ start: position, end: position }));
+  }
 };
 
 export function mentionCompose(account) {
@@ -171,6 +183,11 @@ export function mentionCompose(account) {
     });
 
     ensureComposeIsVisible(getState);
+
+    if (isRedesignEnabled()) {
+      const position = getState().getIn(['compose', 'text'], '').length;
+      dispatch(requestComposerFocus({ start: position, end: position }));
+    }
   };
 }
 
@@ -188,6 +205,11 @@ export function directCompose(account) {
     });
 
     ensureComposeIsVisible(getState);
+
+    if (isRedesignEnabled()) {
+      const position = getState().getIn(['compose', 'text'], '').length;
+      dispatch(requestComposerFocus({ start: position, end: position }));
+    }
   };
 }
 
@@ -334,14 +356,23 @@ export function uploadCompose(files) {
       dispatch(showAlert({ message: messages.uploadQuote }));
       return;
     }
-    const uploadLimit = getState().getIn(['server', 'server', 'item', 'configuration', 'statuses', 'max_media_attachments']);
+
     const media = getState().getIn(['compose', 'media_attachments']);
     const pending = getState().getIn(['compose', 'pending_media_attachments']);
+    const serverConfiguration = getState().getIn(['server', 'server', 'item', 'configuration']);
+    const maxMediaAttachments = serverConfiguration?.statuses.max_media_attachments ?? 4;
+    const videoSizeLimit = serverConfiguration?.media_attachments.video_size_limit;
+    const imageSizeLimit = serverConfiguration?.media_attachments.image_size_limit;
+
+    const filesArray = Array.from(files);
     const progress = new Array(files.length).fill(0);
+    const total = filesArray.reduce((a, v) => a + v.size, 0);
 
-    let total = Array.from(files).reduce((a, v) => a + v.size, 0);
-
-    if (files.length + media.size + pending > uploadLimit) {
+    if (files.length + media.size + pending > maxMediaAttachments
+      || filesArray.some(file => (
+        file.type.startsWith('video/') && videoSizeLimit && file.size > videoSizeLimit)
+        || (file.type.startsWith('image/') && imageSizeLimit && file.size > imageSizeLimit)))
+    {
       dispatch(showAlert({ message: messages.uploadErrorLimit }));
       return;
     }
@@ -349,7 +380,7 @@ export function uploadCompose(files) {
     dispatch(uploadComposeRequest());
 
     for (const [i, file] of Array.from(files).entries()) {
-      if (media.size + i > (uploadLimit - 1)) break;
+      if (media.size + i > (maxMediaAttachments - 1)) break;
 
       const data = new FormData();
       data.append('file', file);
@@ -656,7 +687,9 @@ export function selectComposeSuggestion(position, token, suggestion, path) {
 
     // We don't want to replace hashtags that vary only in case due to accessibility, but we need to fire off an event so that
     // the suggestions are dismissed and the cursor moves forward.
-    if (suggestion.type !== 'hashtag' || token.slice(1).localeCompare(suggestion.name, undefined, { sensitivity: 'accent' }) !== 0) {
+    const inserted = suggestion.type !== 'hashtag' || token.slice(1).localeCompare(suggestion.name, undefined, { sensitivity: 'accent' }) !== 0;
+
+    if (inserted) {
       dispatch({
         type: COMPOSE_SUGGESTION_SELECT,
         position: startPosition,
@@ -672,6 +705,11 @@ export function selectComposeSuggestion(position, token, suggestion, path) {
         completion,
         path,
       });
+    }
+
+    if (isRedesignEnabled() && path.length === 1 && path[0] === 'text') {
+      const caretPosition = startPosition + (inserted ? completion.length : token.length) + 1;
+      dispatch(requestComposerFocus({ start: caretPosition, end: caretPosition }));
     }
   };
 }

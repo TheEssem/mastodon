@@ -20,6 +20,7 @@ import {
   MenuItem,
 } from '@/flavours/glitch/components/menu';
 import { MenuCard } from '@/flavours/glitch/components/menu/card';
+import { useIdentity } from '@/flavours/glitch/identity_context';
 import { openNewComposer } from '@/flavours/glitch/reducers/slices/composer';
 import { useAppDispatch, useAppSelector } from '@/flavours/glitch/store';
 import { isRedesignEnabled } from '@/flavours/glitch/utils/environment';
@@ -69,7 +70,9 @@ export const ComposeRedesignButton: React.FC<{
       [dispatch],
     );
 
-  if (!isRedesignEnabled()) {
+  const { signedIn } = useIdentity();
+
+  if (!isRedesignEnabled() || !signedIn) {
     return null;
   }
 

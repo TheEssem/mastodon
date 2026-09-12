@@ -27,7 +27,7 @@ import { revealAccount } from '../actions/accounts_typed';
 import { fetchStatus } from '../actions/statuses';
 import { makeGetStatusWithExtraInfo } from '../selectors';
 import { getAccountHidden } from '../selectors/accounts';
-import { isRedesignEnabled } from '../utils/environment';
+import { isRedesignStatusEnabled } from '../utils/environment';
 
 import { Button } from './button';
 import { IconButton } from './icon_button';
@@ -396,7 +396,7 @@ export const StatusQuoteManager = (props: StatusQuoteManagerProps) => {
   });
   const quote = status?.get('quote') as QuoteMap | undefined;
 
-  if (isRedesignEnabled()) {
+  if (isRedesignStatusEnabled()) {
     return (
       <Suspense fallback={<LoadingIndicator />}>
         <LazyStatusRedesign {...props} />
