@@ -122,5 +122,6 @@
   "status.react": "React",
   "status.reactions": "{count, plural, one {reaction} other {reactions}}",
   "status.reactions.empty": "No one has reacted to this post yet. When someone does, they will show up here.",
+  "status.reactions_title": "Post Reactions",
   "status.show_filter_reason": "Show anyway"
 }

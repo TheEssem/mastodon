@@ -39,6 +39,7 @@ const appendToList = (state, path, reactions, next) => {
   });
 };
 
+/** @type {import('@reduxjs/toolkit').Reducer<typeof initialState>} */
 export default function statusReactions(state = initialState, action) {
   switch(action.type) {
   case REACTIONS_FETCH_SUCCESS:
