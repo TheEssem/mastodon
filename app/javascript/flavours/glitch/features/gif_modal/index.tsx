@@ -172,7 +172,6 @@ export const GIFModal: React.FC<{
             aria-label={intl.formatMessage(messages.search)}
             value={value}
             disabled={disabled}
-            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
             onChange={handleChange}
             onKeyDown={handleKeyDown}
