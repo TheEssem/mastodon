@@ -189,8 +189,8 @@ GEM
     crack (1.0.1)
       bigdecimal
       rexml
-    crass (1.0.7)
-    css_parser (3.2.0)
+    crass (1.0.8)
+    css_parser (3.3.0)
       addressable
       base64
       ssrf_filter (~> 1.5)
@@ -240,7 +240,7 @@ GEM
     erubi (1.13.1)
     et-orbi (1.4.2)
       tzinfo
-    excon (1.7.2)
+    excon (1.8.0)
       logger
     fabrication (3.0.0)
     faker (3.8.0)
@@ -611,7 +611,7 @@ GEM
     pastel (0.8.0)
       tty-color (~> 0.5)
     pg (1.6.3)
-    pghero (4.0.1)
+    pghero (4.1.0)
       activerecord (>= 7.2)
     playwright-ruby-client (1.63.0)
       base64
@@ -826,8 +826,8 @@ GEM
       fugit (~> 1.1, >= 1.11.1)
     safety_net_attestation (0.5.0)
       jwt (>= 2.0, < 4.0)
-    sanitize (7.0.0)
-      crass (~> 1.0.2)
+    sanitize (7.0.1)
+      crass (~> 1.0.8)
       nokogiri (>= 1.16.8)
     scenic (1.9.0)
       activerecord (>= 4.0.0)
@@ -1110,7 +1110,7 @@ DEPENDENCIES
   xorcist (~> 1.1)
 
 RUBY VERSION
-  ruby 4.0.7
+  ruby 4.0.9
 
 BUNDLED WITH
   4.0.22
